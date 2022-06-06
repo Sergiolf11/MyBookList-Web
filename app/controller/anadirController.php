@@ -1,5 +1,4 @@
 <?php 
-include($_SERVER['DOCUMENT_ROOT']."/MyBookList/config/conexion.php");
 session_start();
 if(!isset($_SESSION['user'])){
     header("Location:../view/login.php");

@@ -1,9 +1,7 @@
 <?php
-include($_SERVER['DOCUMENT_ROOT']."/MyBookList/config/conexion.php");
 session_start();
 
 function getLibro(){
-    
     $con = new mysqli('localhost', 'root', '', 'mybooklist');    
     $idlibro = $_GET['idlibro'];
     $sql = "select * from libro where Id_Libro = '$idlibro'";  

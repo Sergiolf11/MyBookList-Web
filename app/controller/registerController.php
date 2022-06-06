@@ -1,5 +1,4 @@
 <?php 
-include($_SERVER['DOCUMENT_ROOT']."/MyBookList/config/conexion.php");
 session_start();
     $username = $_POST['username'];  
     $password = $_POST['password'];  

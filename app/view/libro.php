@@ -29,10 +29,6 @@
                 require_once('../controller/libroController.php');
                 setToList();
             ?>
-			
-		</ul>
-		<ul class="list-inline">
-			
 		</ul>
 	</header>
 	<!-- tab Content -->
