@@ -1,5 +1,4 @@
 <?php
-
 function getAll(){
     session_start();
     if(!isset($_SESSION['user'])){

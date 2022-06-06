@@ -12,9 +12,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-                        
+             
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="v-card">
+    <header>
+		<ul class="list-inline">
+			<li class="active"><a href="home.php" >Home</a></li>
+		</ul>
+	</header> <br>
     <?php
         require_once('../controller/libroController.php');
         printButtoms();

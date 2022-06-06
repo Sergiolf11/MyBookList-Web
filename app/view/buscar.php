@@ -16,33 +16,27 @@ $(function(){
 </script>
 </head>
 <body>
-
-<div id="header"></div>
-
-<div class="container">
+    <div id="header"></div>
+    <div class="container">
         <div class="row justify-content-center">
-          <div class="col-12 col-sm-8 col-lg-6">
-            <!-- Section Heading-->
-            <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-              <h3>Welcome to the Archive</h3>
-              <p>Look for the book you want, if it is not there, place it.</p>
-              <div class="line"></div>
+            <div class="col-12 col-sm-8 col-lg-6">
+                <!-- Section Heading-->
+                <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                    <h3>Welcome to the Archive</h3>
+                    <p>Look for the book you want, if it is not there, place it.</p>
+                    <div class="line"></div>
+                </div>
             </div>
-          </div>
         </div>
         <div class="row">
-          <!-- Libros-->
+            <!-- Libros-->
             <?php
                 require_once('../controller/buscarController.php');  
                 getAll();
             ?>
         </div>
-      </div>
-
-
-
+    </div>
 <script type="text/javascript">
-
 </script>
 </body>
 </html>

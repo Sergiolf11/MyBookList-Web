@@ -1,6 +1,4 @@
 <?php
-
-    include($_SERVER['DOCUMENT_ROOT']."/MyBookList/config/conexion.php");
     session_start();
     
     $userid = $_SESSION['userid'];

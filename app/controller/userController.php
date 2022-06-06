@@ -1,5 +1,4 @@
 <?php
-include($_SERVER['DOCUMENT_ROOT']."/MyBookList/config/conexion.php");
 function getFirstBox(){
     session_start();
     if(!isset($_SESSION['user'])){
