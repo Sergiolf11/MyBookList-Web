@@ -47,7 +47,7 @@ $(function(){
             <div class="col-md-8">
               <div class="card mb-3">
                 <div class="card-body">
-                    <h3>Book Stats</h3><br>
+                   
                 <?php
                         require_once('../controller/userController.php');  
                         getSecondBox();

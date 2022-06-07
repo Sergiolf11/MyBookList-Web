@@ -75,6 +75,7 @@ function getSecondBox(){
         $pdropped= ($dropped!=0) ? ($dropped/$result->num_rows)*100 : 0;
         $pplanToRead= ($planToRead!=0) ? ($planToRead/$result->num_rows)*100 : 0;
         echo "
+        <h3>Book Stats: ".$result->num_rows."</h3><br>
         <div class='progress'>
             <div class='progress-bar bg-success' role='progressbar' style='width: ".$preading."%' aria-valuenow='".$preading."' aria-valuemin='0' aria-valuemax='100'></div>
             <div class='progress-bar bg-primary' role='progressbar' style='width: ".$pcompleted."%' aria-valuenow='".$pcompleted."' aria-valuemin='0' aria-valuemax='100'></div>
@@ -86,19 +87,19 @@ function getSecondBox(){
         <br>
         <div  style='width: 100%; height: 10px;'>
             <div class='bg-success' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
-            <p style='margin-bottom :0; float:left;'>&nbsp; Reading</p>
+            <p style='margin-bottom :0; float:left;'>&nbsp; Reading: &emsp;&ensp;&nbsp;".$reading."</p>
             <br>
             <div class='bg-primary' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
-            <p style='margin-bottom :0; float:left;'>&nbsp; Completed</p>
+            <p style='margin-bottom :0; float:left;'>&nbsp; Completed: &ensp;".$completed."</p>
             <br>
             <div class='bg-warning' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
-            <p style='margin-bottom :0; float:left;'>&nbsp; On Hold</p>
+            <p style='margin-bottom :0; float:left;'>&nbsp; On Hold: &emsp;&ensp;&nbsp;".$onHold."</p>
             <br>
             <div class='bg-danger' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
-            <p style='margin-bottom :0; float:left;'>&nbsp; Dropped</p>
+            <p style='margin-bottom :0; float:left;'>&nbsp; Dropped: &emsp;&ensp;".$dropped."</p>
             <br>
             <div class='bg-secondary' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
-            <p style='margin-bottom :0; float:left;'>&nbsp; Plan to Read</p>
+            <p style='margin-bottom :0; float:left;'>&nbsp; Plan to Read:&nbsp;".$planToRead."</p>
         </div>
         ";
     } else {
