@@ -6,6 +6,7 @@
     <!--  All snippets are MIT license http://bootdey.com/license -->
     <title>MyBookList</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../public/img/ico1.ico">
     <link rel="stylesheet" href="../../public/css/libro.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
