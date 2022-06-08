@@ -6,6 +6,7 @@
     <!--  All snippets are MIT license http://bootdey.com/license -->
     <title>profile edit data and skills - Bootdey.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="../../public/img/ico1.ico">
     <link rel="stylesheet" href="../../public/css/editarPerfil.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
