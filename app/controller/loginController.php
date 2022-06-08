@@ -10,11 +10,12 @@ session_start();
     $username = mysqli_real_escape_string($con, $username);  
     $password = mysqli_real_escape_string($con, $password);  
   
-    $sql = "select * from usuario where username = '$username' and password = '$password'";  
-    $result = mysqli_query($con, $sql);  
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);  
-    $count = mysqli_num_rows($result);  
-    if($count == 1){  
+    $sql = "select * from usuario where username = '$username'";  
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC); 
+    
+
+    if(password_verify($password,$row["Password"])){  
         $_SESSION['userid'] = $row["Id_User"];
         $_SESSION['user'] = $row["Username"];
         $_SESSION['rol'] = $row["Rol"];
@@ -24,6 +25,7 @@ session_start();
         echo "<script>window.location='../view/home.php' </script>";  
     }  
     else{  
-        echo "<scrit> alert('Usuario o contraseña incorrectos'); window.location='login.php' </script>";  
+        echo "<script>window.location='../view/home.php' </script>"; 
+        echo "<script type='text/javascript'>alert('Usuario o Contraseña incorrecta');</script>";  
     }     
 ?>
