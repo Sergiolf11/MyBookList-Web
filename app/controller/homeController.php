@@ -3,7 +3,6 @@ function getAll(){
     session_start();
     if(!isset($_SESSION['user'])){
         header("Location:../view/login.php");
-
     }
     $con = new mysqli('localhost', 'root', '', 'mybooklist');                    
     $sql = "select * from libro  ORDER BY Saga,Num_Saga";  

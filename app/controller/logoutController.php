@@ -1,6 +1,12 @@
 <?php
 session_start();
+if(!isset($_SESSION['user'])){
+    header("Location:../view/login.php");
+}
 unset($_SESSION["userid"]);
 unset($_SESSION["user"]);
+unset($_SESSION["email"]);
+unset($_SESSION["rol"]);
+unset($_SESSION["FotoPerfil"]);
 header("Location:../view/login.php");
 ?>
