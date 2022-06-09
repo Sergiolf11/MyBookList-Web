@@ -28,7 +28,6 @@
 				<form action="../controller/loginController.php" method="POST" class="login-form">
 				<p id="erroneo" style='color: red'>Usuario o Contraseña incorrectos</p>
 
-					
 		      		<div class="form-group">
 		      			<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
 		      			<input type="text" name="username" class="form-control" placeholder="Username" required>

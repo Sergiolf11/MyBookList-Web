@@ -15,12 +15,18 @@ session_start();
   
     $pwd=password_hash($password,PASSWORD_DEFAULT);
 
-    $sqlregister = "INSERT INTO usuario (Username, Password, Email) VALUES ('$username','$pwd','$email')";  
-    $result = mysqli_query($con, $sqlregister);     
-    if($result){  
-        echo "<script>window.location='../view/login.php' </script>";    
-    }  
-    else{  
-        echo "Error: ".$sql."<br>".$mysql_error($con);  
-    }     
+    $sql="select * from usuario where Email='$email' or Username='$username'";
+    $result = mysqli_query($con, $sql);
+    if($result->num_rows > 0){
+        echo "<script>localStorage.setItem('denegado','true');</script>";
+        echo "<script>window.location='../view/register.php' </script>"; 
+    }else{
+        $sqlregister = "INSERT INTO usuario (Username, Password, Email) VALUES ('$username','$pwd','$email')";  
+        if(mysqli_query($con, $sqlregister)){  
+            echo "<script>localStorage.setItem('denegado','false');</script>";
+            echo "<script>window.location='../view/login.php' </script>";    
+        }else{  
+            echo "Error: ".$sql."<br>".$mysql_error($con);  
+        }
+    }
 ?>
