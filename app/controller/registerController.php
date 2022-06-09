@@ -13,7 +13,9 @@ session_start();
     $password = mysqli_real_escape_string($con, $password);  
     $email = mysqli_real_escape_string($con, $email);  
   
-    $sqlregister = "INSERT INTO usuario (Username, Password, Email) VALUES ('$username','$password','$email')";  
+    $pwd=password_hash($password,PASSWORD_DEFAULT);
+
+    $sqlregister = "INSERT INTO usuario (Username, Password, Email) VALUES ('$username','$pwd','$email')";  
     $result = mysqli_query($con, $sqlregister);     
     if($result){  
         echo "<script>window.location='../view/login.php' </script>";    

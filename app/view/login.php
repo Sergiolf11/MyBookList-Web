@@ -26,6 +26,9 @@
 		      	<p class="text-center">Sign in by entering the information below</p>
 				
 				<form action="../controller/loginController.php" method="POST" class="login-form">
+				<p id="erroneo" style='color: red'>Usuario o Contraseña incorrectos</p>
+
+					
 		      		<div class="form-group">
 		      			<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
 		      			<input type="text" name="username" class="form-control" placeholder="Username" required>
@@ -35,13 +38,7 @@
 		            	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
 		              <input type="password" name="password" class="form-control" placeholder="Password" required>
 		            </div>
-<!--
-		            <div class="form-group d-md-flex">
-							<div class="w-100 text-md-right">
-								<a href="#">Forgot Password</a>
-							</div>
-		            </div>
--->
+
 		            <div class="form-group">
 		            	<button type="submit" class="btn form-control btn-primary rounded submit px-3">Get Started</button>
 		            </div>
@@ -65,5 +62,17 @@
   <script src="../../public/js/main.js"></script>
 
 	</body>
+	<script>
+		$(document).ready(function() {
+			document.getElementById("erroneo").style.visibility = "hidden";
+			if(localStorage.getItem("denegado")==null){
+				localStorage.setItem("denegado","false");
+			}else if(localStorage.getItem("denegado")=="true"){
+				document.getElementById("erroneo").style.visibility = "visible";
+			}else{
+				document.getElementById("erroneo").style.visibility = "hidden";
+			}
+        });
+	</script>
 </html>
 

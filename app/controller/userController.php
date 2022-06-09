@@ -3,7 +3,6 @@ function getFirstBox(){
     session_start();
     if(!isset($_SESSION['user'])){
         header("Location:../view/login.php");
-
     }
     $userid = $_SESSION['userid'];
     $rol = $_SESSION['rol'];
@@ -26,7 +25,6 @@ function getFirstBox(){
               <p class='text-secondary mb-1'>Rol: ".$rol."</p>
               <br>
             </div>
-            
             ";
         }
     } else {
