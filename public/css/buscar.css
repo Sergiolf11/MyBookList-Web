@@ -1,6 +1,10 @@
 body{margin-top:20px;
-    background:#eee;
+    background:#fff;
     }
+    .form-control :active{
+        border: none;
+        outline: none;
+  }
     
     .single_advisor_profile {
         position: relative;

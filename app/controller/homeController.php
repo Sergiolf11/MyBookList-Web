@@ -4,8 +4,16 @@ function getAll(){
     if(!isset($_SESSION['user'])){
         header("Location:../view/login.php");
     }
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');                    
-    $sql = "select * from libro  ORDER BY Saga,Num_Saga";  
+    $con = new mysqli('localhost', 'root', '', 'mybooklist');       
+
+    $search = !empty($_GET['search']) ? $_GET['search'] : "0";
+    if($search=="0"){
+        $sql = "select * from libro  ORDER BY Saga,Num_Saga";  
+    }else{
+        $sql = "select * from libro where Titulo LIKE '%$search%' or Autor LIKE '%$search%' or Saga LIKE '%$search%' ORDER BY Saga,Num_Saga";  
+    }
+
+    
     $result = mysqli_query($con, $sql);  
 
     if ($result->num_rows > 0) {
@@ -15,7 +23,7 @@ function getAll(){
             <div class='col-12 col-sm-6 col-lg-3'>
             <a  href='libro.php?idlibro=".$row["Id_Libro"]."'>
                 <div class='single_advisor_profile wow fadeInUp' data-wow-delay='0.3s' style='visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;'>
-                    <div class='advisor_thumb'><img src='".$row["Portada"]."'  width='200' height='300' alt=''></div>
+                    <div class='advisor_thumb'><img src='".$row["Portada"]."' width='200' height='300' alt=''></div>
                     <div class='single_advisor_details_info '>
                         <h6>".$row["Titulo"]."</h6>
                         <p class='designation'>".$row["Autor"]."</p>
