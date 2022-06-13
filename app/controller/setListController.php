@@ -7,7 +7,6 @@
     $con = new mysqli('localhost', 'root', '', 'mybooklist');    
     $idlibro = $_GET['idLibro'];
     $status =$_GET['status'];
-    echo $status;
     if($status=="1"){
         $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado) VALUES(".$userid.",".$idlibro.",'Reading') ON DUPLICATE KEY UPDATE Estado='Reading'";
     }
