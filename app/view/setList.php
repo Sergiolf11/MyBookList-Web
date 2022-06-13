@@ -11,7 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-             
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="v-card">
     <header>
@@ -23,21 +22,8 @@
         require_once('../controller/libroController.php');
         printButtoms();
     ?>
-
 </div>                                        
-
-<style type="text/css">
-                        
-
-                        
-                                   
-</style>
-
 <script type="text/javascript">
-                        
-
-                        
-                                        
 </script>
 </body>
 </html>

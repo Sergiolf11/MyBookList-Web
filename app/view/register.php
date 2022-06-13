@@ -25,7 +25,7 @@
 		      	<p class="text-center">Sign in by entering the information below</p>
 				
 				<form action="../controller/registerController.php" method="POST" class="login-form">
-				<p id="erroneo" style='color: red'>Usuario o Correo ya existente</p>
+					<p id="erroneo" style='color: red'>Usuario o Correo ya existente</p>
 
 		      		<div class="form-group">
 		      			<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
@@ -57,12 +57,10 @@
 			</div>
 		</div>
 	</section>
-
 	<script src="../../public/js/jquery.min.js"></script>
   <script src="../../public/js/popper.js"></script>
   <script src="../../public/js/bootstrap.min.js"></script>
   <script src="../../public/js/main.js"></script>
-
 	</body>
 	<script>
 		$(document).ready(function() {

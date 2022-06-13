@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
-    <!--  All snippets are MIT license http://bootdey.com/license -->
     <title>MyBookList</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="../../public/img/ico1.ico">
@@ -14,8 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-                        
-
                         
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="v-card">
@@ -59,13 +55,8 @@
 		            	<button type="submit" class="btn form-control btn-primary rounded submit px-3">Comprobar</button>
 		            </div>
 	          </form>
-			
 		</div>
-		
-		
 	</div>
 </div>                                        
-
-
 </body>
 </html>

@@ -10,7 +10,6 @@
 		<link rel="stylesheet" href="../../public/css/style.css"/>
 	</head>
 	<body>
-	
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -45,21 +44,17 @@
 
 	          <div class="w-100 text-center mt-4 text">
 	          	<p class="mb-0">Don't have an account?</p>
-
 		          <a href="register.php">Sign Up</a>
-
 	          </div>
 	        </div>
 				</div>
 			</div>
 		</div>
 	</section>
-
 	<script src="../../public/js/jquery.min.js"></script>
   <script src="../../public/js/popper.js"></script>
   <script src="../../public/js/bootstrap.min.js"></script>
   <script src="../../public/js/main.js"></script>
-
 	</body>
 	<script>
 		$(document).ready(function() {

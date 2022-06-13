@@ -19,7 +19,6 @@
       <li class="nav-item">
         <a class="nav-link"  href="../controller/logoutController.php"><span class="glyphicon glyphicon-log-out"></span> LogOut</a>
       </li>
-
     </ul>
   </div>
 </nav>

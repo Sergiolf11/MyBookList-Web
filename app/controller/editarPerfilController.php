@@ -2,7 +2,6 @@
     session_start();
     if(!isset($_SESSION['user'])){
         header("Location:../view/login.php");
-    
     }
     $userid = $_SESSION['userid'];
     $username = $_POST['username'];  
@@ -20,7 +19,6 @@
     }
 
     $sql = "UPDATE usuario SET Username='$username',Email='$email',FotoPerfil='$fotoPerfil' WHERE Id_User=$userid";  
-    
     $result = mysqli_query($con, $sql);  
 
     if($result){  

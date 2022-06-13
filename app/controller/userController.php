@@ -33,12 +33,10 @@ function getFirstBox(){
     $con->close();
 }
 
-
 function getSecondBox(){
     //session_start();
     if(!isset($_SESSION['user'])){
         header("Location:../view/login.php");
-
     }
     $userid = $_SESSION['userid'];
     $con = new mysqli('localhost', 'root', '', 'mybooklist');
@@ -109,7 +107,6 @@ function getSecondBox(){
 function form(){
     if(!isset($_SESSION['user'])){
         header("Location:../view/login.php");
-
     }
     $userid = $_SESSION['userid'];
     $con = new mysqli('localhost', 'root', '', 'mybooklist');
@@ -154,7 +151,6 @@ function form(){
                 </div>
             </div>";  
         }
-
     }else{
         echo "0 results";
     }

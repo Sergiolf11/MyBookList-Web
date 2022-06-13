@@ -2,7 +2,6 @@
 session_start();
 if(!isset($_SESSION['user'])){
     header("Location:../view/login.php");
-
 }
 $userid = $_SESSION['userid'];
 $rol = $_SESSION['rol'];
@@ -57,9 +56,8 @@ function getAutor(){
         array('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'),
         $autor );
     $url="https://www.amazon.es/s?k=".strtr($titulo,' ','+')."&i=stripbooks";
-    while($cont<5){
-        
 
+    while($cont<5){
         $content=file_get_contents($url);
         $pos=strlen('<span class="a-size-base">de </span><span class="a-size-base">');
         //$posible_url=substr($content,strpos($content,'</a> </h2><div class="a-row a-size-base a-color-secondary"><div class="a-row">'));
@@ -80,7 +78,6 @@ function getAutor(){
     }
     return false;
 }
-
 
 $con = new mysqli('localhost', 'root', '', 'mybooklist');
 
@@ -121,9 +118,4 @@ if($rol=="0"){
         echo "Lo sentimos, no hemos podido encontrar ese libro";
     }
 }
-
-    
-    
-
-    
 ?>

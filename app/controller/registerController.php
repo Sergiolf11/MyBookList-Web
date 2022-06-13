@@ -9,6 +9,7 @@ session_start();
     $username = stripcslashes($username);  
     $password = stripcslashes($password);  
     $email = stripcslashes($email);  
+    
     $username = mysqli_real_escape_string($con, $username);  
     $password = mysqli_real_escape_string($con, $password);  
     $email = mysqli_real_escape_string($con, $email);  

@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
-    <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>profile with data and skills - Bootdey.com</title>
+    <title>MyBookList</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="../../public/img/ico1.ico">
     <link rel="stylesheet" href="../../public/css/perfil.css">
@@ -21,13 +19,8 @@ $(function(){
 <div id="header"></div>
 <div class="container">
     <div class="main-body">
-    
-
-          <!-- /Breadcrumb -->
-    
           <div class="row gutters-sm">
             <div class="col-md-4 mb-3">
-             
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
@@ -43,41 +36,24 @@ $(function(){
                   </div>
                 </div>
               </div>
-          
             </div>
             <div class="col-md-8">
               <div class="card mb-3">
                 <div class="card-body">
-                   
                 <?php
                         require_once('../controller/userController.php');  
                         getSecondBox();
                     ?>
-                  
                 </div>
               </div>
-
-              
                 <div class="col-sm-6 mb-3">
-                  
                 </div>
               </div>
-
-
-
             </div>
           </div>
-
         </div>
     </div>
-
-<style type="text/css">
-
-
-</style>
-
 <script type="text/javascript">
-
 </script>
 </body>
 </html>

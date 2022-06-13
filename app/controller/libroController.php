@@ -7,7 +7,6 @@ function getLibro(){
     $con = new mysqli('localhost', 'root', '', 'mybooklist');    
     $idlibro = $_GET['idlibro'];
     $sql = "select * from libro where Id_Libro = '$idlibro'";  
-    
     $result = mysqli_query($con, $sql);  
 
     if ($result->num_rows > 0) {

@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
-    <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>profile edit data and skills - Bootdey.com</title>
+    <title>MyBookList</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="../../public/img/ico1.ico">
     <link rel="stylesheet" href="../../public/css/editarPerfil.css">
@@ -20,7 +18,7 @@
 <body class="bg-light">
 	<div id="header"></div>
 	<br>
-<div class="container">
+	<div class="container">
 		<div class="main-body">
 			<div class="row">
 				<div class="col-lg-4">
@@ -32,7 +30,6 @@
 								getFirstBox();
 							?>
 							</div>
-							
 						</div>
 					</div>
 				</div>
@@ -47,16 +44,11 @@
 							</form>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
 	</div>
-
-
-
 <script type="text/javascript">
-
 </script>
 </body>
 </html>
