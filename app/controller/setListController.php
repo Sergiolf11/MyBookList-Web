@@ -30,7 +30,4 @@
         echo "Error: ".$sql."<br>".$mysql_error($con);  
     }   
     $con->close();
-
-
-
 ?>
