@@ -27,7 +27,7 @@ function getLibro(){
 			<div class='clearfix'></div>";
         }
     } else {
-        echo "Todavia no tienes libros en esta seccion";
+        echo "Ese libro no existe";
     }
     $con->close();
 }
