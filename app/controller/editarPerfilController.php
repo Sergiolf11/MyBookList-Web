@@ -14,6 +14,9 @@
     if($fotoPerfil==""){
         $fotoPerfil=$_SESSION['fotoPerfil'];
     }
+    if($fotoPerfil=="default"){
+        $fotoPerfil=$_SESSION['fotoPerfil'];
+    }
     if($email==""){
         $email=$_SESSION['email'];
     }
