@@ -103,8 +103,7 @@ if($rol=="1"){
     else{  
         echo "Error: ".$sql."<br>".$mysql_error($con);  
     }   
-}
-if($rol=="0"){
+}else if($rol=="0"){
     if(getTitulo() && getAutor()){
         $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$portada')";  
         $result = mysqli_query($con, $sqlregister);     
