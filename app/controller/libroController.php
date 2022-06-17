@@ -4,7 +4,8 @@ if(!isset($_SESSION['user'])){
     header("Location:../view/login.php");
 }
 function getLibro(){
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');    
+    $con = new mysqli('localhost', 'root', '', 'mybooklist');  
+    $con->set_charset("utf8");  
     $idlibro = $_GET['idlibro'];
     $sql = "select * from libro where Id_Libro = '$idlibro'";  
     $result = mysqli_query($con, $sql);  

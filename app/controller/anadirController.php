@@ -80,6 +80,7 @@ function getAutor(){
 }
 
 $con = new mysqli('localhost', 'root', '', 'mybooklist');
+$con->set_charset("utf8");
 
 //to prevent from mysqli injection  
 $titulo = stripcslashes($titulo);  

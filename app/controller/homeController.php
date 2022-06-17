@@ -4,7 +4,8 @@ function getAll(){
     if(!isset($_SESSION['user'])){
         header("Location:../view/login.php");
     }
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');       
+    $con = new mysqli('localhost', 'root', '', 'mybooklist');   
+    $con->set_charset("utf8");    
     $search = !empty($_GET['search']) ? $_GET['search'] : "0";
     if($search=="0"){
         $sql = "select * from libro  ORDER BY Saga,Num_Saga";  
@@ -44,6 +45,7 @@ function getAllFromUser(){
     }
     $userid = $_SESSION['userid'];
     $con = new mysqli('localhost', 'root', '', 'mybooklist');
+    $con->set_charset("utf8");
     $status = !empty($_GET['status']) ? $_GET['status'] : "0";
     if($status=="0"){
         $sql = "select * from usuario_libro ul join libro l on ul.Id_Libro=l.Id_Libro where Id_User = '$userid'  ORDER BY Saga,Num_Saga";  
