@@ -88,4 +88,13 @@ function getAllFromUser(){
     }
     $con->close();
 }
+
+function getCount(){
+    $con = new mysqli('localhost', 'root', '', 'mybooklist');   
+    $con->set_charset("utf8");    
+    $sql = "select COUNT(*) from libro";
+    $result = mysqli_query($con, $sql);  
+    $data=mysqli_fetch_row($result)[0];
+    echo "<p>We currently have ".$data." books.</p>";
+}
 ?>
