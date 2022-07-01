@@ -113,7 +113,7 @@ if($rol=="1"){
         $result = mysqli_query($con, $sqlregister);     
         if($result){  
             $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
-            $result = mysqli_query($con, $sqll);
+            $result = mysqli_query($con, $sqllibro);
             $row = $result->fetch_assoc();
             echo "<script>window.location='../view/libro.php?idlibro=".$row["Id_Libro"]."' </script>";    
         }  
