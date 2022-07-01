@@ -99,7 +99,10 @@ if($rol=="1"){
     $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$portada')";  
     $result = mysqli_query($con, $sqlregister);     
     if($result){  
-        echo "<script>window.location='../view/home.php' </script>";    
+        $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
+        $result = mysqli_query($con, $sqllibro);
+        $row = $result->fetch_assoc();
+        echo "<script>window.location='../view/libro.php?idlibro=".$row["Id_Libro"]."' </script>";    
     }  
     else{  
         echo "Error: ".$sql."<br>".$mysql_error($con);  
@@ -109,7 +112,10 @@ if($rol=="1"){
         $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$portada')";  
         $result = mysqli_query($con, $sqlregister);     
         if($result){  
-            echo "<script>window.location='../view/home.php' </script>";    
+            $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
+            $result = mysqli_query($con, $sqll);
+            $row = $result->fetch_assoc();
+            echo "<script>window.location='../view/libro.php?idlibro=".$row["Id_Libro"]."' </script>";    
         }  
         else{  
             echo "Error: ".$sql."<br>".$mysql_error($con);  
