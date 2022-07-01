@@ -16,7 +16,7 @@
         });
     </script>
 </head>
-<body>
+<body class="bg-light">
 <div id="header"></div>
 <div class="container">
         <div class="row justify-content-center">
@@ -24,8 +24,8 @@
             <!-- Section Heading-->
             <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
             
-                <h3>Welcome to the Archive</h3>
-                <?php
+              <h3>Welcome to the Archive</h3>
+              <?php
                     require_once('../controller/homeController.php');  
                     getCount();
                 ?>  
@@ -33,10 +33,10 @@
             </div>
           </div>
         </div>
-        <div style="border-radius: 25px;border: 1px solid #4dd0e1;box-shadow: 0 0 0 1px #4dd0e1;">
-            <input id="buscar" style="display: inline;width: 88%;border:none;border-radius: 30px;" class="form-control" type="text" placeholder="Search" aria-label="Search"/>
-            <div class="btn" style="float: right;" >
-                <a class="fa fa-search" onclick="busqueda()"></a>
+        <div style="border-radius: 25px;border: 1px solid #4dd0e1;box-shadow: 0 0 0 1px #4dd0e1;" class="bg-white">
+            <input id="buscar" style="display: inline;width: 88%;border:none;border-radius: 30px;" class="form-control" type="text" placeholder="Search" aria-label="Search" onkeydown="if (event.keyCode == 13){ document.getElementById('botonBusqueda').click(); return false;}"/>
+            <div class="btn" id="botonBusqueda" style="float: right;"  onclick="busqueda()">
+                <a class="fa fa-search"></a>
             </div> 
       
         </div><br>
