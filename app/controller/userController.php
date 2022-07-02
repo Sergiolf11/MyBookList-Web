@@ -83,19 +83,19 @@ function getSecondBox(){
         <br>
         <div  style='width: 100%; height: 10px;'>
             <div class='bg-success' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
-            <p style='margin-bottom :0; float:left;'>&nbsp; Reading: &emsp;&ensp;&nbsp;".$reading."</p>
+            <p style='margin-bottom :0; float:left;'>&nbsp; <a href='../view/table.php?status=1'>Reading</a>: &emsp;&ensp;&nbsp;".$reading."</p>
             <br>
             <div class='bg-primary' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
-            <p style='margin-bottom :0; float:left;'>&nbsp; Completed: &ensp;".$completed."</p>
+            <p style='margin-bottom :0; float:left;'>&nbsp;  <a href='../view/table.php?status=2'>Completed</a>: &ensp;".$completed."</p>
             <br>
             <div class='bg-warning' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
-            <p style='margin-bottom :0; float:left;'>&nbsp; On Hold: &emsp;&ensp;&nbsp;".$onHold."</p>
+            <p style='margin-bottom :0; float:left;'>&nbsp;  <a href='../view/table.php?status=3'>On Hold</a>: &emsp;&ensp;&nbsp;".$onHold."</p>
             <br>
             <div class='bg-danger' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
-            <p style='margin-bottom :0; float:left;'>&nbsp; Dropped: &emsp;&ensp;".$dropped."</p>
+            <p style='margin-bottom :0; float:left;'>&nbsp;  <a href='../view/table.php?status=4'>Dropped</a>: &emsp;&ensp;".$dropped."</p>
             <br>
             <div class='bg-secondary' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
-            <p style='margin-bottom :0; float:left;'>&nbsp; Plan to Read:&nbsp;".$planToRead."</p>
+            <p style='margin-bottom :0; float:left;'>&nbsp;  <a href='../view/table.php?status=5'>Plan to Read</a>:&nbsp;".$planToRead."</p>
         </div>
         ";
     } else {
