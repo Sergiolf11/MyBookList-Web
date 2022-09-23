@@ -34,8 +34,14 @@ function getLibro(){
 
 function setToList(){
     //session_start();
+    $con = new mysqli('localhost', 'root', '', 'mybooklist');  
+    $con->set_charset("utf8");  
     $idlibro = $_GET['idlibro'];
-    echo "<li class='active'><a href='setList.php?idlibro=".$idlibro."' >Añadir a lista</a></li>";
+    $userid = $_SESSION['userid'];
+    $sql = "select * from usuario_libro ul join usuario u on ul.Id_User=ul.Id_User where u.Id_User = '$userid' and Id_Libro = '$idlibro'";  
+    $result = mysqli_query($con, $sql);  
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    echo "<li class='active'><a href='setList.php?idlibro=".$idlibro."' >Añadir a lista</a></li>&emsp;&emsp;&emsp;".$row["Estado"]."";
 }
 
 function printButtoms(){
