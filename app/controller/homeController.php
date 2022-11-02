@@ -72,6 +72,11 @@ function getAllFromUser(){
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
+            if ($row["Num_Saga"] == 0){
+                $SagaNum="";
+            }else{
+                $SagaNum="<p class='designation'>".$row["Saga"]." ".$row["Num_Saga"]."</p>";
+            }
             echo "
             <div class='col-12 col-sm-6 col-lg-3'>
             <a  href='libro.php?idlibro=".$row["Id_Libro"]."'>
@@ -80,7 +85,7 @@ function getAllFromUser(){
                     <div class='single_advisor_details_info '>
                         <h6>".$row["Titulo"]."</h6>
                         <p class='designation'>".$row["Autor"]."</p>
-                        <p class='designation'>".$row["Saga"]."".$row["Num_Saga"]."</p>
+                        ".$SagaNum."
                         <p>".$row["Estado"]."</p>
                     </div>
                 </div>
