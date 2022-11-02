@@ -25,6 +25,7 @@ function getLibro(){
 			<div class='vcard-content'>
 				<h4>".$row["Titulo"]." <small>".$row["Autor"]."</small></h4>
                 ".$SagaNum."
+                <p><b>Generos:</b> <small>".$row["Genero"]."</small></p>
 				<p>".$row["Sinopsis"]."</p>
 				<hr>
 			</div>
