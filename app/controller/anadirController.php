@@ -6,11 +6,12 @@ if(!isset($_SESSION['user'])){
 $userid = $_SESSION['userid'];
 $rol = $_SESSION['rol'];
 $titulo = $_POST['titulo'];  
-    $autor = $_POST['autor'];  
-    $saga = $_POST['saga'];  
-    $numSaga = $_POST['numSaga'];  
-    $sinopsis = $_POST['sinopsis'];  
-    $portada = $_POST['portada'];  
+$autor = $_POST['autor'];  
+$saga = $_POST['saga'];  
+$genero = $_POST['genero'];
+$numSaga = $_POST['numSaga'];  
+$sinopsis = $_POST['sinopsis'];  
+$portada = $_POST['portada'];  
 
 function getTitulo(){
     $cont=0;
@@ -86,17 +87,19 @@ $con->set_charset("utf8");
 $titulo = stripcslashes($titulo);  
 $autor = stripcslashes($autor);  
 $saga = stripcslashes($saga);  
+$genero = stripcslashes($genero);  
 $numSaga = stripcslashes($numSaga);  
 $sinopsis = stripcslashes($sinopsis);  
 
 $titulo = mysqli_real_escape_string($con, $titulo);  
 $autor = mysqli_real_escape_string($con, $autor);  
 $saga = mysqli_real_escape_string($con, $saga);  
+$genero = mysqli_real_escape_string($con, $genero);  
 $numSaga = mysqli_real_escape_string($con, $numSaga);  
 $sinopsis = mysqli_real_escape_string($con, $sinopsis);  
 
 if($rol=="1"){
-    $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$portada')";  
+    $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Genero, Sinopsis, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$genero','$sinopsis','$portada')";  
     $result = mysqli_query($con, $sqlregister);     
     if($result){  
         $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
@@ -109,7 +112,7 @@ if($rol=="1"){
     }   
 }else if($rol=="0"){
     if(getTitulo() && getAutor()){
-        $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$portada')";  
+        $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Genero, Sinopsis, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$genero','$sinopsis','$portada')"; 
         $result = mysqli_query($con, $sqlregister);     
         if($result){  
             $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";

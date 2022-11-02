@@ -44,6 +44,10 @@
 		            </div>
 
                     <div class="form-group">
+		              <input  type="text" name="genero" class="form-control" placeholder="Generos: Terror, Fantasia, Thriller" required>
+		            </div>
+
+					<div class="form-group">
 		              <input  type="text" name="portada" class="form-control" placeholder="URL de imagen de la portada" required>
 		            </div>
 
