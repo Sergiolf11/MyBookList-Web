@@ -12,6 +12,11 @@ function getLibro(){
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
+            if ($row["Num_Saga"] == 0){
+                $SagaNum="<br>";
+            }else{
+                $SagaNum="<p>".$row["Saga"]." ".$row["Num_Saga"]."</p>";
+            }
             echo "
             <br>
             <div class='vcard-img'>
@@ -19,7 +24,7 @@ function getLibro(){
 			</div>
 			<div class='vcard-content'>
 				<h4>".$row["Titulo"]." <small>".$row["Autor"]."</small></h4>
-                <p>".$row["Saga"]." ".$row["Num_Saga"]."</p>
+                ".$SagaNum."
 				<p>".$row["Sinopsis"]."</p>
 				<hr>
 			</div>
