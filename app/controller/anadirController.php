@@ -99,7 +99,7 @@ $numSaga = mysqli_real_escape_string($con, $numSaga);
 $sinopsis = mysqli_real_escape_string($con, $sinopsis);  
 
 if($rol=="1"){
-    $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Genero, Sinopsis, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$genero','$sinopsis','$portada')";  
+    $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Genero, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$genero','$portada')";  
     $result = mysqli_query($con, $sqlregister);     
     if($result){  
         $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
@@ -112,7 +112,7 @@ if($rol=="1"){
     }   
 }else if($rol=="0"){
     if(getTitulo() && getAutor()){
-        $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Genero, Sinopsis, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$genero','$sinopsis','$portada')"; 
+        $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Genero, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$genero','$portada')";  
         $result = mysqli_query($con, $sqlregister);     
         if($result){  
             $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
