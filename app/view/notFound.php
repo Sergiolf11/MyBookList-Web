@@ -1,0 +1,10 @@
+<head>
+<link rel="stylesheet" href="../../public/css/notFound.css">
+</head>
+<div id="main">
+    	<div class="fof">
+        		<h1>Error 404</h1>
+    	</div>
+</div>
+</body>
+

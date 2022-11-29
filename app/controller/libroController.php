@@ -47,7 +47,11 @@ function setToList(){
     $sql = "select * from usuario_libro ul join usuario u on ul.Id_User=ul.Id_User where u.Id_User = '$userid' and Id_Libro = '$idlibro'";  
     $result = mysqli_query($con, $sql);  
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    echo "<li class='active'><a href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> Añadir</a></li>&emsp;&emsp;&emsp;".$row["Estado"]."";//ToDo boton editar
+    echo "
+    <li class='active'><a href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> Añadir</a></li>
+    <button type='button' class='btn btn-warning'><a class='text-white' href='editarLibro.php?idlibro=".$idlibro."'><i class='fa fa-edit'></i></a></button>
+    <button type='button' class='btn btn-danger'><a class='text-white' href='notFound.php'><i class='fa fa-trash'></i></a></button>
+    &emsp;&emsp;&emsp;".$row["Estado"]."";//ToDo boton borrar
 }
 
 function printButtoms(){
