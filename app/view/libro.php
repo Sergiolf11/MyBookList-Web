@@ -5,7 +5,6 @@
     <title>MyBookList</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="../../public/img/ico1.ico">
-    
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -18,7 +17,7 @@
 	<!-- Header -->
 	<header>
 		<ul class="list-inline">
-			<li class="active"><a href="home.php" >Home</a></li>
+			<a class='btn btn-info text-white' href="home.php" >Home</a>
 			<?php
                 require_once('../controller/libroController.php');
                 setToList();

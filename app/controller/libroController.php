@@ -49,11 +49,11 @@ function setToList(){
     $result = mysqli_query($con, $sql);  
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     echo "
-    <li class='active'><a href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> Añadir</a></li>";
+    <a class='btn btn-info text-white' href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> Añadir</a>";
     if($rol == "1"){
         echo "
-        <button type='button' class='btn btn-warning'><a class='text-white' href='editarLibro.php?idlibro=".$idlibro."'><i class='fa fa-edit'></i></a></button>
-        <button type='button' class='btn btn-danger'><a class='text-white' href='notFound.php'><i class='fa fa-trash'></i></a></button>";
+        <a class='btn btn-warning text-white' href='editarLibro.php?idlibro=".$idlibro."'><i class='fa fa-edit'></i></a>
+        <a class='btn btn-danger text-white' href='notFound.php'><i class='fa fa-trash'></i></a>";
     }
     echo "
     &emsp;&emsp;&emsp;".$row["Estado"]."";
