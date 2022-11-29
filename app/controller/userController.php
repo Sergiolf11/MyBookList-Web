@@ -104,7 +104,7 @@ function getSecondBox(){
     $con->close();
 }
 
-function form(){
+function form1(){
     if(!isset($_SESSION['user'])){
         header("Location:../view/login.php");
     }
@@ -150,6 +150,55 @@ function form(){
                     <input type='submit' class='btn btn-primary px-4' value='Save Changes'>
                 </div>
             </div>";  
+        }
+    }else{
+        echo "0 results";
+    }
+    $con->close();
+}
+
+function form2(){
+    if(!isset($_SESSION['user'])){
+        header("Location:../view/login.php");
+    }
+    $userid = $_SESSION['userid'];
+    $con = new mysqli('localhost', 'root', '', 'mybooklist');
+    $sql = "select * from usuario where Id_User='$userid'";  
+    $result = mysqli_query($con, $sql); 
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo "<div class='row mb-3'>
+            <div class='col-sm-3'>
+                <h6 class='mb-0'>Contraseña</h6>
+            </div>
+            <div class='col-sm-9 text-secondary'>
+                <input type='password' name='password' placeholder='Contraseña' class='form-control'>
+            </div>
+            </div>
+            <div class='row mb-3'>
+                <div class='col-sm-3'>
+                    <h6 class='mb-0'>Nueva contraseña</h6>
+                </div>
+                <div class='col-sm-9 text-secondary'>
+                    <input type='password' name='newpassword1' placeholder='Nueva contraseña' class='form-control'>
+                </div>
+            </div>
+            <div class='row mb-3'>
+                <div class='col-sm-3'>
+                    <h6 class='mb-0'>Repetir contraseña</h6>
+                </div>
+                <div class='col-sm-9 text-secondary'>
+                    <input type='password' name='newpassword2' placeholder='Nueva contraseña' class='form-control'>
+                </div>
+            </div>
+       
+            <div class='row'>
+                <div class='col-sm-3'></div>
+                <div class='col-sm-9 text-secondary'>
+                    <input type='submit' class='btn btn-primary px-4' value='Save Changes'>
+                </div>
+            </div>
+				<p id='erroneo' style='color: red'>La contraseña es incorrecta o no coinciden las nuevas</p>";  
         }
     }else{
         echo "0 results";

@@ -39,7 +39,17 @@
 							<form action="../controller/editarPerfilController.php" method="POST" class="login-form">
 								<?php
 									require_once('../controller/userController.php');  
-									form();
+									form1();
+								?>
+							</form>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<form action="../controller/cambiarPasswordController.php" method="POST" class="login-form">
+								<?php
+									require_once('../controller/userController.php');  
+									form2();
 								?>
 							</form>
 						</div>
@@ -51,4 +61,16 @@
 <script type="text/javascript">
 </script>
 </body>
+<script>
+		$(document).ready(function() {
+			document.getElementById("erroneo").style.visibility = "hidden";
+			if(localStorage.getItem("incorrectPass")==null){
+				localStorage.setItem("incorrectPass","false");
+			}else if(localStorage.getItem("incorrectPass")=="true"){
+				document.getElementById("erroneo").style.visibility = "visible";
+			}else{
+				document.getElementById("erroneo").style.visibility = "hidden";
+			}
+        });
+	</script>
 </html>
