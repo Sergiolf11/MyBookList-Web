@@ -26,6 +26,11 @@ a:hover {
   color: #ffffff;
 }
 
+#saga {
+  color: #000000;
+  text-decoration: inherit;
+}
+
 .v-card {
     max-width:700px;
 	margin:0 auto;

@@ -17,7 +17,7 @@ include '../../config/conexion.php';
             if ($row["Num_Saga"] == 0){
                 $SagaNum="<br>";
             }else{
-                $SagaNum="<p>".$row["Saga"]." ".$row["Num_Saga"]."</p>";
+                $SagaNum="<p><a id='saga' href='../view/home.php?search=".$row["Saga"]."'>".$row["Saga"]."</a> ".$row["Num_Saga"]."</p>";
             }
             echo "
             <br>
