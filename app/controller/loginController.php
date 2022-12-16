@@ -3,7 +3,9 @@ session_start();
 
     $username = $_POST['username'];  
     $password = $_POST['password'];  
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');
+
+    // Include the database config file 
+    include '../../config/conexion.php'; 
 
     //to prevent from mysqli injection  
     $username = stripcslashes($username);  
@@ -12,7 +14,7 @@ session_start();
     $password = mysqli_real_escape_string($con, $password);  
   
     $sql = "select * from usuario where username = '$username'";  
-    $result = mysqli_query($con, $sql);
+    $result = $db->query($sql);  
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC); 
     
     if(password_verify($password,$row["Password"])){  

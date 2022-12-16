@@ -4,7 +4,8 @@
         header("Location:../view/login.php");
     }
     $userid = $_SESSION['userid'];
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');    
+    // Include the database config file 
+    include '../../config/conexion.php'; 
     $idlibro = $_GET['idLibro'];
     $status =$_GET['status'];
     if($status=="1"){
@@ -22,12 +23,11 @@
     if($status=="5"){
         $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado) VALUES(".$userid.",".$idlibro.",'Plan to Read') ON DUPLICATE KEY UPDATE Estado='Plan to Read'";
     }               
-    $result = mysqli_query($con, $sql); 
+    $result = $db->query($sql);  
     if($result){  
         echo "<script>window.location='../view/table.php'</script>";    
     }  
     else{  
         echo "Error: ".$sql."<br>".$mysql_error($con);  
     }   
-    $con->close();
 ?>

@@ -1,14 +1,16 @@
 <?php
 session_start();
+
+
 if(!isset($_SESSION['user'])){
     header("Location:../view/login.php");
 }
 function getLibro(){
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');  
-    $con->set_charset("utf8");  
+// Include the database config file 
+include '../../config/conexion.php'; 
     $idlibro = $_GET['idlibro'];
     $sql = "select * from libro where Id_Libro = '$idlibro'";  
-    $result = mysqli_query($con, $sql);  
+    $result = $db->query($sql);  
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -35,18 +37,18 @@ function getLibro(){
     } else {
         echo "Ese libro no existe";
     }
-    $con->close();
+    //$con->close();
 }
 
 function setToList(){
-    //session_start();
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');  
-    $con->set_charset("utf8");  
+    // Include the database config file 
+    include '../../config/conexion.php'; 
+
     $idlibro = $_GET['idlibro'];
     $userid = $_SESSION['userid'];
     $rol = $_SESSION['rol'];
     $sql = "select * from usuario_libro ul join usuario u on ul.Id_User=ul.Id_User where u.Id_User = '$userid' and Id_Libro = '$idlibro'";  
-    $result = mysqli_query($con, $sql);  
+    $result = $db->query($sql); 
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     echo "
     <a class='btn btn-info text-white' href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> Añadir</a>";

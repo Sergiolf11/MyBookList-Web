@@ -6,9 +6,10 @@ function getFirstBox(){
     }
     $userid = $_SESSION['userid'];
     $rol = $_SESSION['rol'];
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');
+    // Include the database config file 
+    include '../../config/conexion.php'; 
     $sql = "select * from usuario where Id_User='$userid'";  
-    $result = mysqli_query($con, $sql);  
+    $result = $db->query($sql);   
    
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -30,7 +31,6 @@ function getFirstBox(){
     } else {
         echo "0 results";
     }
-    $con->close();
 }
 
 function getSecondBox(){
@@ -39,9 +39,10 @@ function getSecondBox(){
         header("Location:../view/login.php");
     }
     $userid = $_SESSION['userid'];
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');
+    // Include the database config file 
+    include '../../config/conexion.php'; 
     $sql = "select * from usuario_libro where Id_User='$userid'";  
-    $result = mysqli_query($con, $sql);  
+    $result = $db->query($sql);   
     $reading=0;
     $completed=0;
     $onHold=0;
@@ -101,7 +102,7 @@ function getSecondBox(){
     } else {
         echo "0 results";
     }
-    $con->close();
+    
 }
 
 function form1(){
@@ -109,9 +110,10 @@ function form1(){
         header("Location:../view/login.php");
     }
     $userid = $_SESSION['userid'];
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');
+    // Include the database config file 
+    include '../../config/conexion.php'; 
     $sql = "select * from usuario where Id_User='$userid'";  
-    $result = mysqli_query($con, $sql); 
+    $result = $db->query($sql);  
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             if($row['FotoPerfil']=="../../public/img/defaultProfile.jpg"){
@@ -154,7 +156,6 @@ function form1(){
     }else{
         echo "0 results";
     }
-    $con->close();
 }
 
 function form2(){
@@ -162,9 +163,10 @@ function form2(){
         header("Location:../view/login.php");
     }
     $userid = $_SESSION['userid'];
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');
+    // Include the database config file 
+    include '../../config/conexion.php'; 
     $sql = "select * from usuario where Id_User='$userid'";  
-    $result = mysqli_query($con, $sql); 
+    $result = $db->query($sql);  
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             echo "<div class='row mb-3'>
@@ -203,6 +205,5 @@ function form2(){
     }else{
         echo "0 results";
     }
-    $con->close();
 }
 ?>

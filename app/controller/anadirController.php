@@ -3,6 +3,9 @@ session_start();
 if(!isset($_SESSION['user'])){
     header("Location:../view/login.php");
 }
+// Include the database config file 
+include '../../config/conexion.php'; 
+
 $userid = $_SESSION['userid'];
 $rol = $_SESSION['rol'];
 $titulo = $_POST['titulo'];  
@@ -80,8 +83,6 @@ function getAutor(){
     return false;
 }
 
-$con = new mysqli('localhost', 'root', '', 'mybooklist');
-$con->set_charset("utf8");
 
 //to prevent from mysqli injection  
 $titulo = stripcslashes($titulo);  
@@ -100,7 +101,7 @@ $sinopsis = mysqli_real_escape_string($con, $sinopsis);
 
 if($rol=="1"){
     $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Genero, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$genero','$portada')";  
-    $result = mysqli_query($con, $sqlregister);     
+    $result = $db->query($sql);  
     if($result){  
         $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
         $result = mysqli_query($con, $sqllibro);
@@ -113,7 +114,7 @@ if($rol=="1"){
 }else if($rol=="0"){
     if(getTitulo() && getAutor()){
         $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Genero, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$genero','$portada')";  
-        $result = mysqli_query($con, $sqlregister);     
+        $result = $db->query($sql);    
         if($result){  
             $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
             $result = mysqli_query($con, $sqllibro);

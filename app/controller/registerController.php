@@ -3,7 +3,8 @@ session_start();
     $username = $_POST['username'];  
     $password = $_POST['password'];  
     $email = $_POST['email'];  
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');
+    // Include the database config file 
+    include '../../config/conexion.php'; 
 
     //to prevent from mysqli injection  
     $username = stripcslashes($username);  
@@ -17,7 +18,7 @@ session_start();
     $pwd=password_hash($password,PASSWORD_DEFAULT);
 
     $sql="select * from usuario where Email='$email' or Username='$username'";
-    $result = mysqli_query($con, $sql);
+    $result = $db->query($sql);  
     if($result->num_rows > 0){
         echo "<script>localStorage.setItem('denegado','true');</script>";
         echo "<script>window.location='../view/register.php' </script>"; 

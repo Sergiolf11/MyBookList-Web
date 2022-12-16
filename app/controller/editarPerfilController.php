@@ -3,11 +3,12 @@
     if(!isset($_SESSION['user'])){
         header("Location:../view/login.php");
     }
+    // Include the database config file 
+    include '../../config/conexion.php'; 
     $userid = $_SESSION['userid'];
     $username = $_POST['username'];  
     $fotoPerfil = $_POST['fotoPerfil'];  
     $email = $_POST['email']; 
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');    
     if($username==""){
         $username=$_SESSION['username'];
     }
@@ -22,8 +23,7 @@
     }
 
     $sql = "UPDATE usuario SET Username='$username',Email='$email',FotoPerfil='$fotoPerfil' WHERE Id_User=$userid";  
-    $result = mysqli_query($con, $sql);  
-
+    $result = $db->query($sql);  
     if($result){  
         echo "<script>window.location='../view/perfil.php' </script>";    
     }  

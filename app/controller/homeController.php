@@ -4,8 +4,8 @@ function getAll(){
     if(!isset($_SESSION['user'])){
         header("Location:../view/login.php");
     }
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');   
-    $con->set_charset("utf8");    
+   // Include the database config file 
+    include '../../config/conexion.php'; 
     $search = !empty($_GET['search']) ? $_GET['search'] : "0";
     if($search=="0"){
         $sql = "select * from libro  ORDER BY Saga,Num_Saga";  
@@ -13,7 +13,7 @@ function getAll(){
         $sql = "select * from libro where Titulo LIKE '%$search%' or Autor LIKE '%$search%' or Saga LIKE '%$search%' ORDER BY Saga,Num_Saga";  
     }
     
-    $result = mysqli_query($con, $sql);  
+    $result = $db->query($sql);  
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -40,7 +40,6 @@ function getAll(){
     } else {
         echo "0 results";
     }
-    $con->close();
 }
 
 function getAllFromUser(){
@@ -49,8 +48,8 @@ function getAllFromUser(){
         header("Location:../view/login.php");
     }
     $userid = $_SESSION['userid'];
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');
-    $con->set_charset("utf8");
+    // Include the database config file 
+    include '../../config/conexion.php'; 
     $status = !empty($_GET['status']) ? $_GET['status'] : "0";
     if($status=="0"){
         $sql = "select * from usuario_libro ul join libro l on ul.Id_Libro=l.Id_Libro where Id_User = '$userid'  ORDER BY Saga,Num_Saga";  
@@ -68,7 +67,7 @@ function getAllFromUser(){
         $sql = "select * from usuario_libro ul join libro l on ul.Id_Libro=l.Id_Libro where Id_User = '$userid'  ORDER BY Saga,Num_Saga";  
     }
 
-    $result = mysqli_query($con, $sql);  
+    $result = $db->query($sql);  
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -96,14 +95,13 @@ function getAllFromUser(){
     } else {
         echo "Esta lista esta vacia";
     }
-    $con->close();
 }
 
 function getCount(){
-    $con = new mysqli('localhost', 'root', '', 'mybooklist');   
-    $con->set_charset("utf8");    
+    // Include the database config file 
+    include '../../config/conexion.php'; 
     $sql = "select COUNT(*) from libro";
-    $result = mysqli_query($con, $sql);  
+    $result = $db->query($sql);  
     $data=mysqli_fetch_row($result)[0];
     echo "<p>We currently have ".$data." books.</p>";
 }
