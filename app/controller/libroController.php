@@ -51,6 +51,7 @@ function setToList(){
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     echo "
     <a class='btn btn-info text-white' href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> Añadir</a>";
+    //Que no muestre los botones editar y borrar si no es admin
     if($rol == "1"){
         echo "
         <a class='btn btn-warning text-white' href='editarLibro.php?idlibro=".$idlibro."'><i class='fa fa-edit'></i></a>
