@@ -1,17 +1,14 @@
 <?php 
 session_start();
-
+    //to prevent from mysqli injection  
+    include '../../config/conexion.php'; 
     $username = $_POST['username'];  
     $password = $_POST['password'];  
 
-    // Include the database config file 
-    include '../../config/conexion.php'; 
-
-    //to prevent from mysqli injection  
     $username = stripcslashes($username);  
     $password = stripcslashes($password);  
-    $username = mysqli_real_escape_string($con, $username);  
-    $password = mysqli_real_escape_string($con, $password);  
+   // $username = mysqli_real_escape_string($bd, $username);  
+  //  $password = mysqli_real_escape_string($bd, $password);  
   
     $sql = "select * from usuario where username = '$username'";  
     $result = $db->query($sql);  

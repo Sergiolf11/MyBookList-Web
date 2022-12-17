@@ -28,7 +28,6 @@
         echo "<script>window.location='../view/perfil.php' </script>";    
     }  
     else{  
-        echo "Error: ".$sql."<br>".$mysql_error($con);  
+        echo "Error: ".$sql."<br>".$mysql_error($db);  
     }   
-    $con->close();
 ?>

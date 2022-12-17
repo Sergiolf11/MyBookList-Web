@@ -27,17 +27,11 @@
                 echo "<script>window.location='../view/perfil.php' </script>";  
             }  
             else{  
-                echo "Error: ".$sql2."<br>".$mysql_error($con);  
+                echo "Error: ".$sql2."<br>".$mysql_error($db);  
             }   
         }else{
             echo "<script>localStorage.setItem('incorrectPass','true');</script>";
             echo "<script>window.location='../view/editarPerfil.php' </script>"; 
         }
     }
-    
-
-    
-
-    
-    $con->close();
 ?>

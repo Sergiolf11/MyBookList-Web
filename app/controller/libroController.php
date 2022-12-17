@@ -37,7 +37,6 @@ include '../../config/conexion.php';
     } else {
         echo "Ese libro no existe";
     }
-    //$con->close();
 }
 
 function setToList(){

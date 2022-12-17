@@ -28,6 +28,6 @@
         echo "<script>window.location='../view/table.php'</script>";    
     }  
     else{  
-        echo "Error: ".$sql."<br>".$mysql_error($con);  
+        echo "Error: ".$sql."<br>".$mysql_error($db);  
     }   
 ?>

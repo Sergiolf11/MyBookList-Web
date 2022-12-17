@@ -92,24 +92,24 @@ $genero = stripcslashes($genero);
 $numSaga = stripcslashes($numSaga);  
 $sinopsis = stripcslashes($sinopsis);  
 
-$titulo = mysqli_real_escape_string($con, $titulo);  
-$autor = mysqli_real_escape_string($con, $autor);  
-$saga = mysqli_real_escape_string($con, $saga);  
-$genero = mysqli_real_escape_string($con, $genero);  
-$numSaga = mysqli_real_escape_string($con, $numSaga);  
-$sinopsis = mysqli_real_escape_string($con, $sinopsis);  
+$titulo = mysqli_real_escape_string($db, $titulo);  
+$autor = mysqli_real_escape_string($db, $autor);  
+$saga = mysqli_real_escape_string($db, $saga);  
+$genero = mysqli_real_escape_string($db, $genero);  
+$numSaga = mysqli_real_escape_string($db, $numSaga);  
+$sinopsis = mysqli_real_escape_string($db, $sinopsis);  
 
 if($rol=="1"){
     $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Genero, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$genero','$portada')";  
     $result = $db->query($sql);  
     if($result){  
         $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
-        $result = mysqli_query($con, $sqllibro);
+        $result = mysqli_query($db, $sqllibro);
         $row = $result->fetch_assoc();
         echo "<script>window.location='../view/libro.php?idlibro=".$row["Id_Libro"]."' </script>";    
     }  
     else{  
-        echo "Error: ".$sql."<br>".$mysql_error($con);  
+        echo "Error: ".$sql."<br>".$mysql_error($db);  
     }   
 }else if($rol=="0"){
     if(getTitulo() && getAutor()){
@@ -117,12 +117,12 @@ if($rol=="1"){
         $result = $db->query($sql);    
         if($result){  
             $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
-            $result = mysqli_query($con, $sqllibro);
+            $result = mysqli_query($db, $sqllibro);
             $row = $result->fetch_assoc();
             echo "<script>window.location='../view/libro.php?idlibro=".$row["Id_Libro"]."' </script>";    
         }  
         else{  
-            echo "Error: ".$sql."<br>".$mysql_error($con);  
+            echo "Error: ".$sql."<br>".$mysql_error($db);  
         }    
     }else{
         echo "Lo sentimos, no hemos podido encontrar ese libro";

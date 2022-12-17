@@ -11,9 +11,9 @@ session_start();
     $password = stripcslashes($password);  
     $email = stripcslashes($email);  
     
-    $username = mysqli_real_escape_string($con, $username);  
-    $password = mysqli_real_escape_string($con, $password);  
-    $email = mysqli_real_escape_string($con, $email);  
+    $username = mysqli_real_escape_string($db, $username);  
+    $password = mysqli_real_escape_string($db, $password);  
+    $email = mysqli_real_escape_string($db, $email);  
   
     $pwd=password_hash($password,PASSWORD_DEFAULT);
 
@@ -24,11 +24,11 @@ session_start();
         echo "<script>window.location='../view/register.php' </script>"; 
     }else{
         $sqlregister = "INSERT INTO usuario (Username, Password, Email) VALUES ('$username','$pwd','$email')";  
-        if(mysqli_query($con, $sqlregister)){  
+        if(mysqli_query($db, $sqlregister)){  
             echo "<script>localStorage.setItem('denegado','false');</script>";
             echo "<script>window.location='../view/login.php' </script>";    
         }else{  
-            echo "Error: ".$sql."<br>".$mysql_error($con);  
+            echo "Error: ".$sql."<br>".$mysql_error($db);  
         }
     }
 ?>
