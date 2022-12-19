@@ -25,7 +25,7 @@
     }               
     $result = $db->query($sql);  
     if($result){  
-        echo "<script>window.location='../view/home.php'</script>";    
+        echo "<script>window.location='../view/libro.php?idlibro=".$idlibro."'</script>";    
     }  
     else{  
         echo "Error: ".$sql."<br>".$mysql_error($db);  
