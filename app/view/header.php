@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="table.php">MyList <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="table.php?status=1">MyList <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="anadir.php">Añadir</a>
