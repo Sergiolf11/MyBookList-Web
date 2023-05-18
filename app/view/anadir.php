@@ -52,7 +52,7 @@
 		            </div>
 
                     <div class="form-group">
-		              <input style="height: 200px;" type="text" name="sinopsis" class="form-control" placeholder="Sinopsis" required>
+		              <textarea style="height: 200px;" type="text" id="sinopsis" name="sinopsis" class="form-control" placeholder="Sinopsis" required></textarea>
 		            </div>
 
 		            <div class="form-group">
