@@ -106,6 +106,8 @@ if($rol=="1"){
         $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
         $result = $db->query($sqllibro); 
         $row = $result->fetch_assoc();
+        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado) VALUES(".$userid.",".$row["Id_Libro"].",'Plan to Read') ON DUPLICATE KEY UPDATE Estado='Plan to Read'";
+        $db->query($sql);
         echo "<script>window.location='../view/libro.php?idlibro=".$row["Id_Libro"]."' </script>";    
     }  
     else{  
@@ -119,6 +121,8 @@ if($rol=="1"){
             $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
             $result = $db->query($sqllibro); 
             $row = $result->fetch_assoc();
+            $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado) VALUES(".$userid.",".$row["Id_Libro"].",'Plan to Read') ON DUPLICATE KEY UPDATE Estado='Plan to Read'";
+            $db->query($sql);
             echo "<script>window.location='../view/libro.php?idlibro=".$row["Id_Libro"]."' </script>";    
         }  
         else{  
