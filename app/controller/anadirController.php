@@ -88,14 +88,14 @@ include '../../config/conexion.php';
 $titulo = stripcslashes($titulo);  
 $autor = stripcslashes($autor);  
 $saga = stripcslashes($saga);  
-$genero = stripcslashes($genero);  
+//$genero = stripcslashes($genero);  
 $numSaga = stripcslashes($numSaga);  
 $sinopsis = stripcslashes($sinopsis);  
 
 $titulo = mysqli_real_escape_string($db, $titulo);  
 $autor = mysqli_real_escape_string($db, $autor);  
 $saga = mysqli_real_escape_string($db, $saga);  
-$genero = mysqli_real_escape_string($db, $genero);  
+//$genero = mysqli_real_escape_string($db, $genero);  
 $numSaga = mysqli_real_escape_string($db, $numSaga);  
 $sinopsis = mysqli_real_escape_string($db, $sinopsis);  
 

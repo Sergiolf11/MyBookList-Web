@@ -9,7 +9,7 @@ function getLibro(){
 // Include the database config file 
 include '../../config/conexion.php'; 
     $idlibro = $_GET['idlibro'];
-    $sql = "select * from libro where Id_Libro = '$idlibro'";  
+    $sql = "select * from libro l join genero g on l.Genero=g.Id_Genero where Id_Libro = '$idlibro'";  
     $result = $db->query($sql);  
 
     if ($result->num_rows > 0) {

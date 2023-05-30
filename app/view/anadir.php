@@ -44,7 +44,20 @@
 		            </div>
 
                     <div class="form-group">
-		              <input  type="text" name="genero" class="form-control" placeholder="Generos: Terror, Fantasia, Thriller" required>
+						<?php
+							include '../../config/conexion.php'; 
+							$sql = "select * from genero";
+							$result = $db->query($sql);  
+							
+							echo "<select name='genero' class='form-control'>";
+							while ($row = $result->fetch_assoc()) {
+								$id = $row['Id_Genero'];
+								$genero = $row['Genero']; 
+								echo '<option value="'.htmlspecialchars($id).'">'.htmlspecialchars($genero).'</option>';
+							}
+							echo "</select>";
+						?>
+		              <!-- <input  type="text" name="genero" class="form-control" placeholder="Generos: Terror, Fantasia, Thriller" required> -->
 		            </div>
 
 					<div class="form-group">
