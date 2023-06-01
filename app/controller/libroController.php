@@ -71,4 +71,66 @@ function printButtoms(){
     <a href='../controller/setListController.php?idLibro=".$idlibro."&status=4' ><button class='bg-danger text-white' style='width: 100% ;height:20%;border: none;'>Dropped</button></a><br><br>
     <a href='../controller/setListController.php?idLibro=".$idlibro."&status=5' ><button class='bg-secondary text-white' style='width: 100% ;height:20%;border: none;'>Plan to Read</button></a>";
 }
+
+function select(){
+    
+    include '../../config/conexion.php'; 
+    $sql = "select * from genero order by Genero ASC";
+    $result = $db->query($sql);  
+    
+    echo "<select name='genero' class='form-control'>";
+    while ($row = $result->fetch_assoc()) {
+        $id = $row['Id_Genero'];
+        $genero = $row['Genero']; 
+        echo '<option value="'.htmlspecialchars($id).'">'.htmlspecialchars($genero).'</option>';
+    }
+    echo "</select>";
+
+}
+
+function editLibro(){
+    // Include the database config file 
+    include '../../config/conexion.php'; 
+
+    $idlibro = $_GET['idlibro'];
+    echo "$idlibro ";
+    $_SESSION['idlibro'] = $idlibro;
+    $sql = "select * from libro where Id_Libro = '$idlibro'";  
+    $result = $db->query($sql);  
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC); 
+    echo "
+        <div class='form-group'>
+            <input type='text' name='titulo' placeholder='Titulo' class='form-control' required value='".$row['Titulo']."'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='autor' class='form-control' placeholder='Autor' required value='".$row['Autor']."'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='saga' class='form-control' placeholder='Saga' required value='".$row['Saga']."'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='numSaga' class='form-control' placeholder='Numero del libro dentro de la saga' required value='".$row['Num_Saga']."'>
+        </div>
+
+        <div class='form-group'>
+        ";
+        echo select();
+        echo "
+        <br>
+        <div class='form-group'>
+            <input  type='text' name='portada' class='form-control' placeholder='URL de imagen de la portada' required value='".$row['Portada']."'>
+        </div>
+
+        <div class='form-group'>
+            <textarea style='height: 200px;' type='text' id='sinopsis' name='sinopsis' class='form-control' placeholder='Sinopsis' required >".$row['Sinopsis']."</textarea>
+        </div>
+
+        <div class='form-group'>
+            <button type='submit' class='btn form-control btn-primary rounded submit px-3'>Guardar</button>
+        </div>
+    ";
+}
 ?>

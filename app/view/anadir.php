@@ -69,7 +69,7 @@
 		            </div>
 
 		            <div class="form-group">
-		            	<button type="submit" class="btn form-control btn-primary rounded submit px-3">Comprobar</button>
+		            	<button type="submit" class="btn form-control btn-primary rounded submit px-3">Guardar</button>
 		            </div>
 	          </form>
 		</div>
