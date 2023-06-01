@@ -46,7 +46,7 @@
                     <div class="form-group">
 						<?php
 							include '../../config/conexion.php'; 
-							$sql = "select * from genero";
+							$sql = "select * from genero order by Genero ASC";
 							$result = $db->query($sql);  
 							
 							echo "<select name='genero' class='form-control'>";
