@@ -57,7 +57,6 @@
 							}
 							echo "</select>";
 						?>
-		              <!-- <input  type="text" name="genero" class="form-control" placeholder="Generos: Terror, Fantasia, Thriller" required> -->
 		            </div>
 
 					<div class="form-group">
