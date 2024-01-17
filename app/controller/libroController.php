@@ -55,7 +55,19 @@ function setToList(){
     if($rol == "1"){
         echo "
         <a class='btn btn-warning text-white' href='editarLibro.php?idlibro=".$idlibro."'><i class='fa fa-edit'></i></a>
-        <a class='btn btn-danger text-white' href='notFound.php'><i class='fa fa-trash'></i></a>";
+        <a class='btn btn-danger text-white' href='#' onclick='confirmarEliminacion()'><i class='fa fa-trash'></i></a>
+        <script>
+        function confirmarEliminacion() {
+            // Muestra un cuadro de confirmación
+            var confirmacion = confirm('¿Estás seguro de que deseas eliminar?');
+
+            // Si el usuario confirma, redirige a la página de eliminación
+            if (confirmacion) {
+                window.location.href = '../controller/eliminarController.php?idLibro=".$idlibro."'; 
+            }
+            // Si el usuario cancela, no hace nada
+        }
+        </script>";
     }
     echo "
     &emsp;&emsp;&emsp;".$row["Estado"]."";
@@ -117,19 +129,19 @@ function editLibro(){
 
         <div class='form-group'>
         ";
-    $sqlGeneros  = "select * from genero order by Genero ASC";
-    $resultGeneros  = $db->query($sqlGeneros);  
-    $generos = [];
-    while ($rowGenero = $resultGeneros->fetch_assoc()) {
-        $generos[] = $rowGenero;
-    }
- 
-    echo "<select name='genero' class='form-control'>";
-    foreach ($generos as $genero) {
-        $selected = ($genero['Id_Genero'] == $row['Genero']) ? 'selected' : '';
-        echo "<option value='{$genero['Id_Genero']}' $selected>{$genero['Genero']}</option>";
-    }
-    echo "</select>";
+        $sqlGeneros  = "select * from genero order by Genero ASC";
+        $resultGeneros  = $db->query($sqlGeneros);  
+        $generos = [];
+        while ($rowGenero = $resultGeneros->fetch_assoc()) {
+            $generos[] = $rowGenero;
+        }
+    
+        echo "<select name='genero' class='form-control'>";
+        foreach ($generos as $genero) {
+            $selected = ($genero['Id_Genero'] == $row['Genero']) ? 'selected' : '';
+            echo "<option value='{$genero['Id_Genero']}' $selected>{$genero['Genero']}</option>";
+        }
+        echo "</select>";
         echo "
         <br>
         <div class='form-group'>
