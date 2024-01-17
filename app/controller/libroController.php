@@ -117,7 +117,19 @@ function editLibro(){
 
         <div class='form-group'>
         ";
-        echo select();
+    $sqlGeneros  = "select * from genero order by Genero ASC";
+    $resultGeneros  = $db->query($sqlGeneros);  
+    $generos = [];
+    while ($rowGenero = $resultGeneros->fetch_assoc()) {
+        $generos[] = $rowGenero;
+    }
+ 
+    echo "<select name='genero' class='form-control'>";
+    foreach ($generos as $genero) {
+        $selected = ($genero['Id_Genero'] == $row['Genero']) ? 'selected' : '';
+        echo "<option value='{$genero['Id_Genero']}' $selected>{$genero['Genero']}</option>";
+    }
+    echo "</select>";
         echo "
         <br>
         <div class='form-group'>
