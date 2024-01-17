@@ -8,20 +8,23 @@
     include '../../config/conexion.php'; 
     $idlibro = $_GET['idLibro'];
     $status =$_GET['status'];
+    $sql1 = "select * from usuario_libro ul join usuario u on ul.Id_User=ul.Id_User where u.Id_User = '$userid' and Id_Libro = '$idlibro'";  
+    $result1 = $db->query($sql1); 
+    $row = mysqli_fetch_array($result1, MYSQLI_ASSOC);
     if($status=="1"){
-        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado) VALUES(".$userid.",".$idlibro.",'Reading') ON DUPLICATE KEY UPDATE Estado='Reading'";
+        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado, Fecha_Inicio, Fecha_Fin) VALUES(".$userid.",".$idlibro.",'Reading',CURDATE(),'".$row['Fecha_Fin']."') ON DUPLICATE KEY UPDATE Estado='Reading', Fecha_Inicio=CURDATE()";
     }
     if($status=="2"){
-        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado) VALUES(".$userid.",".$idlibro.",'Completed') ON DUPLICATE KEY UPDATE Estado='Completed'";
+        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado, Fecha_Inicio, Fecha_Fin) VALUES(".$userid.",".$idlibro.",'Completed','".$row['Fecha_Inicio']."',CURDATE()) ON DUPLICATE KEY UPDATE Estado='Completed', Fecha_Fin=CURDATE()";
     }
     if($status=="3"){
-        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado) VALUES(".$userid.",".$idlibro.",'On Hold') ON DUPLICATE KEY UPDATE Estado='On Hold'";
+        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado, Fecha_Inicio, Fecha_Fin) VALUES(".$userid.",".$idlibro.",'On Hold','".$row['Fecha_Inicio']."','".$row['Fecha_Fin']."') ON DUPLICATE KEY UPDATE Estado='On Hold'";
     }
     if($status=="4"){
-        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado) VALUES(".$userid.",".$idlibro.",'Dropped') ON DUPLICATE KEY UPDATE Estado='Dropped'";
+        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado, Fecha_Inicio, Fecha_Fin) VALUES(".$userid.",".$idlibro.",'Dropped','".$row['Fecha_Inicio']."','".$row['Fecha_Fin']."') ON DUPLICATE KEY UPDATE Estado='Dropped'";
     }
     if($status=="5"){
-        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado) VALUES(".$userid.",".$idlibro.",'Plan to Read') ON DUPLICATE KEY UPDATE Estado='Plan to Read'";
+        $sql = "INSERT INTO usuario_libro (Id_User, Id_Libro, Estado, Fecha_Inicio, Fecha_Fin) VALUES(".$userid.",".$idlibro.",'Plan to Read','".$row['Fecha_Inicio']."','".$row['Fecha_Fin']."') ON DUPLICATE KEY UPDATE Estado='Plan to Read'";
     }               
     $result = $db->query($sql);  
     if($result){  
