@@ -18,6 +18,7 @@
 	<header>
 		<ul class="list-inline">
 			<a class='btn btn-info text-white' href="home.php" >Home</a>
+			<a class='btn btn-info text-white' href="andadir.php" >New Book</a>
 			<?php
                 require_once('../controller/libroController.php');
                 setToList();

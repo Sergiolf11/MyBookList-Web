@@ -27,7 +27,7 @@ include '../../config/conexion.php';
 			<div class='vcard-content'>
 				<h4>".$row["Titulo"]." <a href='../view/home.php?search=".$row["Autor"]."'><small>".$row["Autor"]."</small></a></h4>
                 ".$SagaNum."
-                <p><b>Generos:</b> <small>".$row["Genero"]."</small></p>
+                <p><b>Genero:</b> <a style='color: inherit; ' href='../view/home.php?genero=".$row["Id_Genero"]."'><small>".$row["Genero"]."</small></a></p>
 				<p>".$row["Sinopsis"]."</p>
 				<hr>
 			</div>
@@ -50,7 +50,7 @@ function setToList(){
     $result = $db->query($sql); 
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     echo "
-    <a class='btn btn-info text-white' href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> Añadir</a>";
+    <a class='btn btn-info text-white' href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> Estado</a>";
     //Que no muestre los botones editar y borrar si no es admin
     if($rol == "1"){
         echo "
@@ -71,8 +71,36 @@ function setToList(){
     }
     echo "
     &emsp;&emsp;&emsp;".$row["Estado"]."";
+    if($row["Estado"]=="Completed" && $row["Fecha_Inicio"] !== NULL && $row["Fecha_Inicio"] !== "0000-00-00" && $row["Fecha_Fin"] !== NULL && $row["Fecha_Fin"] !== "0000-00-00"){
+        $date1 = new DateTime($row["Fecha_Inicio"]);
+        $date2 = new DateTime($row["Fecha_Fin"] );
+
+        // Calcular la diferencia en días
+        $diferencia = $date1->diff($date2);
+
+        // Obtener el número de días de la diferencia y asegurarse de que sea al menos 1
+        $numDias = max(1, $diferencia->days);
+
+        echo "&emsp;&emsp;&emsp;Terminado en: ".$numDias." dias";
+    }else  if($row["Estado"]=="Completed" && $row["Fecha_Fin"] !== NULL && $row["Fecha_Fin"] !== "0000-00-00" ){
+        $date1 = new DateTime($row["Fecha_Fin"]);
+
+        echo "&emsp;&emsp;&emsp;Terminaste este libro el dia ".$row["Fecha_Fin"]."";
+    }else  if($row["Estado"]=="Reading" && $row["Fecha_Inicio"] !== NULL && $row["Fecha_Inicio"] !== "0000-00-00" ){
+        $date1 = new DateTime($row["Fecha_Inicio"]);
+        $date2 = new DateTime();
+
+        // Calcular la diferencia en días
+        $diferencia = $date1->diff($date2);
+
+        // Obtener el número de días de la diferencia y asegurarse de que sea al menos 1
+        $numDias = max(1, $diferencia->days);
+
+        echo "&emsp;&emsp;&emsp;Llevas: ".$numDias." dias leyendo este libro";
+    }
     //ToDo boton borrar
 }
+
 
 function printButtoms(){
     $idlibro = $_GET['idlibro'];
@@ -105,7 +133,6 @@ function editLibro(){
     include '../../config/conexion.php'; 
 
     $idlibro = $_GET['idlibro'];
-    echo "$idlibro ";
     $_SESSION['idlibro'] = $idlibro;
     $sql = "select * from libro where Id_Libro = '$idlibro'";  
     $result = $db->query($sql);  
