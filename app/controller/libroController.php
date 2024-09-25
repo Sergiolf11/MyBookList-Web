@@ -19,13 +19,34 @@ include '../../config/conexion.php';
             }else{
                 $SagaNum="<p><a id='saga' href='../view/home.php?search=".$row["Saga"]."'>".$row["Saga"]."</a> ".$row["Num_Saga"]."</p>";
             }
+
+            // Manejo de autores
+            $autores = $row["Autor"];
+            $autores_links = [];
+
+            if (strpos($autores, ',') !== false) {
+                // Si hay comas, separa los autores
+                $autores_array = explode(',', $autores);
+                foreach ($autores_array as $autor) {
+                    $autor = trim($autor); // Elimina espacios en blanco
+                    $autores_links[] = "<a href='../view/home.php?search=" . urlencode($autor) . "'><small>" . htmlspecialchars($autor) . "</small></a>";
+                }
+            } else {
+                // Si no hay comas, solo un autor
+                $autor = trim($autores);
+                $autores_links[] = "<a href='../view/home.php?search=" . urlencode($autor) . "'><small>" . htmlspecialchars($autor) . "</small></a>";
+            }
+
+            $autores_html = implode(', ', $autores_links); // Une los enlaces con comas
+
             echo "
             <br>
             <div class='vcard-img'>
 			<img src='".$row["Portada"]."' alt='' class='img-rounded img-responsive'>
 			</div>
 			<div class='vcard-content'>
-				<h4>".$row["Titulo"]." <a href='../view/home.php?search=".$row["Autor"]."'><small>".$row["Autor"]."</small></a></h4>
+
+				<h4>" . htmlspecialchars($row["Titulo"]) . " " . $autores_html . "</h4>
                 ".$SagaNum."
                 <p><b>Genero:</b> <a style='color: inherit; ' href='../view/home.php?genero=".$row["Id_Genero"]."'><small>".$row["Genero"]."</small></a></p>
 				<p>".$row["Sinopsis"]."</p>
