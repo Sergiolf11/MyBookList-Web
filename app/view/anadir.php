@@ -53,7 +53,9 @@
 							while ($row = $result->fetch_assoc()) {
 								$id = $row['Id_Genero'];
 								$genero = $row['Genero']; 
-								echo '<option value="'.htmlspecialchars($id).'">'.htmlspecialchars($genero).'</option>';
+								// Comprobar si el ID es 1 para establecerlo como seleccionado
+								$selected = ($id == 1) ? 'selected' : '';
+								echo '<option value="'.htmlspecialchars($id).'" '.$selected.'>'.htmlspecialchars($genero).'</option>';
 							}
 							echo "</select>";
 						?>
