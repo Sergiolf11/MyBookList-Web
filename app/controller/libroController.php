@@ -58,8 +58,10 @@ include '../../config/conexion.php';
                         for ($i = 1; $i <= 5; $i++) {
                             // Marcar la estrella como checked si la calificación es mayor o igual que la estrella actual
                             $checked = ($estrellasUsuario >= $i) ? "checked='checked'" : "";
+                            $starImage = ($estrellasUsuario >= $i) ? "../../public/img/estrella-activa.png" : "../../public/img/estrella-desactivada.png"; 
+
                             echo "<input type='radio' id='star$i' name='rating' value='$i' $checked onclick='saveRating($i)'>"; // Llama a saveRating() al hacer clic
-                            echo "<label for='star$i'></label>";
+                            echo "<label for='star$i' style='background-image: url($starImage);'></label>"; // Establece la imagen de fondo en la etiqueta
                         }
                     echo "</div>";
                     
