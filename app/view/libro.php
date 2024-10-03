@@ -18,7 +18,7 @@
 	<header>
 		<ul class="list-inline">
 			<a class='btn btn-info text-white' href="home.php" >Home</a>
-			<a class='btn btn-info text-white' href="andadir.php" >New Book</a>
+            <a class='btn btn-info text-white' href="anadir.php" >New Book</a>
 			<?php
                 require_once('../controller/libroController.php');
                 setToList();
@@ -36,7 +36,65 @@
 		</div>
 	</div>
 </div>                                        
-<script type="text/javascript">
+<script type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+const rateLabels = document.querySelectorAll('.rate label');
+const rateRadios = document.querySelectorAll('.rate input[type="radio"]');
+
+rateLabels.forEach((label, index) => {
+    label.addEventListener('mouseover', () => {
+        // Activa las estrellas hasta la que está siendo "hovered"
+        for (let i = index; i >= 0; i--) {
+            rateLabels[i].style.backgroundImage = "url('../../public/img/estrella-activa.png')";
+        }
+    });
+
+    label.addEventListener('mouseout', () => {
+        // Devuelve las estrellas a su estado original
+        const checkedRadio = document.querySelector('.rate input[type="radio"]:checked');
+        const checkedIndex = checkedRadio ? Array.from(rateRadios).indexOf(checkedRadio) : -1;
+
+        for (let i = 0; i < rateLabels.length; i++) {
+            if (i <= checkedIndex) {
+                rateLabels[i].style.backgroundImage = "url('../../public/img/estrella-activa.png')";
+            } else {
+                rateLabels[i].style.backgroundImage = "url('../../public/img/estrella-desactivada.png')";
+            }
+        }
+    });
+});
+
+</script>
+<script>
+// Obtener la URL actual
+const urlParams = new URLSearchParams(window.location.search);
+
+// Extraer el id_libro de la URL
+const id_libro = urlParams.get('idlibro');
+function saveRating(rating) {
+    // Hacer una solicitud AJAX para guardar la calificación
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "../controller/estrellaPost.php", true); // Cambia a la ruta correcta
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            // Aquí puedes manejar la respuesta si lo necesitas
+            document.getElementById("userRating").textContent = rating; // Actualiza la calificación mostrada
+        }
+    };
+    xhr.send("rating=" + rating+ "&id_libro=" + id_libro); // Envía la calificación al servidor
+}
+</script>
+<script>
+    const stars = document.querySelectorAll('.rate input');
+    const userRatingSpan = document.getElementById('userRating');
+
+    stars.forEach(star => {
+        star.addEventListener('change', () => {
+            userRatingSpan.textContent = star.value; // Actualiza la calificación mostrada
+        });
+    });
 </script>
 </body>
 </html>

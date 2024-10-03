@@ -5,12 +5,19 @@ session_start();
 if(!isset($_SESSION['user'])){
     header("Location:../view/login.php");
 }
+
 function getLibro(){
 // Include the database config file 
 include '../../config/conexion.php'; 
     $idlibro = $_GET['idlibro'];
+    $userid = $_SESSION['userid'];
     $sql = "select * from libro l join genero g on l.Genero=g.Id_Genero where Id_Libro = '$idlibro'";  
     $result = $db->query($sql);  
+
+    // Consulta para obtener el estado del usuario con respecto al libro
+    $sqlestado = "select * from usuario_libro ul join usuario u on ul.Id_User=ul.Id_User where u.Id_User = '$userid' and Id_Libro = '$idlibro'";  
+    $resultestado = $db->query($sqlestado); 
+    $rowestado = mysqli_fetch_array($resultestado, MYSQLI_ASSOC);
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -42,7 +49,27 @@ include '../../config/conexion.php';
             echo "
             <br>
             <div class='vcard-img'>
-			<img src='".$row["Portada"]."' alt='' class='img-rounded img-responsive'>
+			<img src='".$row["Portada"]."' alt='' class='img-rounded img-responsive'></br>";
+            if($rowestado["Estado"] == "Completed"){
+                // Aquí se asume que 'Estrellas' está en la tabla 'usuario_libro'
+                $estrellasUsuario = isset($rowestado['Estrellas']) ? $rowestado['Estrellas'] : 0;
+                echo "<div class='container'>";
+                    echo "<div class='rate'>";
+                        for ($i = 1; $i <= 5; $i++) {
+                            // Marcar la estrella como checked si la calificación es mayor o igual que la estrella actual
+                            $checked = ($estrellasUsuario >= $i) ? "checked='checked'" : "";
+                            echo "<input type='radio' id='star$i' name='rating' value='$i' $checked onclick='saveRating($i)'>"; // Llama a saveRating() al hacer clic
+                            echo "<label for='star$i'></label>";
+                        }
+                    echo "</div>";
+                    
+                    echo "<div class='overall-rating'>";
+                        echo "(Your Rating: <span id='userRating'>" . htmlspecialchars($estrellasUsuario) . "</span>)"; // Se muestra la valoración del usuario
+                    echo "</div>";
+                echo "</div>";
+
+            }
+            echo "
 			</div>
 			<div class='vcard-content'>
 

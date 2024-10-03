@@ -1,225 +1,233 @@
 <?php
-function getAll(){
-    session_start();
-    if(!isset($_SESSION['user'])){
-        header("Location:../view/login.php");
-    }
-   // Include the database config file 
-    include '../../config/conexion.php'; 
+session_start();
 
-    $search = !empty($_GET['search']) ? $_GET['search'] : "";
-    $genero = !empty($_GET['genero']) ? $_GET['genero'] : "";
 
-    $limit = 40; // Número de registros por página
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Número de la página actual
-    $offset = ($page - 1) * $limit; // Calcular el offset
-
-    // Consulta para contar el total de registros
-    $totalSql = "SELECT COUNT(*) as count FROM libro WHERE 1=1";
-    
-    
-    if (!empty($search)) {
-        $totalSql .= " AND (Titulo LIKE '%$search%' OR Autor LIKE '%$search%' OR Saga LIKE '%$search%')";
-    }
-
-    if (!empty($genero)) {
-        $totalSql .= " AND Genero = '$genero'";
-    }
-
-    $totalResult = $db->query($totalSql);
-    $totalCount = $totalResult->fetch_assoc()['count'];
-    $totalPages = ceil($totalCount / $limit); // Calcular total de páginas
-
-    /// Consulta principal
-    $sql = "SELECT * FROM libro WHERE 1=1";
-
-    if (!empty($search)) {
-        $sql .= " AND (Titulo LIKE '%$search%' OR Autor LIKE '%$search%' OR Saga LIKE '%$search%')";
-    }
-
-    if (!empty($genero)) {
-        $sql .= " AND Genero = '$genero'";
-    }
-
-    $sql .= " ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2), Saga, Num_Saga LIMIT $limit OFFSET $offset";
-
-    $result = $db->query($sql);  
-
-    echo "<div class='row'>";
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            if ($row["Num_Saga"] == 0){
-                $SagaNum="";
-            }else{
-                $SagaNum="<p class='designation'>".$row["Saga"]." ".$row["Num_Saga"]."</p>";
-            }
-            echo "
-            <div class='col-12 col-sm-6 col-lg-3'>
-            <a  href='libro.php?idlibro=".$row["Id_Libro"]."'>
-                <div class='single_advisor_profile wow fadeInUp' data-wow-delay='0.3s' style='visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;'>
-                    <div class='advisor_thumb'><img src='".$row["Portada"]."' width='200' height='300' alt=''></div>
-                    <div class='single_advisor_details_info '>
-                        <h6>".$row["Titulo"]."</h6>
-                        <p class='designation'>".$row["Autor"]."</p>
-                        ".$SagaNum."
-                    </div>
-                </div>
-                </a>
-            </div>
-            ";
-        }
-    } else {
-        echo "0 results";
-    }
-
-    // Paginación
-    echo "</div><nav aria-label='Paginación'><ul class='pagination justify-content-center'>";
-
-    // Enlace "Anterior"
-    echo "<li class='page-item " . ($page <= 1 ? 'disabled' : '') . "'>
-            <a class='page-link' href='?page=" . ($page - 1) . "&search=" . urlencode($search) . "'>Anterior</a>
-          </li>";
-
-    // Enlaces de páginas
-    for ($i = 1; $i <= $totalPages; $i++) {
-        echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'>
-                <a class='page-link' href='?page=" . $i . "&search=" . urlencode($search) . "'>" . $i . "</a>
-              </li>";
-    }
-
-    // Enlace "Siguiente"
-    echo "<li class='page-item " . ($page >= $totalPages ? 'disabled' : '') . "'>
-            <a class='page-link' href='?page=" . ($page + 1) . "&search=" . urlencode($search) . "'>Siguiente</a>
-          </li>";
-
-    echo "</ul></nav>";
+if(!isset($_SESSION['user'])){
+    header("Location:../view/login.php");
 }
 
-function getAllFromUser(){
-    session_start();
-    if(!isset($_SESSION['user'])){
-        header("Location:../view/login.php");
-    }
+function getLibro(){
+// Include the database config file 
+include '../../config/conexion.php'; 
+    $idlibro = $_GET['idlibro'];
     $userid = $_SESSION['userid'];
-    // Include the database config file 
-    include '../../config/conexion.php'; 
-    $status = !empty($_GET['status']) ? $_GET['status'] : "0";
-    $genero = !empty($_GET['genero']) ? $_GET['genero'] : "0";
-    $year = !empty($_GET['year']) ? $_GET['year'] : "0";
-
-    // Configuración de paginación
-    $limit = 40; // Número de registros por página
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Página actual
-    $offset = ($page - 1) * $limit; // Calcular offset
-
-    // Consulta para contar el total de registros
-    $totalSql = "SELECT COUNT(*) as count FROM usuario_libro ul JOIN libro l ON ul.Id_Libro=l.Id_Libro WHERE Id_User = '$userid'";
-    
-
-    if ($status !== "0") {
-        $totalSql .= " AND Estado = (CASE 
-                        WHEN '$status' = '1' THEN 'Reading'
-                        WHEN '$status' = '2' THEN 'Completed'
-                        WHEN '$status' = '3' THEN 'On Hold'
-                        WHEN '$status' = '4' THEN 'Dropped'
-                        WHEN '$status' = '5' THEN 'Plan to Read'
-                        END)";
-    }
-
-    if ($genero !== "0") {
-        $totalSql .= " AND l.Genero = '$genero'";
-    }
-
-    if ($year !== "0") {
-        $totalSql .= " AND YEAR(ul.Fecha_Fin) = '$year'";
-    }
-
-    $totalResult = $db->query($totalSql);
-    $totalCount = $totalResult->fetch_assoc()['count'];
-    $totalPages = ceil($totalCount / $limit); // Total de páginas
-
-    // Consulta principal
-    $sql = "SELECT * FROM usuario_libro ul JOIN libro l ON ul.Id_Libro=l.Id_Libro WHERE Id_User = '$userid'";
-        
-    if ($status !== "0") {
-        $sql .= " AND Estado = (CASE 
-                    WHEN '$status' = '1' THEN 'Reading'
-                    WHEN '$status' = '2' THEN 'Completed'
-                    WHEN '$status' = '3' THEN 'On Hold'
-                    WHEN '$status' = '4' THEN 'Dropped'
-                    WHEN '$status' = '5' THEN 'Plan to Read'
-                    END)";
-    }
-
-    if ($genero !== "0") {
-        $sql .= " AND l.Genero = '$genero'";
-    }
-
-    if ($year !== "0") {
-        $sql .= " AND YEAR(ul.Fecha_Fin) = '$year' ORDER BY Fecha_Fin ASC LIMIT $limit OFFSET $offset";
-    }else{
-        $sql .= " ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2), Saga, Num_Saga LIMIT $limit OFFSET $offset";
-    }
-
-
+    $sql = "select * from libro l join genero g on l.Genero=g.Id_Genero where Id_Libro = '$idlibro'";  
     $result = $db->query($sql);  
+
+    // Consulta para obtener el estado del usuario con respecto al libro
+    $sqlestado = "select * from usuario_libro ul join usuario u on ul.Id_User=ul.Id_User where u.Id_User = '$userid' and Id_Libro = '$idlibro'";  
+    $resultestado = $db->query($sqlestado); 
+    $rowestado = mysqli_fetch_array($resultestado, MYSQLI_ASSOC);
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             if ($row["Num_Saga"] == 0){
-                $SagaNum="";
+                $SagaNum="<br>";
             }else{
-                $SagaNum="<p class='designation'>".$row["Saga"]." ".$row["Num_Saga"]."</p>";
+                $SagaNum="<p><a id='saga' href='../view/home.php?search=".$row["Saga"]."'>".$row["Saga"]."</a> ".$row["Num_Saga"]."</p>";
+            }
+
+            // Manejo de autores
+            $autores = $row["Autor"];
+            $autores_links = [];
+
+            if (strpos($autores, ',') !== false) {
+                // Si hay comas, separa los autores
+                $autores_array = explode(',', $autores);
+                foreach ($autores_array as $autor) {
+                    $autor = trim($autor); // Elimina espacios en blanco
+                    $autores_links[] = "<a href='../view/home.php?search=" . urlencode($autor) . "'><small>" . htmlspecialchars($autor) . "</small></a>";
+                }
+            } else {
+                // Si no hay comas, solo un autor
+                $autor = trim($autores);
+                $autores_links[] = "<a href='../view/home.php?search=" . urlencode($autor) . "'><small>" . htmlspecialchars($autor) . "</small></a>";
+            }
+
+            $autores_html = implode(', ', $autores_links); // Une los enlaces con comas
+
+            echo "
+            <br>
+            <div class='vcard-img'>
+			<img src='".$row["Portada"]."' alt='' class='img-rounded img-responsive'></br>";
+            if($rowestado["Estado"] == "Completed"){
+                // Aquí se asume que 'Estrellas' está en la tabla 'usuario_libro'
+                $estrellasUsuario = isset($rowestado['Estrellas']) ? $rowestado['Estrellas'] : 0;
+                echo "<div class='container'>";
+                    echo "<div class='rate'>";
+                        for ($i = 1; $i <= 5; $i++) {
+                            echo "<input type='radio' id='star$i' name='rating' value='$i' " . (($estrellasUsuario >= $i) ? "checked='checked'" : "") . " onclick='saveRating($i)'>"; // Añade el onclick aquí
+                            echo "<label for='star$i'></label>";
+                        }
+                    echo "</div>";
+                    
+                    echo "<div class='overall-rating'>";
+                        echo "(Your Rating: <span id='userRating'>" . htmlspecialchars($estrellasUsuario) . "</span>)"; // Se muestra la valoración del usuario
+                    echo "</div>";
+                echo "</div>";
+
             }
             echo "
-            <div class='col-12 col-sm-6 col-lg-3'>
-            <a  href='libro.php?idlibro=".$row["Id_Libro"]."'>
-                <div class='single_advisor_profile wow fadeInUp' data-wow-delay='0.3s' style='visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;'>
-                    <div class='advisor_thumb '><img src='".$row["Portada"]."'  width='200' height='300' alt=''></div>
-                    <div class='single_advisor_details_info '>
-                        <h6>".$row["Titulo"]."</h6>
-                        <p class='designation'>".$row["Autor"]."</p>
-                        ".$SagaNum."
-                        <p>".$row["Estado"]."</p>
-                    </div>
-                </div>
-                </a>
-            </div>
-            ";
+			</div>
+			<div class='vcard-content'>
+
+				<h4>" . htmlspecialchars($row["Titulo"]) . " " . $autores_html . "</h4>
+                ".$SagaNum."
+                <p><b>Genero:</b> <a style='color: inherit; ' href='../view/home.php?genero=".$row["Id_Genero"]."'><small>".$row["Genero"]."</small></a></p>
+				<p>".$row["Sinopsis"]."</p>
+				<hr>
+			</div>
+			<!-- Clearfix -->
+			<div class='clearfix'></div>";
         }
     } else {
-        echo "Esta lista esta vacia";
+        echo "Ese libro no existe";
     }
-
-    // Paginación
-    echo "</div><nav aria-label='Paginación'><ul class='pagination justify-content-center'>";
-
-    // Enlace "Anterior"
-    echo "<li class='page-item " . ($page <= 1 ? 'disabled' : '') . "'>
-            <a class='page-link' href='?page=" . ($page - 1) . "&status=" . $status . "'>Anterior</a>
-          </li>";
-
-    // Enlaces de páginas
-    for ($i = 1; $i <= $totalPages; $i++) {
-        echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'>
-                <a class='page-link' href='?page=" . $i . "&status=" . $status . "'>" . $i . "</a>
-              </li>";
-    }
-
-    // Enlace "Siguiente"
-    echo "<li class='page-item " . ($page >= $totalPages ? 'disabled' : '') . "'>
-            <a class='page-link' href='?page=" . ($page + 1) . "&status=" . $status . "'>Siguiente</a>
-          </li>";
-
-    echo "</ul></nav>";
 }
 
-function getCount(){
+function setToList(){
     // Include the database config file 
     include '../../config/conexion.php'; 
-    $sql = "select COUNT(*) from libro";
+
+    $idlibro = $_GET['idlibro'];
+    $userid = $_SESSION['userid'];
+    $rol = $_SESSION['rol'];
+    $sql = "select * from usuario_libro ul join usuario u on ul.Id_User=ul.Id_User where u.Id_User = '$userid' and Id_Libro = '$idlibro'";  
+    $result = $db->query($sql); 
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    echo "
+    <a class='btn btn-info text-white' href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> ".$row["Estado"]."</a>";
+    //Que no muestre los botones editar y borrar si no es admin
+    if($rol == "1"){
+        echo "
+        <a class='btn btn-warning text-white' href='editarLibro.php?idlibro=".$idlibro."'><i class='fa fa-edit'></i></a>
+        <a class='btn btn-danger text-white' href='#' onclick='confirmarEliminacion()'><i class='fa fa-trash'></i></a>
+        <script>
+        function confirmarEliminacion() {
+            // Muestra un cuadro de confirmación
+            var confirmacion = confirm('¿Estás seguro de que deseas eliminar?');
+
+            // Si el usuario confirma, redirige a la página de eliminación
+            if (confirmacion) {
+                window.location.href = '../controller/eliminarController.php?idLibro=".$idlibro."'; 
+            }
+            // Si el usuario cancela, no hace nada
+        }
+        </script>";
+    }
+    echo "
+    &emsp;&emsp;&emsp;";
+    if($row["Estado"]=="Completed" && $row["Fecha_Inicio"] !== NULL && $row["Fecha_Inicio"] !== "0000-00-00" && $row["Fecha_Fin"] !== NULL && $row["Fecha_Fin"] !== "0000-00-00"){
+        $date1 = new DateTime($row["Fecha_Inicio"]);
+        $date2 = new DateTime($row["Fecha_Fin"] );
+
+        // Calcular la diferencia en días
+        $diferencia = $date1->diff($date2);
+
+        // Obtener el número de días de la diferencia y asegurarse de que sea al menos 1
+        $numDias = max(1, $diferencia->days);
+
+        echo "&emsp;&emsp;&emsp;Terminado en: ".$numDias." dias";
+    }else  if($row["Estado"]=="Completed" && $row["Fecha_Fin"] !== NULL && $row["Fecha_Fin"] !== "0000-00-00" ){
+        $date1 = new DateTime($row["Fecha_Fin"]);
+
+        echo "&emsp;&emsp;&emsp;Terminaste este libro el dia ".$row["Fecha_Fin"]."";
+    }else  if($row["Estado"]=="Reading" && $row["Fecha_Inicio"] !== NULL && $row["Fecha_Inicio"] !== "0000-00-00" ){
+        $date1 = new DateTime($row["Fecha_Inicio"]);
+        $date2 = new DateTime();
+
+        // Calcular la diferencia en días
+        $diferencia = $date1->diff($date2);
+
+        // Obtener el número de días de la diferencia y asegurarse de que sea al menos 1
+        $numDias = max(1, $diferencia->days);
+
+        echo "&emsp;&emsp;&emsp;Llevas: ".$numDias." dias leyendo este libro";
+    }
+    //ToDo boton borrar
+}
+
+
+function printButtoms(){
+    $idlibro = $_GET['idlibro'];
+    echo "
+    <a href='../controller/setListController.php?idLibro=".$idlibro."&status=1' ><button class='bg-success' style='width: 100% ;height:20%;border: none;'>Reading</button></a><br><br>
+    <a href='../controller/setListController.php?idLibro=".$idlibro."&status=2' ><button class='bg-primary' style='width: 100% ;height:20%;border: none;'>Completed</button></a><br><br>
+    <a href='../controller/setListController.php?idLibro=".$idlibro."&status=3' ><button class='bg-warning' style='width: 100% ;height:20%;border: none;'>On Hold</button></a><br><br>
+    <a href='../controller/setListController.php?idLibro=".$idlibro."&status=4' ><button class='bg-danger text-white' style='width: 100% ;height:20%;border: none;'>Dropped</button></a><br><br>
+    <a href='../controller/setListController.php?idLibro=".$idlibro."&status=5' ><button class='bg-secondary text-white' style='width: 100% ;height:20%;border: none;'>Plan to Read</button></a>";
+}
+
+function select(){
+    
+    include '../../config/conexion.php'; 
+    $sql = "select * from genero order by Genero ASC";
     $result = $db->query($sql);  
-    $data=mysqli_fetch_row($result)[0];
-    echo "<p>We currently have ".$data." books.</p>";
+    
+    echo "<select name='genero' class='form-control'>";
+    while ($row = $result->fetch_assoc()) {
+        $id = $row['Id_Genero'];
+        $genero = $row['Genero']; 
+        echo '<option value="'.htmlspecialchars($id).'">'.htmlspecialchars($genero).'</option>';
+    }
+    echo "</select>";
+
+}
+
+function editLibro(){
+    // Include the database config file 
+    include '../../config/conexion.php'; 
+
+    $idlibro = $_GET['idlibro'];
+    $_SESSION['idlibro'] = $idlibro;
+    $sql = "select * from libro where Id_Libro = '$idlibro'";  
+    $result = $db->query($sql);  
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC); 
+    echo "
+        <div class='form-group'>
+            <input type='text' name='titulo' placeholder='Titulo' class='form-control' required value='".$row['Titulo']."'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='autor' class='form-control' placeholder='Autor' required value='".$row['Autor']."'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='saga' class='form-control' placeholder='Saga' required value='".$row['Saga']."'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='numSaga' class='form-control' placeholder='Numero del libro dentro de la saga' required value='".$row['Num_Saga']."'>
+        </div>
+
+        <div class='form-group'>
+        ";
+        $sqlGeneros  = "select * from genero order by Genero ASC";
+        $resultGeneros  = $db->query($sqlGeneros);  
+        $generos = [];
+        while ($rowGenero = $resultGeneros->fetch_assoc()) {
+            $generos[] = $rowGenero;
+        }
+    
+        echo "<select name='genero' class='form-control'>";
+        foreach ($generos as $genero) {
+            $selected = ($genero['Id_Genero'] == $row['Genero']) ? 'selected' : '';
+            echo "<option value='{$genero['Id_Genero']}' $selected>{$genero['Genero']}</option>";
+        }
+        echo "</select>";
+        echo "
+        <br>
+        <div class='form-group'>
+            <input  type='text' name='portada' class='form-control' placeholder='URL de imagen de la portada' required value='".$row['Portada']."'>
+        </div>
+
+        <div class='form-group'>
+            <textarea style='height: 200px;' type='text' id='sinopsis' name='sinopsis' class='form-control' placeholder='Sinopsis' required >".$row['Sinopsis']."</textarea>
+        </div>
+
+        <div class='form-group'>
+            <button type='submit' class='btn form-control btn-primary rounded submit px-3'>Guardar</button>
+        </div>
+    ";
 }
 ?>
