@@ -71,7 +71,7 @@ function setToList(){
     $result = $db->query($sql); 
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     echo "
-    <a class='btn btn-info text-white' href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> Estado</a>";
+    <a class='btn btn-info text-white' href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> ".$row["Estado"]."</a>";
     //Que no muestre los botones editar y borrar si no es admin
     if($rol == "1"){
         echo "
@@ -91,7 +91,7 @@ function setToList(){
         </script>";
     }
     echo "
-    &emsp;&emsp;&emsp;".$row["Estado"]."";
+    &emsp;&emsp;&emsp;";
     if($row["Estado"]=="Completed" && $row["Fecha_Inicio"] !== NULL && $row["Fecha_Inicio"] !== "0000-00-00" && $row["Fecha_Fin"] !== NULL && $row["Fecha_Fin"] !== "0000-00-00"){
         $date1 = new DateTime($row["Fecha_Inicio"]);
         $date2 = new DateTime($row["Fecha_Fin"] );
