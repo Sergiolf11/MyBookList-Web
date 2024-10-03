@@ -43,6 +43,12 @@ function getSecondBox(){
     include '../../config/conexion.php'; 
     $sql = "select * from usuario_libro where Id_User='$userid'";  
     $result = $db->query($sql);   
+    // Obtener el año actual
+    $ano_actual = date("Y");
+
+    // Consulta SQL para obtener el COUNT de libros donde Fecha_Fin sea el año actual
+    $sqlcount = "select COUNT(*) AS num_libros from usuario_libro where Id_User='$userid' AND YEAR(Fecha_Fin) = YEAR(NOW())";  
+    $resultcount = $db->query($sqlcount);   
     $reading=0;
     $completed=0;
     $onHold=0;
@@ -98,7 +104,24 @@ function getSecondBox(){
             <div class='bg-secondary' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
             <p style='margin-bottom :0; float:left;'>&nbsp;  <a href='../view/table.php?status=5'>Plan to Read</a>:&nbsp;".$planToRead."</p>
         </div>
-        ";
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>";
+
+        if ($resultcount) {
+            // Obtener el resultado como un arreglo asociativo
+            $fila = $resultcount->fetch_assoc();
+
+            // Obtener el COUNT de libros
+            $numLibros = $fila['num_libros'];
+            echo "
+            
+            <a style='color: inherit;' href='../view/table.php?year=".$ano_actual."'><p>Libros leidos este año: ".$numLibros."</p></a>";
+        }else{
+            echo "".$numLibros."";
+        }
     } else {
         echo "0 results";
     }

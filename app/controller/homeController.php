@@ -6,15 +6,46 @@ function getAll(){
     }
    // Include the database config file 
     include '../../config/conexion.php'; 
-    $search = !empty($_GET['search']) ? $_GET['search'] : "0";
-    if($search=="0"){
-        $sql = "select * from libro  ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2),Saga,Num_Saga";  
-    }else{
-        $sql = "select * from libro where Titulo LIKE '%$search%' or Autor LIKE '%$search%' or Saga LIKE '%$search%' ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2),Saga,Num_Saga";  
-    }
+
+    $search = !empty($_GET['search']) ? $_GET['search'] : "";
+    $genero = !empty($_GET['genero']) ? $_GET['genero'] : "";
+
+    $limit = 40; // Número de registros por página
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Número de la página actual
+    $offset = ($page - 1) * $limit; // Calcular el offset
+
+    // Consulta para contar el total de registros
+    $totalSql = "SELECT COUNT(*) as count FROM libro WHERE 1=1";
     
+    
+    if (!empty($search)) {
+        $totalSql .= " AND (Titulo LIKE '%$search%' OR Autor LIKE '%$search%' OR Saga LIKE '%$search%')";
+    }
+
+    if (!empty($genero)) {
+        $totalSql .= " AND Genero = '$genero'";
+    }
+
+    $totalResult = $db->query($totalSql);
+    $totalCount = $totalResult->fetch_assoc()['count'];
+    $totalPages = ceil($totalCount / $limit); // Calcular total de páginas
+
+    /// Consulta principal
+    $sql = "SELECT * FROM libro WHERE 1=1";
+
+    if (!empty($search)) {
+        $sql .= " AND (Titulo LIKE '%$search%' OR Autor LIKE '%$search%' OR Saga LIKE '%$search%')";
+    }
+
+    if (!empty($genero)) {
+        $sql .= " AND Genero = '$genero'";
+    }
+
+    $sql .= " ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2), Saga, Num_Saga LIMIT $limit OFFSET $offset";
+
     $result = $db->query($sql);  
 
+    echo "<div class='row'>";
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             if ($row["Num_Saga"] == 0){
@@ -40,6 +71,28 @@ function getAll(){
     } else {
         echo "0 results";
     }
+
+    // Paginación
+    echo "</div><nav aria-label='Paginación'><ul class='pagination justify-content-center'>";
+
+    // Enlace "Anterior"
+    echo "<li class='page-item " . ($page <= 1 ? 'disabled' : '') . "'>
+            <a class='page-link' href='?page=" . ($page - 1) . "&search=" . urlencode($search) . "'>Anterior</a>
+          </li>";
+
+    // Enlaces de páginas
+    for ($i = 1; $i <= $totalPages; $i++) {
+        echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'>
+                <a class='page-link' href='?page=" . $i . "&search=" . urlencode($search) . "'>" . $i . "</a>
+              </li>";
+    }
+
+    // Enlace "Siguiente"
+    echo "<li class='page-item " . ($page >= $totalPages ? 'disabled' : '') . "'>
+            <a class='page-link' href='?page=" . ($page + 1) . "&search=" . urlencode($search) . "'>Siguiente</a>
+          </li>";
+
+    echo "</ul></nav>";
 }
 
 function getAllFromUser(){
@@ -51,21 +104,63 @@ function getAllFromUser(){
     // Include the database config file 
     include '../../config/conexion.php'; 
     $status = !empty($_GET['status']) ? $_GET['status'] : "0";
-    if($status=="0"){
-        $sql = "select * from usuario_libro ul join libro l on ul.Id_Libro=l.Id_Libro where Id_User = '$userid' ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2),Saga,Num_Saga";  
-    }else if($status=="1"){
-        $sql = "select * from usuario_libro ul join libro l on ul.Id_Libro=l.Id_Libro where Id_User = '$userid' and Estado = 'Reading' ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2),Saga,Num_Saga";  
-    }else if($status=="2"){
-        $sql = "select * from usuario_libro ul join libro l on ul.Id_Libro=l.Id_Libro where Id_User = '$userid' and Estado = 'Completed' ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2),Saga,Num_Saga";  
-    }else if($status=="3"){
-        $sql = "select * from usuario_libro ul join libro l on ul.Id_Libro=l.Id_Libro where Id_User = '$userid' and Estado = 'On Hold' ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2),Saga,Num_Saga";  
-    }else if($status=="4"){
-        $sql = "select * from usuario_libro ul join libro l on ul.Id_Libro=l.Id_Libro where Id_User = '$userid' and Estado = 'Dropped' ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2),Saga,Num_Saga";  
-    }else if($status=="5"){
-        $sql = "select * from usuario_libro ul join libro l on ul.Id_Libro=l.Id_Libro where Id_User = '$userid' and Estado = 'Plan to Read' ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2),Saga,Num_Saga";  
-    }else{
-        $sql = "select * from usuario_libro ul join libro l on ul.Id_Libro=l.Id_Libro where Id_User = '$userid'  ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2),Saga,Num_Saga";  
+    $genero = !empty($_GET['genero']) ? $_GET['genero'] : "0";
+    $year = !empty($_GET['year']) ? $_GET['year'] : "0";
+
+    // Configuración de paginación
+    $limit = 40; // Número de registros por página
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Página actual
+    $offset = ($page - 1) * $limit; // Calcular offset
+
+    // Consulta para contar el total de registros
+    $totalSql = "SELECT COUNT(*) as count FROM usuario_libro ul JOIN libro l ON ul.Id_Libro=l.Id_Libro WHERE Id_User = '$userid'";
+    
+
+    if ($status !== "0") {
+        $totalSql .= " AND Estado = (CASE 
+                        WHEN '$status' = '1' THEN 'Reading'
+                        WHEN '$status' = '2' THEN 'Completed'
+                        WHEN '$status' = '3' THEN 'On Hold'
+                        WHEN '$status' = '4' THEN 'Dropped'
+                        WHEN '$status' = '5' THEN 'Plan to Read'
+                        END)";
     }
+
+    if ($genero !== "0") {
+        $totalSql .= " AND l.Genero = '$genero'";
+    }
+
+    if ($year !== "0") {
+        $totalSql .= " AND YEAR(ul.Fecha_Fin) = '$year'";
+    }
+
+    $totalResult = $db->query($totalSql);
+    $totalCount = $totalResult->fetch_assoc()['count'];
+    $totalPages = ceil($totalCount / $limit); // Total de páginas
+
+    // Consulta principal
+    $sql = "SELECT * FROM usuario_libro ul JOIN libro l ON ul.Id_Libro=l.Id_Libro WHERE Id_User = '$userid'";
+        
+    if ($status !== "0") {
+        $sql .= " AND Estado = (CASE 
+                    WHEN '$status' = '1' THEN 'Reading'
+                    WHEN '$status' = '2' THEN 'Completed'
+                    WHEN '$status' = '3' THEN 'On Hold'
+                    WHEN '$status' = '4' THEN 'Dropped'
+                    WHEN '$status' = '5' THEN 'Plan to Read'
+                    END)";
+    }
+
+    if ($genero !== "0") {
+        $sql .= " AND l.Genero = '$genero'";
+    }
+
+    if ($year !== "0") {
+        $sql .= " AND YEAR(ul.Fecha_Fin) = '$year' ORDER BY Fecha_Fin ASC LIMIT $limit OFFSET $offset";
+    }else{
+        $sql .= " ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2), Saga, Num_Saga LIMIT $limit OFFSET $offset";
+    }
+
 
     $result = $db->query($sql);  
 
@@ -95,6 +190,28 @@ function getAllFromUser(){
     } else {
         echo "Esta lista esta vacia";
     }
+
+    // Paginación
+    echo "</div><nav aria-label='Paginación'><ul class='pagination justify-content-center'>";
+
+    // Enlace "Anterior"
+    echo "<li class='page-item " . ($page <= 1 ? 'disabled' : '') . "'>
+            <a class='page-link' href='?page=" . ($page - 1) . "&status=" . $status . "'>Anterior</a>
+          </li>";
+
+    // Enlaces de páginas
+    for ($i = 1; $i <= $totalPages; $i++) {
+        echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'>
+                <a class='page-link' href='?page=" . $i . "&status=" . $status . "'>" . $i . "</a>
+              </li>";
+    }
+
+    // Enlace "Siguiente"
+    echo "<li class='page-item " . ($page >= $totalPages ? 'disabled' : '') . "'>
+            <a class='page-link' href='?page=" . ($page + 1) . "&status=" . $status . "'>Siguiente</a>
+          </li>";
+
+    echo "</ul></nav>";
 }
 
 function getCount(){

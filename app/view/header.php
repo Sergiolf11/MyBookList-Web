@@ -14,6 +14,41 @@
       <li class="nav-item">
         <a class="nav-link" href="perfil.php">Perfil</a>
       </li>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle"
+                    type="button" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                Generos
+            </button>
+            <div class="dropdown-menu" style='min-width: max-content;' aria-labelledby="dropdownMenu1">
+                <?php
+                session_start();
+                // Include the database config file 
+                include '../../config/conexion.php'; 
+                $sqlGeneros  = "select * from genero order by Genero ASC";
+                $resultGeneros  = $db->query($sqlGeneros);  
+                $generos = [];
+                $contador = 0; // Inicializar el contador
+
+                echo '<div class="dropdown-row">'; // Abrir el primer div
+
+                while ($rowGenero = $resultGeneros->fetch_assoc()) {
+                    if ($contador % 3 == 0 && $contador > 0) {
+                        // Si el contador es divisible por 4 y no es cero, cierra y abre un nuevo div
+                        echo '</div>';
+                        echo '<div class="dropdown-row">';
+                    }
+
+                    $generos[] = $rowGenero;
+                    echo "<a class='dropdown-item' style='display: inline-block; width: 30%;' href='./home.php?genero={$rowGenero['Id_Genero']}'>{$rowGenero['Genero']}</a>";
+                    $contador++;
+                }
+
+                echo '</div>'; // Cerrar el último div
+                ?>
+            </div>
+        </div>
+    </div>
     </ul>
     <ul style="padding-left:80%;" class="navbar-nav navbar-right mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
