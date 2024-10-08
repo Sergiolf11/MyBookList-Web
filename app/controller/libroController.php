@@ -120,7 +120,7 @@ function setToList(){
         </script>";
     }
     echo "
-    &emsp;&emsp;&emsp;";
+    &emsp;";
     if($row["Estado"]=="Completed" && $row["Fecha_Inicio"] !== NULL && $row["Fecha_Inicio"] !== "0000-00-00" && $row["Fecha_Fin"] !== NULL && $row["Fecha_Fin"] !== "0000-00-00"){
         $date1 = new DateTime($row["Fecha_Inicio"]);
         $date2 = new DateTime($row["Fecha_Fin"] );
@@ -131,11 +131,11 @@ function setToList(){
         // Obtener el número de días de la diferencia y asegurarse de que sea al menos 1
         $numDias = max(1, $diferencia->days);
 
-        echo "&emsp;&emsp;&emsp;Terminado en: ".$numDias." dias";
+        echo "Terminado en: ".$numDias." dias";
     }else  if($row["Estado"]=="Completed" && $row["Fecha_Fin"] !== NULL && $row["Fecha_Fin"] !== "0000-00-00" ){
         $date1 = new DateTime($row["Fecha_Fin"]);
 
-        echo "&emsp;&emsp;&emsp;Terminaste este libro el dia ".$row["Fecha_Fin"]."";
+        echo "Terminaste este libro el dia ".$row["Fecha_Fin"]."";
     }else  if($row["Estado"]=="Reading" && $row["Fecha_Inicio"] !== NULL && $row["Fecha_Inicio"] !== "0000-00-00" ){
         $date1 = new DateTime($row["Fecha_Inicio"]);
         $date2 = new DateTime();
@@ -146,7 +146,7 @@ function setToList(){
         // Obtener el número de días de la diferencia y asegurarse de que sea al menos 1
         $numDias = max(1, $diferencia->days);
 
-        echo "&emsp;&emsp;&emsp;Llevas: ".$numDias." dias leyendo este libro";
+        echo "Llevas: ".$numDias." dias leyendo este libro";
     }
     //ToDo boton borrar
 }
