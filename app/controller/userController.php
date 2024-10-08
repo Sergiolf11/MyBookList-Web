@@ -10,27 +10,21 @@ function getFirstBox(){
     include '../../config/conexion.php'; 
     $sql = "select * from usuario where Id_User='$userid'";  
     $result = $db->query($sql);   
-   
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            if($row["Rol"]=="0"){
-                $rol="User";
-            }
-            if($row["Rol"]=="1"){
-                $rol="Mod";
-            }
-            echo "
-            <img src='".$row["FotoPerfil"]."' class='rounded-circle' width='150'>
-            <div class='mt-3'>
-              <h4>".$row["Username"]."</h4>
-              <p class='text-secondary mb-1'>Rol: ".$rol."</p>
-              <br>
-            </div>
-            ";
-        }
-    } else {
-        echo "0 results";
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    if($row["Rol"]=="0"){
+        $rol="User";
     }
+    if($row["Rol"]=="1"){
+        $rol="Mod";
+    }
+    echo "
+    <img src='".$row["FotoPerfil"]."' class='rounded-circle' width='150'>
+    <div class='mt-3'>
+        <h4>".$row["Username"]."</h4>
+        <p class='text-secondary mb-1'>Rol: ".$rol."</p>
+        <br>
+    </div>
+    ";
 }
 
 function getSecondBox(){
