@@ -173,6 +173,10 @@ function getAllFromUser(){
         $sql .= " AND l.Genero = '$genero'";
     }
 
+    if ($stars !== "0") {
+        $sql .= " AND ul.Estrellas = '$stars'";
+    }
+
     if ($year !== "0") {
         $sql .= " AND YEAR(ul.Fecha_Fin) = '$year' ORDER BY Fecha_Fin ASC LIMIT $limit OFFSET $offset";
     }else{

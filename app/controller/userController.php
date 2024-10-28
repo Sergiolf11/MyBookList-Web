@@ -43,6 +43,7 @@ function getSecondBox(){
     // Consulta SQL para obtener el COUNT de libros donde Fecha_Fin sea el año actual
     $sqlcount = "select COUNT(*) AS num_libros from usuario_libro where Id_User='$userid' AND YEAR(Fecha_Fin) = YEAR(NOW())";  
     $resultcount = $db->query($sqlcount);   
+
     $reading=0;
     $completed=0;
     $onHold=0;
@@ -73,6 +74,7 @@ function getSecondBox(){
         $pplanToRead= ($planToRead!=0) ? ($planToRead/$result->num_rows)*100 : 0;
         echo "
         <h3>Book Stats: ".$result->num_rows."</h3><br>
+
         <div class='progress'>
             <div class='progress-bar bg-success' role='progressbar' style='width: ".$preading."%' aria-valuenow='".$preading."' aria-valuemin='0' aria-valuemax='100'></div>
             <div class='progress-bar bg-primary' role='progressbar' style='width: ".$pcompleted."%' aria-valuenow='".$pcompleted."' aria-valuemin='0' aria-valuemax='100'></div>
@@ -111,7 +113,7 @@ function getSecondBox(){
             // Obtener el COUNT de libros
             $numLibros = $fila['num_libros'];
             echo "
-            
+            <a style='color: inherit;' href='../view/table.php?stars=5'><p>Libros favoritos</p></a>
             <a style='color: inherit;' href='../view/table.php?year=".$ano_actual."'><p>Libros leidos este año: ".$numLibros."</p></a>";
         }else{
             echo "".$numLibros."";
