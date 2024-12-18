@@ -83,7 +83,7 @@ include '../../config/conexion.php';
                 }
                 echo "
                 </p>
-				<p>".$row["Sinopsis"]."</p>
+				<p id='sinopsis'>".$row["Sinopsis"]."</p>
 				<hr>
 			</div>
 			<!-- Clearfix -->

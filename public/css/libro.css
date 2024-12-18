@@ -32,6 +32,11 @@ a:hover {
 }
 
 #sinopsis {
+    word-wrap: break-word; /* Rompe palabras largas */
+    overflow-wrap: break-word; /* Compatibilidad con navegadores modernos */
+    white-space: pre-wrap; /* Mantiene saltos de línea y ajusta el texto */
+    max-width: 100%; /* Asegura que no se exceda del ancho del contenedor */
+    box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
 	resize: vertical;
 }
 .rate {
@@ -226,6 +231,11 @@ a:hover {
 }
 
 #sinopsis {
+    word-wrap: break-word; /* Rompe palabras largas */
+    overflow-wrap: break-word; /* Compatibilidad con navegadores modernos */
+    white-space: pre-wrap; /* Mantiene saltos de línea y ajusta el texto */
+    max-width: 100%; /* Asegura que no se exceda del ancho del contenedor */
+    box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
 	resize: vertical;
 }
 
@@ -392,6 +402,11 @@ a:hover {
 }
 
 #sinopsis {
+    word-wrap: break-word; /* Rompe palabras largas */
+    overflow-wrap: break-word; /* Compatibilidad con navegadores modernos */
+    white-space: pre-wrap; /* Mantiene saltos de línea y ajusta el texto */
+    max-width: 100%; /* Asegura que no se exceda del ancho del contenedor */
+    box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
 	resize: vertical;
 }
 
@@ -549,4 +564,6 @@ form {
 textarea {
     word-wrap: break-word;
     overflow-wrap: break-word;
+    white-space: pre-wrap; /* Mantiene los saltos de línea, pero ajusta el texto */
+
 }
