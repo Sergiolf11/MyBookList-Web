@@ -54,8 +54,8 @@
 								$id = $row['Id_Genero'];
 								$genero = $row['Genero']; 
 								// Comprobar si el ID es 1 para establecerlo como seleccionado
-								$selected = ($id == 1) ? 'selected' : '';
-								echo '<option value="'.htmlspecialchars($id).'" '.$selected.'>'.htmlspecialchars($genero).'</option>';
+                                $selected = ($id == 1) ? 'selected' : '';
+                                echo '<option value="'.htmlspecialchars($id).'" '.$selected.'>'.htmlspecialchars($genero).'</option>';
 							}
 							echo "</select>";
 						?>
@@ -64,6 +64,14 @@
 					<div class="form-group">
 		              <input  type="text" name="portada" class="form-control" placeholder="URL de imagen de la portada" required>
 		            </div>
+
+                    <div class='form-group'>
+                        <input  type='text' name='editorial' class='form-control' placeholder='Editorial' required'>
+                    </div>
+
+                    <div class='form-group'>
+                        <input  type='text' name='idioma' class='form-control' placeholder='Idioma' required value='ES'>
+                    </div>
 
                     <div class="form-group">
 		              <textarea style="height: 200px;" type="text" id="sinopsis" name="sinopsis" class="form-control" placeholder="Sinopsis" required></textarea>

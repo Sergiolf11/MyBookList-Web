@@ -77,7 +77,12 @@ include '../../config/conexion.php';
 
 				<h4>" . htmlspecialchars($row["Titulo"]) . " " . $autores_html . "</h4>
                 ".$SagaNum."
-                <p><b>Genero:</b> <a style='color: inherit; ' href='../view/home.php?genero=".$row["Id_Genero"]."'><small>".$row["Genero"]."</small></a></p>
+                <p> <b>Genero:</b> <a style='color: inherit; ' href='../view/home.php?genero=".$row["Id_Genero"]."'><small>".$row["Genero"]."</small></a> &emsp;&emsp;&emsp;";
+                if ($row["Editorial"] != NULL){
+                    echo "<b>Editorial:</b> <a style='color: inherit; ' href='../view/home.php?editorial=".$row["Editorial"]."'><small>".$row["Editorial"]."</small></a>";
+                }
+                echo "
+                </p>
 				<p>".$row["Sinopsis"]."</p>
 				<hr>
 			</div>
@@ -218,11 +223,20 @@ function editLibro(){
             $selected = ($genero['Id_Genero'] == $row['Genero']) ? 'selected' : '';
             echo "<option value='{$genero['Id_Genero']}' $selected>{$genero['Genero']}</option>";
         }
-        echo "</select>";
         echo "
-        <br>
+            </select>
+        </div>
+        
         <div class='form-group'>
             <input  type='text' name='portada' class='form-control' placeholder='URL de imagen de la portada' required value='".$row['Portada']."'>
+        </div>
+
+        <div class='form-group'>
+            <input  type='text' name='editorial' class='form-control' placeholder='Editorial' value='".$row['Editorial']."'>
+        </div>
+
+        <div class='form-group'>
+            <input  type='text' name='idioma' class='form-control' placeholder='Idioma' required value='".$row['Idioma']."'>
         </div>
 
         <div class='form-group'>

@@ -13,6 +13,8 @@ $genero = $_POST['genero'];
 $numSaga = $_POST['numSaga'];  
 $sinopsis = $_POST['sinopsis'];  
 $portada = $_POST['portada'];  
+$editorial = $_POST['editorial'];  
+$idioma = $_POST['idioma'];  
 
 function getTitulo(){
     $cont=0;
@@ -91,6 +93,8 @@ $saga = stripcslashes($saga);
 //$genero = stripcslashes($genero);  
 $numSaga = stripcslashes($numSaga);  
 $sinopsis = stripcslashes($sinopsis);  
+$editorial = stripcslashes($editorial);  
+$idioma = stripcslashes($idioma);  
 
 $titulo = mysqli_real_escape_string($db, $titulo);  
 $autor = mysqli_real_escape_string($db, $autor);  
@@ -98,9 +102,11 @@ $saga = mysqli_real_escape_string($db, $saga);
 //$genero = mysqli_real_escape_string($db, $genero);  
 $numSaga = mysqli_real_escape_string($db, $numSaga);  
 $sinopsis = mysqli_real_escape_string($db, $sinopsis);  
+$editorial = mysqli_real_escape_string($db, $editorial);  
+$idioma = mysqli_real_escape_string($db, $idioma);  
 
 if($rol=="1"){
-    $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Genero, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$genero','$portada')";  
+    $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Genero, Portada, Editorial, Idioma) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$genero','$portada','$editorial','$idioma')";  
     $result = $db->query($sqlregister);  
     if($result){  
         $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";
@@ -115,7 +121,7 @@ if($rol=="1"){
     }   
 }else if($rol=="0"){
     if(getTitulo() && getAutor()){
-        $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Genero, Portada) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$genero','$portada')";  
+        $sqlregister = "INSERT INTO libro (Titulo, Autor, Saga, Num_Saga, Sinopsis, Genero, Portada, Editorial, Idioma) VALUES ('$titulo','$autor','$saga','$numSaga','$sinopsis','$genero','$portada','$editorial','$idioma')";  
         $result = $db->query($sqlregister);    
         if($result){  
             $sqllibro="select * from libro where Titulo = '$titulo' and Autor='$autor' and Saga='$saga'";

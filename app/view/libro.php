@@ -19,6 +19,25 @@
 		<ul class="list-inline">
 			<a class='btn btn-info text-white' href="home.php" >Home</a>
             <a class='btn btn-info text-white' href="anadir.php" >New</a>
+            <?php
+            // Obtener el rol desde la variable de entorno
+            $rol = $_SESSION['rol'];
+            // Si el rol es 1
+                // Conectar a la base de datos
+                include '../../config/conexion.php';
+                // Buscar un libro aleatorio con algún campo NULL
+                $query = "SELECT Id_Libro FROM libro WHERE Editorial IS NULL OR Portada IS NULL OR Num_Saga IS NULL OR Sinopsis IS NULL LIMIT 1";
+                $result = $db->query($query);
+                // Verificar si se encontró un libro
+                if ($row = $result->fetch_assoc()) {
+                    $idLibro = $row['Id_Libro'];
+
+                    // Mostrar el enlace solo si hay un libro con campos NULL
+                    echo "<li class='nav-item'>";
+                    echo "<a class='nav-link' href='editarLibro.php?idlibro=".$idLibro."'>Correccion</a>";
+                    echo "</li>";
+                }
+            ?>
 			<?php
                 require_once('../controller/libroController.php');
                 setToList();

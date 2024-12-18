@@ -524,4 +524,29 @@ a:hover {
 	font-size:13px;
 	color:#fff;
 	margin-right:10px;
-}     
+}  
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.form-group {
+    width: 48%; /* Los primeros campos ocuparán la mitad del ancho */
+    box-sizing: border-box;
+}
+/* Aseguramos que los dos últimos form-group no se vean afectados */
+.form-group:last-child,
+.form-group:nth-last-child(2) {
+    width: 100%; /* Los dos últimos ocupan toda la fila */
+}
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+    .form-group {
+        width: 100%; /* En pantallas pequeñas, todos los campos ocuparán todo el ancho */
+    }
+}
+textarea {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}

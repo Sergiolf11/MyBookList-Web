@@ -9,6 +9,7 @@ function getAll(){
 
     $search = !empty($_GET['search']) ? $_GET['search'] : "";
     $genero = !empty($_GET['genero']) ? $_GET['genero'] : "";
+    $editorial = !empty($_GET['editorial']) ? $_GET['editorial'] : "";
 
     $limit = 40; // Número de registros por página
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Número de la página actual
@@ -30,6 +31,12 @@ function getAll(){
         $filterData = $_GET['genero'];
     }
 
+    if (!empty($editorial)) {
+        $totalSql .= " AND Editorial = '$editorial'";
+        $filter = 'editorial';
+        $filterData = $_GET['editorial'];
+    }
+
     $totalResult = $db->query($totalSql);
     $totalCount = $totalResult->fetch_assoc()['count'];
     $totalPages = ceil($totalCount / $limit); // Calcular total de páginas
@@ -43,6 +50,10 @@ function getAll(){
 
     if (!empty($genero)) {
         $sql .= " AND Genero = '$genero'";
+    }
+
+    if (!empty($editorial)) {
+        $sql .= " AND Editorial = '$editorial'";
     }
 
     $sql .= " ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2), Saga, Num_Saga LIMIT $limit OFFSET $offset";
@@ -109,6 +120,7 @@ function getAllFromUser(){
     include '../../config/conexion.php'; 
     $status = !empty($_GET['status']) ? $_GET['status'] : "0";
     $genero = !empty($_GET['genero']) ? $_GET['genero'] : "0";
+    $editorial = !empty($_GET['Editorial']) ? $_GET['editorial'] : "0";
     $year = !empty($_GET['year']) ? $_GET['year'] : "0";
     $stars = !empty($_GET['stars']) ? $_GET['stars'] : "0";
 
@@ -138,6 +150,12 @@ function getAllFromUser(){
         $totalSql .= " AND l.Genero = '$genero'";
         $filter = 'genero';
         $filterData = $_GET['genero'];
+    }
+
+    if ($editorial !== "0") {
+        $totalSql .= " AND l.Editorial = '$editorial'";
+        $filter = 'editorial';
+        $filterData = $_GET['editorial'];
     }
 
     if ($year !== "0") {
@@ -173,6 +191,10 @@ function getAllFromUser(){
         $sql .= " AND l.Genero = '$genero'";
     }
 
+    if ($editorial !== "0") {
+        $sql .= " AND l.Editorial = '$editorial'";
+    }
+
     if ($stars !== "0") {
         $sql .= " AND ul.Estrellas = '$stars'";
     }
@@ -182,7 +204,6 @@ function getAllFromUser(){
     }else{
         $sql .= " ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2), Saga, Num_Saga LIMIT $limit OFFSET $offset";
     }
-
 
     $result = $db->query($sql);  
 

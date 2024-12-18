@@ -14,6 +14,26 @@
       <li class="nav-item">
         <a class="nav-link" href="perfil.php">Perfil</a>
       </li>
+
+        <?php
+        // Obtener el rol desde la variable de entorno
+        $rol = $_SESSION['rol'];
+        // Si el rol es 1
+            // Conectar a la base de datos
+            include '../../config/conexion.php';
+            // Buscar un libro aleatorio con algún campo NULL
+            $query = "SELECT Id_Libro FROM libro WHERE Editorial IS NULL OR Portada IS NULL OR Num_Saga IS NULL OR Sinopsis IS NULL LIMIT 1";
+            $result = $db->query($query);
+            // Verificar si se encontró un libro
+            if ($row = $result->fetch_assoc()) {
+                $idLibro = $row['Id_Libro'];
+
+                // Mostrar el enlace solo si hay un libro con campos NULL
+                echo "<li class='nav-item'>";
+                echo "<a class='nav-link' href='editarLibro.php?idlibro=".$idLibro."'>Correccion</a>";
+                echo "</li>";
+            }
+        ?>
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle"
                     type="button" id="dropdownMenu1" data-toggle="dropdown"
@@ -50,7 +70,7 @@
         </div>
     </div>
     </ul>
-    <ul style="padding-left:80%;" class="navbar-nav navbar-right mr-auto mt-2 mt-lg-0">
+    <ul style="padding-left:65%;" class="navbar-nav navbar-right mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
         <a class="nav-link"  href="../controller/logoutController.php"><span class="glyphicon glyphicon-log-out"></span> LogOut</a>
       </li>
