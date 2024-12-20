@@ -72,7 +72,9 @@ include '../../config/conexion.php';
 
             }
             echo "
-			</div>
+			</div>";
+            // SECCION DERECHA
+            echo "
 			<div class='vcard-content'>
 
 				<h4>" . htmlspecialchars($row["Titulo"]) . " " . $autores_html . "</h4>
@@ -83,6 +85,7 @@ include '../../config/conexion.php';
                 }
                 echo "
                 </p>
+                <hr>
 				<p id='sinopsis'>".$row["Sinopsis"]."</p>
 				<hr>
 			</div>
