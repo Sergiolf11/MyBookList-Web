@@ -251,4 +251,117 @@ function editLibro(){
         </div>
     ";
 }
+
+function añadirLibro(){
+    // Include the database config file 
+    include '../../config/conexion.php'; 
+
+    // Obtener el ISBN de la URL
+    $isbn = $_GET['ISBN'];
+
+    // Realizar la consulta a Open Library usando el ISBN
+    $api_url = "https://openlibrary.org/api/books?bibkeys=ISBN:$isbn&format=json&jscmd=data";
+    $response = file_get_contents($api_url);
+    
+    if ($response === false) {
+        echo "<p>Error al conectar con Open Library</p>";
+        exit;
+    }
+
+    // Decodificar la respuesta JSON
+    $data = json_decode($response, true);
+    $book_key = "ISBN:$isbn";
+
+    if (!isset($data[$book_key])) {
+        echo "<p>No se encontró información para el ISBN: $isbn</p>";
+        exit;
+    }
+    // Extraer los datos del libro desde la respuesta
+    $book = $data[$book_key];
+    $title = $book['title'] ?? '';
+    $cover = $book['cover']['large'] ?? '';
+    $publishers = isset($book['publishers']) ? implode(", ", array_column($book['publishers'], 'name')) : '';
+    $excerpt = $book['excerpt']['value'] ?? '';
+
+    // Extraer el idioma, si existe, de la respuesta de Open Library
+    $language_code = isset($book['languages']) ? $book['languages'][0] : '';
+
+    // Asignar el valor adecuado para el idioma
+    if ($language_code == 'en') {
+        $language = 'EN'; // Inglés
+    } elseif ($language_code == 'spa' || $language_code == 'es') {
+        $language = 'ES'; // Español
+    } else {
+        $language = ''; // Otros idiomas
+    }
+
+    // Extraer los autores de Open Library
+    $authors = isset($book['authors']) ? $book['authors'] : [];
+
+    // Verificar si hay autores y tomar solo el primero
+    $first_author = '';
+    if (!empty($authors)) {
+        // Tomar solo el primer autor
+        $first_author = $authors[0]['name'] ?? 'Autor no disponible';
+    }
+
+    // Mostrar el formulario con los datos obtenidos de Open Library y la base de datos (si existe)
+    echo "
+        <div class='form-group'>
+            <input type='text' name='titulo' placeholder='Titulo' class='form-control' required value='" . ($title ?: $row['Titulo']) . "'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='autor' class='form-control' placeholder='Autor' required value='" . ($first_author ?: $row['Autor']) . "'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='saga' class='form-control' placeholder='Saga' required value='" . ($title) . "'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='numSaga' class='form-control' placeholder='Numero del libro dentro de la saga' required value='0'>
+        </div>
+
+        <div class='form-group'>
+    ";
+
+    // Obtener géneros desde la base de datos
+    $sqlGeneros  = "SELECT * FROM genero ORDER BY Genero ASC";
+    $resultGeneros  = $db->query($sqlGeneros);  
+    $generos = [];
+    while ($rowGenero = $resultGeneros->fetch_assoc()) {
+        $generos[] = $rowGenero;
+    }
+
+    echo "<select name='genero' class='form-control'>";
+    foreach ($generos as $genero) {
+        $selected = ($genero['Id_Genero'] == $row['Genero']) ? 'selected' : '';
+        echo "<option value='{$genero['Id_Genero']}' $selected>{$genero['Genero']}</option>";
+    }
+    echo "</select></div>
+
+        <div class='form-group'>
+            <input type='text' name='portada' class='form-control' placeholder='URL de imagen de la portada' required value='" . ($cover ?: $row['Portada']) . "'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='editorial' class='form-control' placeholder='Editorial' value='" . ($publishers ?: $row['Editorial']) . "'>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' name='idioma' class='form-control' placeholder='Idioma' required value='" . ($language ?: 'ES') . "'>
+        </div>
+
+        <div class='form-group'>
+            <textarea style='height: 200px;' type='text' id='sinopsis' name='sinopsis' class='form-control' placeholder='Sinopsis' required >" . ($excerpt ?: $row['Sinopsis']) . "</textarea>
+        </div>
+
+        <div class='form-group'>
+            <button type='submit' class='btn form-control btn-primary rounded submit px-3'>Guardar</button>
+        </div>
+    ";
+}
+
+
 ?>
