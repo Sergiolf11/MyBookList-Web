@@ -354,7 +354,7 @@ function añadirLibro(){
         </div>
 
         <div class='form-group'>
-            <textarea style='height: 200px;' type='text' id='sinopsis' name='sinopsis' class='form-control' placeholder='Sinopsis' required >" . ($excerpt ?: $row['Sinopsis']) . "</textarea>
+            <textarea style='height: 200px;' type='text' id='sinopsis' name='sinopsis' class='form-control' placeholder='Sinopsis' >" . ($excerpt ?: $row['Sinopsis']) . "</textarea>
         </div>
 
         <div class='form-group'>
