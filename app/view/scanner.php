@@ -25,7 +25,7 @@
 	<div class="tab-content">
 		<!-- Tab Pane - Home -->
 		<div class="tab-pane fade active in" id="home">
-            <form action="../controller/añadirController.php" method="POST">
+            <form action="../controller/anadirController.php" method="POST">
                 <?php
                     require_once('../controller/libroController.php');  
                     añadirLibro();
