@@ -23,6 +23,8 @@ if (isset($_GET['ISBN'])) {
 
     // Extraer los datos necesarios
     $title = $book['title'] ?? 'Título no disponible';
+    // Si el título contiene una '/', tomamos solo la primera parte (generalmente en español)
+    $title = explode(' / ', $title)[0];
     $authors = isset($book['authors']) ? implode(", ", array_column($book['authors'], 'name')) : 'Autor no disponible';
     $cover = $book['cover']['large'] ?? 'https://via.placeholder.com/128x193?text=Sin+Imagen';
     $publishers = isset($book['publishers']) ? implode(", ", array_column($book['publishers'], 'name')) : 'Editorial desconocida';
