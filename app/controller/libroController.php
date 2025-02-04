@@ -107,6 +107,10 @@ function setToList(){
     $sql = "select * from usuario_libro ul join usuario u on ul.Id_User=ul.Id_User where u.Id_User = '$userid' and Id_Libro = '$idlibro'";  
     $result = $db->query($sql); 
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $sqlisbn = "select * from libro where Id_Libro = '$idlibro'";  
+    $resultisbn = $db->query($sqlisbn);
+    $rowisbn = mysqli_fetch_array($resultisbn, MYSQLI_ASSOC);
+
     echo "
     <a class='btn btn-info text-white' href='setList.php?idlibro=".$idlibro."' ><i class='fa fa-table'></i> ".$row["Estado"]."</a>";
     //Que no muestre los botones editar y borrar si no es admin
@@ -125,7 +129,41 @@ function setToList(){
             }
             // Si el usuario cancela, no hace nada
         }
-        </script>";
+        </script>
+        ";
+        if($rowisbn["ISBN"] == NULL){
+            echo "<button class='btn btn-info btn-sm verIsbn' onclick='añadirISBN()'>Añadir ISBN</button>";
+        }else{
+            echo "&nbsp; ISBN: ".$rowisbn["ISBN"]."";
+        }
+        echo "
+        <script>
+            function añadirISBN() {
+                Swal.fire({
+                    title: 'Ingrese el ISBN',
+                    input: 'text',
+                    inputPlaceholder: 'Escriba el ISBN aquí...',
+                    showCancelButton: true,
+                    confirmButtonText: 'Guardar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed && result.value.trim() !== '') {
+                        $.ajax({
+                            url: 'http://mybooklist.rf.gd/config/guardarIsbn.php',
+                            type: 'POST',
+                            data: { id: ".$row["Id_Libro"].", isbn: result.value },
+                            success: function(response) {
+                                Swal.fire('Guardado', response, 'success');
+                            },
+                            error: function() {
+                                Swal.fire('Error', 'No se pudo guardar en la base de datos', 'error');
+                            }
+                        });
+                    }
+                });
+            }
+        </script>
+        ";
     }
     echo "
     &emsp;";
@@ -243,7 +281,7 @@ function editLibro(){
         </div>
 
         <div class='form-group'>
-            <textarea style='height: 200px;' type='text' id='sinopsis' name='sinopsis' class='form-control' placeholder='Sinopsis' required >".$row['Sinopsis']."</textarea>
+            <textarea style='height: 200px;' type='text' id='sinopsis' name='sinopsis' class='form-control' placeholder='Sinopsis' >".$row['Sinopsis']."</textarea>
         </div>
 
         <div class='form-group'>

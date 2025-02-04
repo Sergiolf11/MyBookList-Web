@@ -28,6 +28,10 @@ if (isset($_GET['ISBN'])) {
     $authors = isset($book['authors']) ? implode(", ", array_column($book['authors'], 'name')) : 'Autor no disponible';
     $cover = $book['cover']['large'] ?? 'https://via.placeholder.com/128x193?text=Sin+Imagen';
     $publishers = isset($book['publishers']) ? implode(", ", array_column($book['publishers'], 'name')) : 'Editorial desconocida';
+    $publishers = explode(', ', $publishers)[0];
+    if($publishers == 'Debolsillo' || $publishers =='DEBOLSILLO'){
+        $publishers=' DEBOLS!LLO';
+    }
     $excerpt = $book['excerpt']['value'] ?? 'No hay resumen disponible';
 
     // Consulta en la base de datos si el libro ya existe por ISBN
@@ -39,8 +43,8 @@ if (isset($_GET['ISBN'])) {
     $result = $db->query($sql); 
 
     if ($resultisbn->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $idlibro = $row['Id_Libro'];
+        $rowisbn = $resultisbn->fetch_assoc();
+        $idlibro = $rowisbn['Id_Libro'];
         // Redirigir a libro.php con el idlibro
         header("Location: ../view/libro.php?idlibro=$idlibro");
         exit;
@@ -59,6 +63,8 @@ if (isset($_GET['ISBN'])) {
         // Redirigir a libro.php con el idlibro
     } else {
         // Redirigir a scanner.php pasándole el ISBN
+        //$title = str_replace(' ', '+', $title);
+        //echo "<script>window.location='../view/home.php?search=".$title."'</script>";   
         header("Location: ../view/scanner.php?ISBN=$isbn");
         exit;
     }
