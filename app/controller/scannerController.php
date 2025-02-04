@@ -3,6 +3,19 @@ session_start();
 include '../../config/conexion.php'; 
 if (isset($_GET['ISBN'])) {
     $isbn = $_GET['ISBN'];
+
+    // Consulta en la base de datos si el libro ya existe por ISBN
+    $sqlisbn = "select * from libro where ISBN = '$isbn'";  
+    $resultisbn = $db->query($sqlisbn);
+
+    if ($resultisbn->num_rows > 0) {
+        $rowisbn = $resultisbn->fetch_assoc();
+        $idlibro = $rowisbn['Id_Libro'];
+        // Redirigir a libro.php con el idlibro
+        header("Location: ../view/libro.php?idlibro=$idlibro");
+        exit;
+    }
+    
     $api_url = "https://openlibrary.org/api/books?bibkeys=ISBN:$isbn&format=json&jscmd=data";
 
     $response = file_get_contents($api_url);
@@ -34,9 +47,6 @@ if (isset($_GET['ISBN'])) {
     }
     $excerpt = $book['excerpt']['value'] ?? 'No hay resumen disponible';
 
-    // Consulta en la base de datos si el libro ya existe por ISBN
-    $sqlisbn = "select * from libro where ISBN = '$isbn'";  
-    $resultisbn = $db->query($sqlisbn);
 
     // Consulta en la base de datos si el libro ya existe
     $sql = "select * from libro where LOWER(Titulo) = LOWER('$title') AND LOWER(Autor) = LOWER('$authors')";  
