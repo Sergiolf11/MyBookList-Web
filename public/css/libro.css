@@ -555,6 +555,19 @@ form {
 .form-group:nth-last-child(2) {
     width: 100%; /* Los dos últimos ocupan toda la fila */
 }
+/* El tercer form-group desde el final tendrá una altura de 1px */
+.form-group:nth-last-child(3) {
+    height: 0;
+    overflow: hidden; /* Para evitar que el contenido sobresalga */
+    padding: 0; /* Opcional, para eliminar cualquier relleno interno */
+    margin: 0; /* Opcional, para evitar márgenes extra */
+}
+/* El cuarto y quinto form-group desde el final tendrán margin-bottom 0 */
+.form-group:nth-last-child(4),
+.form-group:nth-last-child(5) {
+    margin-bottom: 0;
+}
+
 /* Ajustes para pantallas pequeñas */
 @media (max-width: 768px) {
     .form-group {

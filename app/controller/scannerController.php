@@ -42,7 +42,7 @@ if (isset($_GET['ISBN'])) {
     $cover = $book['cover']['large'] ?? 'https://via.placeholder.com/128x193?text=Sin+Imagen';
     $publishers = isset($book['publishers']) ? implode(", ", array_column($book['publishers'], 'name')) : 'Editorial desconocida';
     $publishers = explode(', ', $publishers)[0];
-    if($publishers == 'Debolsillo' || $publishers =='DEBOLSILLO'){
+    if($publishers == 'Debolsillo, DEBOLSILLO'){
         $publishers=' DEBOLS!LLO';
     }
     $excerpt = $book['excerpt']['value'] ?? 'No hay resumen disponible';

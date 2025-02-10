@@ -27,6 +27,7 @@
 		<!-- Tab Pane - Home -->
 		<div class="tab-pane fade active in" id="home">
         <form action="../controller/anadirController.php" method="POST">
+                    
 		      		<div class="form-group">
 		      			<input type="text" name="titulo" placeholder="Titulo" class="form-control"  required>
 		      		</div>
@@ -71,6 +72,10 @@
 
                     <div class='form-group'>
                         <input  type='text' name='idioma' class='form-control' placeholder='Idioma' required value='ES'>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" style="display: none;" name="isbn" class="form-control" placeholder="ISBN">
                     </div>
 
                     <div class="form-group">

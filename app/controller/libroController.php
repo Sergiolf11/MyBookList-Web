@@ -180,8 +180,7 @@ function setToList(){
         echo "Terminado en: ".$numDias." dias";
     }else  if($row["Estado"]=="Completed" && $row["Fecha_Fin"] !== NULL && $row["Fecha_Fin"] !== "0000-00-00" ){
         $date1 = new DateTime($row["Fecha_Fin"]);
-
-        echo "Terminaste este libro el dia ".$row["Fecha_Fin"]."";
+        echo "Terminado el dia ".$row["Fecha_Fin"]."";
     }else  if($row["Estado"]=="Reading" && $row["Fecha_Inicio"] !== NULL && $row["Fecha_Inicio"] !== "0000-00-00" ){
         $date1 = new DateTime($row["Fecha_Inicio"]);
         $date2 = new DateTime();
@@ -281,6 +280,10 @@ function editLibro(){
         </div>
 
         <div class='form-group'>
+            <input type='text' style='display: none;' name='isbn' class='form-control' placeholder='ISBN' value='" . ($isbn ?: 'NULL') . "'>
+        </div>
+
+        <div class='form-group'>
             <textarea style='height: 200px;' type='text' id='sinopsis' name='sinopsis' class='form-control' placeholder='Sinopsis' >".$row['Sinopsis']."</textarea>
         </div>
 
@@ -317,8 +320,20 @@ function añadirLibro(){
     // Extraer los datos del libro desde la respuesta
     $book = $data[$book_key];
     $title = $book['title'] ?? '';
+    // Si el título contiene una '/', tomamos solo la primera parte (generalmente en español)
+    $title = explode(' / ', $title)[0];
+    if ($title === strtoupper($title)) {  
+        $title = ucfirst(strtolower($title));  
+    }
     $cover = $book['cover']['large'] ?? '';
     $publishers = isset($book['publishers']) ? implode(", ", array_column($book['publishers'], 'name')) : '';
+    if($publishers == 'Debolsillo, DEBOLSILLO' || $publishers == 'Debolsillo,' || $publishers == 'DEBOLSILLO' ){
+        $publishers=' DEBOLS!LLO';
+    }
+    if($publishers == 'Editorial Ivrea'){
+        $publishers='Ivrea';
+        $generoId='27';
+    }
     $excerpt = $book['excerpt']['value'] ?? '';
 
     // Extraer el idioma, si existe, de la respuesta de Open Library
@@ -374,7 +389,8 @@ function añadirLibro(){
 
     echo "<select name='genero' class='form-control'>";
     foreach ($generos as $genero) {
-        $selected = ($genero['Id_Genero'] == $row['Genero']) ? 'selected' : '';
+        $generoId = $generoId ?? $row['Genero'];
+        $selected = ($genero['Id_Genero'] == $generoId) ? 'selected' : '';
         echo "<option value='{$genero['Id_Genero']}' $selected>{$genero['Genero']}</option>";
     }
     echo "</select></div>
@@ -393,6 +409,10 @@ function añadirLibro(){
 
         <div class='form-group'>
             <textarea style='height: 200px;' type='text' id='sinopsis' name='sinopsis' class='form-control' placeholder='Sinopsis' >" . ($excerpt ?: $row['Sinopsis']) . "</textarea>
+        </div>
+
+        <div class='form-group'>
+            <input type='text' style='display: none;' name='isbn' class='form-control' placeholder='ISBN' value='" . ($isbn ?: 'NULL') . "'>
         </div>
 
         <div class='form-group'>
