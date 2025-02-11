@@ -131,10 +131,10 @@ function setToList(){
         }
         </script>
         ";
-        if($rowisbn["ISBN"] == NULL){
+        if ($rowisbn["ISBN"] == NULL) {
             echo "<button class='btn btn-info btn-sm verIsbn' onclick='añadirISBN()'>Añadir ISBN</button>";
-        }else{
-            echo "&nbsp; ISBN: ".$rowisbn["ISBN"]."";
+        } else {
+            echo "&nbsp; ISBN: " . $rowisbn["ISBN"] . "";
         }
         echo "
         <script>
@@ -143,6 +143,10 @@ function setToList(){
                     title: 'Ingrese el ISBN',
                     input: 'text',
                     inputPlaceholder: 'Escriba el ISBN aquí...',
+                    inputAttributes: {
+                        inputmode: 'numeric', // Indica al teclado del móvil que debe ser numérico
+                        pattern: '[0-9]*' // Solo permite números
+                    },
                     showCancelButton: true,
                     confirmButtonText: 'Guardar',
                     cancelButtonText: 'Cancelar'
@@ -151,7 +155,7 @@ function setToList(){
                         $.ajax({
                             url: 'http://mybooklist.rf.gd/config/guardarIsbn.php',
                             type: 'POST',
-                            data: { id: ".$row["Id_Libro"].", isbn: result.value },
+                            data: { id: " . $row["Id_Libro"] . ", isbn: result.value },
                             success: function(response) {
                                 Swal.fire('Guardado', response, 'success');
                             },
