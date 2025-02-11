@@ -35,10 +35,23 @@ if (isset($_GET['ISBN'])) {
     $book = $data[$book_key];
 
     // Extraer los datos necesarios
-    $title = $book['title'] ?? 'Título no disponible';
+    $title = $book['title'] ?? '';
     // Si el título contiene una '/', tomamos solo la primera parte (generalmente en español)
     $title = explode(' / ', $title)[0];
-    $authors = isset($book['authors']) ? implode(", ", array_column($book['authors'], 'name')) : 'Autor no disponible';
+    if ($title === strtoupper($title)) {  
+        $title = ucfirst(strtolower($title));  
+    }
+    $title=strtolower($title);
+    // Extraer los autores de Open Library
+    $authors = isset($book['authors']) ? $book['authors'] : [];
+
+    // Verificar si hay autores y tomar solo el primero
+    $first_author = '';
+    if (!empty($authors)) {
+        // Tomar solo el primer autor
+        $first_author = $authors[0]['name'] ?? 'Autor no disponible';
+    }
+    //$first_author=strtolower($first_author);
     $cover = $book['cover']['large'] ?? 'https://via.placeholder.com/128x193?text=Sin+Imagen';
     $publishers = isset($book['publishers']) ? implode(", ", array_column($book['publishers'], 'name')) : 'Editorial desconocida';
     $publishers = explode(', ', $publishers)[0];
@@ -49,7 +62,7 @@ if (isset($_GET['ISBN'])) {
 
 
     // Consulta en la base de datos si el libro ya existe
-    $sql = "select * from libro where LOWER(Titulo) = LOWER('$title') AND LOWER(Autor) = LOWER('$authors')";  
+    $sql = "select * from libro where LOWER(Titulo) = LOWER('$title') AND LOWER(Autor) = LOWER('$first_author')";  
     $result = $db->query($sql); 
 
     if ($resultisbn->num_rows > 0) {

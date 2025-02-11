@@ -325,6 +325,7 @@ function añadirLibro(){
     if ($title === strtoupper($title)) {  
         $title = ucfirst(strtolower($title));  
     }
+    
     $cover = $book['cover']['large'] ?? '';
     $publishers = isset($book['publishers']) ? implode(", ", array_column($book['publishers'], 'name')) : '';
     if($publishers == 'Debolsillo, DEBOLSILLO' || $publishers == 'Debolsillo,' || $publishers == 'DEBOLSILLO' ){
