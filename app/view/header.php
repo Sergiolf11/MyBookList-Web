@@ -22,7 +22,7 @@
             // Conectar a la base de datos
             include '../../config/conexion.php';
             // Buscar un libro aleatorio con algún campo NULL
-            $query = "SELECT Id_Libro FROM libro WHERE Editorial IS NULL OR Portada IS NULL OR Num_Saga IS NULL OR Sinopsis IS NULL LIMIT 1";
+            $query = "SELECT l.Id_Libro FROM libro l JOIN usuario_libro ul ON l.Id_Libro = ul.Id_Libro WHERE ( l.Editorial IS NULL OR l.Portada IS NULL OR l.Num_Saga IS NULL OR Sinopsis IS NULL ) AND ul.Estado != 'Plan to Read' LIMIT 1";
             $result = $db->query($query);
             // Verificar si se encontró un libro
             if ($row = $result->fetch_assoc()) {
