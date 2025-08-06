@@ -3,7 +3,8 @@ session_start();
 include '../../config/conexion.php'; 
 if (isset($_GET['ISBN'])) {
     $isbn = $_GET['ISBN'];
-
+    $_SESSION['isbn_pendiente'] = $isbn;
+    sleep(5);
     // Consulta en la base de datos si el libro ya existe por ISBN
     $sqlisbn = "select * from libro where ISBN = '$isbn'";  
     $resultisbn = $db->query($sqlisbn);
