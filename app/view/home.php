@@ -40,13 +40,13 @@
             </div> 
       
         </div><br>
-        <div class="row">
+        
           <!-- Libros-->
             <?php
                 require_once('../controller/homeController.php');  
                 getAll();
             ?>
-        </div>
+        
       </div>
 <script type="text/javascript">
 </script>

@@ -10,27 +10,21 @@ function getFirstBox(){
     include '../../config/conexion.php'; 
     $sql = "select * from usuario where Id_User='$userid'";  
     $result = $db->query($sql);   
-   
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            if($row["Rol"]=="0"){
-                $rol="User";
-            }
-            if($row["Rol"]=="1"){
-                $rol="Mod";
-            }
-            echo "
-            <img src='".$row["FotoPerfil"]."' class='rounded-circle' width='150'>
-            <div class='mt-3'>
-              <h4>".$row["Username"]."</h4>
-              <p class='text-secondary mb-1'>Rol: ".$rol."</p>
-              <br>
-            </div>
-            ";
-        }
-    } else {
-        echo "0 results";
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    if($row["Rol"]=="0"){
+        $rol="User";
     }
+    if($row["Rol"]=="1"){
+        $rol="Mod";
+    }
+    echo "
+    <img src='".$row["FotoPerfil"]."' class='rounded-circle' width='150'>
+    <div class='mt-3'>
+        <h4>".$row["Username"]."</h4>
+        <p class='text-secondary mb-1'>Rol: ".$rol."</p>
+        <br>
+    </div>
+    ";
 }
 
 function getSecondBox(){
@@ -43,6 +37,13 @@ function getSecondBox(){
     include '../../config/conexion.php'; 
     $sql = "select * from usuario_libro where Id_User='$userid'";  
     $result = $db->query($sql);   
+    // Obtener el año actual
+    $ano_actual = date("Y");
+
+    // Consulta SQL para obtener el COUNT de libros donde Fecha_Fin sea el año actual
+    $sqlcount = "select COUNT(*) AS num_libros from usuario_libro where Id_User='$userid' AND YEAR(Fecha_Fin) = YEAR(NOW())";  
+    $resultcount = $db->query($sqlcount);   
+
     $reading=0;
     $completed=0;
     $onHold=0;
@@ -73,6 +74,7 @@ function getSecondBox(){
         $pplanToRead= ($planToRead!=0) ? ($planToRead/$result->num_rows)*100 : 0;
         echo "
         <h3>Book Stats: ".$result->num_rows."</h3><br>
+
         <div class='progress'>
             <div class='progress-bar bg-success' role='progressbar' style='width: ".$preading."%' aria-valuenow='".$preading."' aria-valuemin='0' aria-valuemax='100'></div>
             <div class='progress-bar bg-primary' role='progressbar' style='width: ".$pcompleted."%' aria-valuenow='".$pcompleted."' aria-valuemin='0' aria-valuemax='100'></div>
@@ -98,7 +100,24 @@ function getSecondBox(){
             <div class='bg-secondary' style='float:left; width: 15px; height: 15px; border-radius: 50%;'>&nbsp;</div>
             <p style='margin-bottom :0; float:left;'>&nbsp;  <a href='../view/table.php?status=5'>Plan to Read</a>:&nbsp;".$planToRead."</p>
         </div>
-        ";
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>";
+
+        if ($resultcount) {
+            // Obtener el resultado como un arreglo asociativo
+            $fila = $resultcount->fetch_assoc();
+
+            // Obtener el COUNT de libros
+            $numLibros = $fila['num_libros'];
+            echo "
+            <a style='color: inherit;' href='../view/table.php?stars=5'><p>Libros favoritos</p></a>
+            <a style='color: inherit;' href='../view/table.php?year=".$ano_actual."'><p>Libros leidos este año: ".$numLibros."</p></a>";
+        }else{
+            echo "".$numLibros."";
+        }
     } else {
         echo "0 results";
     }

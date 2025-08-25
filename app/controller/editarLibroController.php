@@ -14,8 +14,10 @@
     $numSaga = $_POST['numSaga'];  
     $sinopsis = $_POST['sinopsis'];  
     $portada = $_POST['portada'];  
+    $editorial = $_POST['editorial'];  
+    $idioma = $_POST['idioma']; 
     
-    $sql = "UPDATE libro SET Titulo='$titulo',Saga='$saga',Autor='$autor',Genero='$genero',Num_Saga='$numSaga',Sinopsis='$sinopsis',Portada='$portada' WHERE Id_Libro = ".$idlibro."";
+    $sql = "UPDATE libro SET Titulo='$titulo',Saga='$saga',Autor='$autor',Genero='$genero',Num_Saga='$numSaga',Sinopsis='$sinopsis',Portada='$portada',Editorial='$editorial',Idioma='$idioma' WHERE Id_Libro = ".$idlibro."";
                 
     $result = $db->query($sql);  
     if($result){  
