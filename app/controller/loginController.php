@@ -19,37 +19,38 @@ session_start();
 
 include '../../config/conexion.php'; 
 
-$username = $_POST['username'] ?? '';
-$password = $_POST['password'] ?? '';
+$username = $_POST['username'];  
+$password = $_POST['password'];  
 
-// Prepared statement evitando get_result (compatibilidad sin mysqlnd)
-$stmt = $db->prepare("SELECT Id_User, Username, Password, Rol, Email, FotoPerfil FROM usuario WHERE Username = ?");
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$stmt->store_result();
+$username = stripcslashes($username);  
+$password = stripcslashes($password);  
 
-$id = $uname = $hash = $rol = $email = $foto = null;
-$stmt->bind_result($id, $uname, $hash, $rol, $email, $foto);
-$rowFound = $stmt->fetch();
+$sql = "select * from usuario where username = '$username'";  
+$result = $db->query($sql);  
+$row = mysqli_fetch_array($result, MYSQLI_ASSOC); 
+$isbn = $_SESSION['isbn_pendiente'];
+    echo "<script>console.log('ISBN pendiente: \"$isbn\"');</script>";
 
-if ($rowFound && password_verify($password, $hash)) {
-    session_regenerate_id(true);
-    $_SESSION['userid'] = $id;
-    $_SESSION['user'] = $uname;
-    $_SESSION['rol'] = $rol;
-    $_SESSION['email'] = $email;
-    $_SESSION['fotoPerfil'] = $foto;
 
+if(password_verify($password,$row["Password"])){
+    $_SESSION['userid'] = $row["Id_User"];
+    $_SESSION['user'] = $row["Username"];
+    $_SESSION['rol'] = $row["Rol"];
+    $_SESSION['email'] = $row["Email"];
+    $_SESSION['fotoPerfil'] = $row["FotoPerfil"];
+    // Redirección con control de acceso desde localStorage
+    echo "<script>localStorage.setItem('denegado','false');</script>";
+    
     if (isset($_SESSION['isbn_pendiente'])) {
         $isbn = $_SESSION['isbn_pendiente'];
-        unset($_SESSION['isbn_pendiente']);
-        header("Location: ../controller/scannerController.php?ISBN=" . urlencode($isbn));
-        exit;
+        echo "<script>console.log('ISBN pendiente: \"$isbn\"');</script>";
+        unset($_SESSION['isbn_pendiente']); // Limpia para que no redirija siempre
+        echo "<script>window.location.href = '../controller/scannerController.php?ISBN=$isbn';</script>";
+    }else{
+        echo "<script>window.location='../view/home.php'</script>";  
     }
-    header("Location: ../view/home.php");
-    exit;
-} else {
-    header("Location: ../view/login.php?denegado=1");
-    exit;
+} else {  
+    echo "<script>localStorage.setItem('denegado','true');</script>";
+    echo "<script>window.location='../view/login.php'</script>"; 
 }
 ?>
