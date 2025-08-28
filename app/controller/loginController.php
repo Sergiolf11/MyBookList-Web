@@ -22,20 +22,23 @@ include '../../config/conexion.php';
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
 
-// Prepared statement para evitar SQLi
-$stmt = $db->prepare("SELECT * FROM usuario WHERE Username = ?");
+// Prepared statement evitando get_result (compatibilidad sin mysqlnd)
+$stmt = $db->prepare("SELECT Id_User, Username, Password, Rol, Email, FotoPerfil FROM usuario WHERE Username = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
+$stmt->store_result();
 
-if ($row && password_verify($password, $row["Password"])) {
+$id = $uname = $hash = $rol = $email = $foto = null;
+$stmt->bind_result($id, $uname, $hash, $rol, $email, $foto);
+$rowFound = $stmt->fetch();
+
+if ($rowFound && password_verify($password, $hash)) {
     session_regenerate_id(true);
-    $_SESSION['userid'] = $row["Id_User"];
-    $_SESSION['user'] = $row["Username"];
-    $_SESSION['rol'] = $row["Rol"];
-    $_SESSION['email'] = $row["Email"];
-    $_SESSION['fotoPerfil'] = $row["FotoPerfil"];
+    $_SESSION['userid'] = $id;
+    $_SESSION['user'] = $uname;
+    $_SESSION['rol'] = $rol;
+    $_SESSION['email'] = $email;
+    $_SESSION['fotoPerfil'] = $foto;
 
     if (isset($_SESSION['isbn_pendiente'])) {
         $isbn = $_SESSION['isbn_pendiente'];
