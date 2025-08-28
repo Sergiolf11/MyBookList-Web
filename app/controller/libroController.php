@@ -153,7 +153,7 @@ function setToList(){
                 }).then((result) => {
                     if (result.isConfirmed && result.value.trim() !== '') {
                         $.ajax({
-                            url: 'http://mybooklist.rf.gd/config/guardarIsbn.php',
+                            url: 'https://mybooklist.rf.gd/config/guardarIsbn.php',
                             type: 'POST',
                             data: { id: " . $row["Id_Libro"] . ", isbn: result.value },
                             success: function(response) {
