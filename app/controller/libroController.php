@@ -9,14 +9,18 @@ if(!isset($_SESSION['user'])){
 function getLibro(){
 // Include the database config file 
 include '../../config/conexion.php'; 
-    $idlibro = $_GET['idlibro'];
+    $idlibro = isset($_GET['idlibro']) ? (int)$_GET['idlibro'] : 0;
     $userid = $_SESSION['userid'];
-    $sql = "select * from libro l join genero g on l.Genero=g.Id_Genero where Id_Libro = '$idlibro'";  
-    $result = $db->query($sql);  
+    $stmt = $db->prepare("select * from libro l join genero g on l.Genero=g.Id_Genero where Id_Libro = ?");
+    $stmt->bind_param("i", $idlibro);
+    $stmt->execute();
+    $result = $stmt->get_result();  
 
     // Consulta para obtener el estado del usuario con respecto al libro
-    $sqlestado = "select * from usuario_libro ul join usuario u on ul.Id_User=ul.Id_User where u.Id_User = '$userid' and Id_Libro = '$idlibro'";  
-    $resultestado = $db->query($sqlestado); 
+    $stmtEstado = $db->prepare("select * from usuario_libro ul join usuario u on ul.Id_User=ul.Id_User where u.Id_User = ? and Id_Libro = ?");
+    $stmtEstado->bind_param("ii", $userid, $idlibro);
+    $stmtEstado->execute();
+    $resultestado = $stmtEstado->get_result(); 
     $rowestado = mysqli_fetch_array($resultestado, MYSQLI_ASSOC);
 
     if ($result->num_rows > 0) {
@@ -24,7 +28,8 @@ include '../../config/conexion.php';
             if ($row["Num_Saga"] == 0){
                 $SagaNum="<br>";
             }else{
-                $SagaNum="<p><a id='saga' href='../view/home.php?search=".$row["Saga"]."'>".$row["Saga"]."</a> ".$row["Num_Saga"]."</p>";
+                $SagaSafe = htmlspecialchars($row["Saga"], ENT_QUOTES, 'UTF-8');
+                $SagaNum="<p><a id='saga' href='../view/home.php?search=".urlencode($row["Saga"])."'>".$SagaSafe."</a> ".$row["Num_Saga"]."</p>";
             }
 
             // Manejo de autores
@@ -46,6 +51,7 @@ include '../../config/conexion.php';
 
             $autores_html = implode(', ', $autores_links); // Une los enlaces con comas
 
+            $tituloSafe = htmlspecialchars($row["Titulo"], ENT_QUOTES, 'UTF-8');
             echo "
             <br>
             <div class='vcard-img'>
@@ -77,16 +83,16 @@ include '../../config/conexion.php';
             echo "
 			<div class='vcard-content'>
 
-				<h4>" . htmlspecialchars($row["Titulo"]) . " " . $autores_html . "</h4>
+				<h4>" . $tituloSafe . " " . $autores_html . "</h4>
                 ".$SagaNum."
-                <p> <b>Genero:</b> <a style='color: inherit; ' href='../view/home.php?genero=".$row["Id_Genero"]."'><small>".$row["Genero"]."</small></a> &emsp;&emsp;&emsp;";
+                <p> <b>Genero:</b> <a style='color: inherit; ' href='../view/home.php?genero=".$row["Id_Genero"]."'><small>".htmlspecialchars($row["Genero"], ENT_QUOTES, 'UTF-8')."</small></a> &emsp;&emsp;&emsp;";
                 if ($row["Editorial"] != NULL){
-                    echo "<b>Editorial:</b> <a style='color: inherit; ' href='../view/home.php?editorial=".$row["Editorial"]."'><small>".$row["Editorial"]."</small></a>";
+                    echo "<b>Editorial:</b> <a style='color: inherit; ' href='../view/home.php?editorial=".urlencode($row["Editorial"])."'><small>".htmlspecialchars($row["Editorial"], ENT_QUOTES, 'UTF-8')."</small></a>";
                 }
                 echo "
                 </p>
                 <hr>
-				<p id='sinopsis'>".$row["Sinopsis"]."</p>
+				<p id='sinopsis'>".htmlspecialchars($row["Sinopsis"], ENT_QUOTES, 'UTF-8')."</p>
 				<hr>
 			</div>
 			<!-- Clearfix -->
@@ -153,7 +159,7 @@ function setToList(){
                 }).then((result) => {
                     if (result.isConfirmed && result.value.trim() !== '') {
                         $.ajax({
-                            url: 'https://mybooklist.rf.gd/config/guardarIsbn.php',
+                            url: '../../config/guardarIsbn.php',
                             type: 'POST',
                             data: { id: " . $row["Id_Libro"] . ", isbn: result.value },
                             success: function(response) {
@@ -302,11 +308,16 @@ function añadirLibro(){
     include '../../config/conexion.php'; 
 
     // Obtener el ISBN de la URL
-    $isbn = $_GET['ISBN'];
+    $isbn = isset($_GET['ISBN']) ? preg_replace('/[^0-9Xx-]/', '', $_GET['ISBN']) : '';
 
     // Realizar la consulta a Open Library usando el ISBN
     $api_url = "https://openlibrary.org/api/books?bibkeys=ISBN:$isbn&format=json&jscmd=data";
-    $response = file_get_contents($api_url);
+    $context = stream_context_create([
+        'http' => [
+            'timeout' => 5
+        ]
+    ]);
+    $response = @file_get_contents($api_url, false, $context);
     
     if ($response === false) {
         echo "<p>Error al conectar con Open Library</p>";
@@ -318,7 +329,7 @@ function añadirLibro(){
     $book_key = "ISBN:$isbn";
 
     if (!isset($data[$book_key])) {
-        echo "<p>No se encontró información para el ISBN: $isbn</p>";
+        echo "<p>No se encontró información para el ISBN: ".htmlspecialchars($isbn, ENT_QUOTES, 'UTF-8')."</p>";
         exit;
     }
     // Extraer los datos del libro desde la respuesta

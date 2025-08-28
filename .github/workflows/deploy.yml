@@ -1,0 +1,52 @@
+name: Deploy to InfinityFree
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+jobs:
+  deploy-master:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to MASTER domain
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.3
+        with:
+          server: ${{ secrets.FTP_SERVER_MASTER }}
+          username: ${{ secrets.FTP_USERNAME_MASTER }}
+          password: ${{ secrets.FTP_PASSWORD_MASTER }}
+          server-dir: ${{ secrets.FTP_PATH_MASTER }}
+          local-dir: ./        # Carpeta raíz del repo
+          exclude: |
+            .git
+            .github
+            tests
+            *.yml
+            *.yaml
+
+  deploy-develop:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to DEVELOP domain
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.3
+        with:
+          server: ${{ secrets.FTP_SERVER_DEV }}
+          username: ${{ secrets.FTP_USERNAME_DEV }}
+          password: ${{ secrets.FTP_PASSWORD_DEV }}
+          server-dir: ${{ secrets.FTP_PATH_DEV }}
+          local-dir: ./        # Carpeta raíz del repo
+          exclude: |
+            .git
+            .github
+            tests
+            *.yml
+            *.yaml
