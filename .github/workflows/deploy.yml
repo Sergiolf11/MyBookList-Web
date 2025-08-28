@@ -14,6 +14,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Create conexion.php for MASTER
+        run: |
+          mkdir -p config
+          cat > config/conexion.php <<'PHP'
+          <?php
+              $host     = '${{ secrets.DB_HOST_MASTER }}';
+              $bbdd     = '${{ secrets.DB_NAME_MASTER }}';
+              $user     = '${{ secrets.DB_USER_MASTER }}';
+              $password = '${{ secrets.DB_PASS_MASTER }}';
+              $charset  = 'utf8mb4';
+              $db = new mysqli($host, $user, $password, $bbdd);
+              $db->set_charset('utf8');
+              if ($db->connect_error) { die('Connection failed'); }
+          ?>
+          PHP
+
       - name: Deploy to MASTER domain
         uses: SamKirkland/FTP-Deploy-Action@v4.3.3
         with:
@@ -35,6 +51,22 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Create conexion.php for DEV
+        run: |
+          mkdir -p config
+          cat > config/conexion.php <<'PHP'
+          <?php
+              $host     = '${{ secrets.DB_HOST_DEV }}';
+              $bbdd     = '${{ secrets.DB_NAME_DEV }}';
+              $user     = '${{ secrets.DB_USER_DEV }}';
+              $password = '${{ secrets.DB_PASS_DEV }}';
+              $charset  = 'utf8mb4';
+              $db = new mysqli($host, $user, $password, $bbdd);
+              $db->set_charset('utf8');
+              if ($db->connect_error) { die('Connection failed'); }
+          ?>
+          PHP
 
       - name: Deploy to DEVELOP domain
         uses: SamKirkland/FTP-Deploy-Action@v4.3.3
