@@ -16,7 +16,7 @@
         });
     </script>
 </head>
-<body class="bg-light">
+<body class="bg-light" data-theme="light">
 <div id="header"></div>
 <div class="container">
         <div class="row justify-content-center">
@@ -49,6 +49,34 @@
         
       </div>
 <script type="text/javascript">
+</script>
+
+<script>
+// Sincronizar el tema entre body y navbar cuando se carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    // Aplicar tema guardado al body
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+    
+    // Sincronizar con navbar cuando se carga
+    setTimeout(() => {
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            navbar.setAttribute('data-theme', savedTheme);
+        }
+    }, 100);
+});
+
+// Escuchar cambios de tema para sincronizar
+window.addEventListener('themeChanged', function(event) {
+    const newTheme = event.detail.theme;
+    document.body.setAttribute('data-theme', newTheme);
+    
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        navbar.setAttribute('data-theme', newTheme);
+    }
+});
 </script>
 </body>
 <script>

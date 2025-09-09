@@ -1,34 +1,38 @@
 <?php 
 session_start();
-    $username = $_POST['username'];  
-    $password = $_POST['password'];  
-    $email = $_POST['email'];  
+    $username = $_POST['username'] ?? '';  
+    $password = $_POST['password'] ?? '';  
+    $email = $_POST['email'] ?? '';  
     // Include the database config file 
     include '../../config/conexion.php'; 
 
-    //to prevent from mysqli injection  
-    $username = stripcslashes($username);  
-    $password = stripcslashes($password);  
-    $email = stripcslashes($email);  
-    
-    $username = mysqli_real_escape_string($db, $username);  
-    $password = mysqli_real_escape_string($db, $password);  
-    $email = mysqli_real_escape_string($db, $email);  
-  
-    $pwd=password_hash($password,PASSWORD_DEFAULT);
+    if ($username === '' || $password === '' || $email === '') {
+        header("Location: ../view/register.php?denegado=1");
+        exit;
+    }
 
-    $sql="select * from usuario where Email='$email' or Username='$username'";
-    $result = $db->query($sql);  
-    if($result->num_rows > 0){
-        echo "<script>localStorage.setItem('denegado','true');</script>";
-        echo "<script>window.location='../view/register.php' </script>"; 
-    }else{
-        $sqlregister = "INSERT INTO usuario (Username, Password, Email) VALUES ('$username','$pwd','$email')";  
-        if(mysqli_query($db, $sqlregister)){  
-            echo "<script>localStorage.setItem('denegado','false');</script>";
-            echo "<script>window.location='../view/login.php' </script>";    
-        }else{  
-            echo "Error: ".$sql."<br>".$mysql_error($db);  
-        }
+    $pwd = password_hash($password, PASSWORD_DEFAULT);
+
+    // Verificar duplicados con prepared statement
+    $stmt = $db->prepare("SELECT 1 FROM usuario WHERE Email = ? OR Username = ?");
+    $stmt->bind_param("ss", $email, $username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        header("Location: ../view/register.php?denegado=1");
+        exit;
+    }
+
+    // Insertar usuario
+    $insert = $db->prepare("INSERT INTO usuario (Username, Password, Email) VALUES (?, ?, ?)");
+    $insert->bind_param("sss", $username, $pwd, $email);
+
+    if ($insert->execute()) {
+        header("Location: ../view/login.php?registro=ok");
+        exit;
+    } else {
+        header("Location: ../view/register.php?error=1");
+        exit;
     }
 ?>

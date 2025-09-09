@@ -32,7 +32,7 @@ $isbn = $_SESSION['isbn_pendiente'];
     echo "<script>console.log('ISBN pendiente: \"$isbn\"');</script>";
 
 
-if(password_verify($password,$row["Password"])){  
+if(password_verify($password,$row["Password"])){
     $_SESSION['userid'] = $row["Id_User"];
     $_SESSION['user'] = $row["Username"];
     $_SESSION['rol'] = $row["Rol"];
