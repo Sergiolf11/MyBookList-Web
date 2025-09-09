@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="../../public/img/ico1.ico">
     <link rel="stylesheet" href="../../public/css/libro.css">
+    <!-- Theme Switcher CSS -->
+    <link rel="stylesheet" href="../../public/css/themes.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
+<body data-theme="dark">
                         
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="v-card">
@@ -88,6 +90,17 @@
 	          </form>
 		</div>
 	</div>
-</div>                                        
+</div>
+
+<!-- Theme Switcher JS -->
+<script src="../../public/js/theme-switcher.js"></script>
+
+<script>
+// Sincronizar el tema cuando se carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.setAttribute('data-theme', savedTheme);
+});
+</script>
 </body>
 </html>

@@ -327,3 +327,93 @@ body {
   color: var(--text-secondary) !important;
 }
 
+/* Modo oscuro para añadir.php - mismo fondo que libro.php */
+[data-theme="dark"] .form-control {
+  background-color: #121212 !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .form-control:focus {
+  background-color: #121212 !important;
+  border-color: var(--border-accent) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 0 0 0.2rem var(--hover-shadow) !important;
+}
+
+[data-theme="dark"] .form-control::placeholder {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .btn-primary {
+  background-color: var(--text-accent) !important;
+  border-color: var(--text-accent) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  background-color: var(--border-accent) !important;
+  border-color: var(--border-accent) !important;
+}
+
+[data-theme="dark"] .form-group label {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] header h3 {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] header ul li a {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] header ul li.active a {
+  color: var(--text-accent) !important;
+}
+
+/* Modo oscuro para setList.php - estilos para botones de estado */
+[data-theme="dark"] .btn-danger {
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-danger:hover {
+  background-color: #c82333 !important;
+  border-color: #bd2130 !important;
+}
+
+[data-theme="dark"] .btn-secondary {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background-color: #5a6268 !important;
+  border-color: #545b62 !important;
+}
+
+[data-theme="dark"] .btn-warning {
+  background-color: #ffc107 !important;
+  border-color: #ffc107 !important;
+  color: #212529 !important;
+}
+
+[data-theme="dark"] .btn-warning:hover {
+  background-color: #e0a800 !important;
+  border-color: #d39e00 !important;
+}
+
+[data-theme="dark"] .btn-success {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-success:hover {
+  background-color: #218838 !important;
+  border-color: #1e7e34 !important;
+}
+
