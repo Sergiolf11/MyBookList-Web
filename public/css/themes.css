@@ -15,17 +15,17 @@
 
 [data-theme="dark"] {
   /* Tema oscuro */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #2d2d2d;
-  --bg-card: #2d2d2d;
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #21262d;
   --bg-card-top: #0056b3;
-  --text-primary: #ffffff;
-  --text-secondary: #b0b0b0;
-  --text-accent: #4da6ff;
-  --border-color: #404040;
-  --border-accent: #4da6ff;
-  --shadow: rgba(0, 0, 0, 0.3);
-  --hover-shadow: rgba(77, 166, 255, 0.3);
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-accent: #58a6ff;
+  --border-color: #30363d;
+  --border-accent: #58a6ff;
+  --shadow: rgba(0, 0, 0, 0.4);
+  --hover-shadow: rgba(88, 166, 255, 0.4);
 }
 
 /* Aplicar variables a elementos existentes */
