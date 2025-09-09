@@ -78,6 +78,9 @@ window.addEventListener('themeChanged', function(event) {
     }
 });
 </script>
+
+<!-- Sidebar JS -->
+<script src="../../public/js/sidebar.js"></script>
 </body>
 <script>
     function busqueda() {

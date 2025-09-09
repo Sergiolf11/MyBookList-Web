@@ -108,42 +108,4 @@
 <script src="../../public/js/theme-switcher.js"></script>
 
 <!-- Sidebar JS -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sidebarToggle = document.querySelector('.sidebar-toggle');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-    const sidebarClose = document.querySelector('.sidebar-close');
-
-    // Abrir sidebar
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.add('open');
-            sidebarOverlay.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        });
-    }
-
-    // Cerrar sidebar
-    function closeSidebar() {
-        sidebar.classList.remove('open');
-        sidebarOverlay.classList.remove('show');
-        document.body.style.overflow = '';
-    }
-
-    if (sidebarClose) {
-        sidebarClose.addEventListener('click', closeSidebar);
-    }
-
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', closeSidebar);
-    }
-
-    // Cerrar con tecla Escape
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
-            closeSidebar();
-        }
-    });
-});
-</script>
+<script src="../../public/js/sidebar.js"></script>

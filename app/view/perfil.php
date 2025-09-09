@@ -61,6 +61,9 @@ $(function(){
 <!-- Theme Switcher JS -->
 <script src="../../public/js/theme-switcher.js"></script>
 
+<!-- Sidebar JS -->
+<script src="../../public/js/sidebar.js"></script>
+
 <script>
 // Sincronizar el tema entre body y navbar cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
