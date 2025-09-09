@@ -9,13 +9,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../../public/css/buscar.css">
+    <!-- Theme Switcher CSS -->
+    <link rel="stylesheet" href="../../public/css/themes.css">
     <script> 
     $(function(){
         $("#header").load("header.php"); 
     });
 </script>
 </head>
-<body>
+<body class="bg-light" data-theme="dark">
 <div id="header"></div>
 <div class="container">
     <div class="row justify-content-center">
@@ -68,6 +70,44 @@
     </div>
 </div>
 <script type="text/javascript">
+</script>
+
+<!-- Theme Switcher JS -->
+<script src="../../public/js/theme-switcher.js"></script>
+
+<!-- Sidebar JS -->
+<script src="../../public/js/sidebar.js"></script>
+
+<script>
+// Sincronizar el tema entre body y navbar cuando se carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    // Aplicar tema guardado al body
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.setAttribute('data-theme', savedTheme);
+    
+    // Sincronizar con navbar cuando se carga
+    setTimeout(() => {
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            navbar.setAttribute('data-theme', savedTheme);
+        }
+        // Intentar crear el botón de tema después de cargar el header
+        if (window.themeSwitcher) {
+            window.themeSwitcher.createToggleButton();
+        }
+    }, 500);
+});
+
+// Escuchar cambios de tema para sincronizar
+window.addEventListener('themeChanged', function(event) {
+    const newTheme = event.detail.theme;
+    document.body.setAttribute('data-theme', newTheme);
+    
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        navbar.setAttribute('data-theme', newTheme);
+    }
+});
 </script>
 </body>
 </html>

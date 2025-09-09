@@ -1,7 +1,7 @@
 // Theme Switcher
 class ThemeSwitcher {
     constructor() {
-        this.currentTheme = localStorage.getItem('theme') || 'light';
+        this.currentTheme = localStorage.getItem('theme') || 'dark';
         this.init();
     }
 
@@ -14,6 +14,9 @@ class ThemeSwitcher {
         
         // Escuchar cambios de tema
         this.listenForThemeChanges();
+        
+        // Observar cambios en el DOM para detectar contenido cargado dinámicamente
+        this.observeDOMChanges();
     }
 
     createToggleButton() {
@@ -46,6 +49,33 @@ class ThemeSwitcher {
         // Event listener para el botón
         toggleBtn.addEventListener('click', () => {
             this.toggleTheme();
+        });
+    }
+
+    observeDOMChanges() {
+        // Crear un observer para detectar cambios en el DOM
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList') {
+                    // Verificar si se agregó contenido al navbar
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            // Si se cargó el header dinámicamente, crear el botón
+                            if (node.querySelector && node.querySelector('.navbar-nav')) {
+                                setTimeout(() => {
+                                    this.createToggleButton();
+                                }, 100);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        // Observar cambios en el body
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
         });
     }
 

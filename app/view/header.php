@@ -1,7 +1,13 @@
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" data-theme="light">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" data-theme="dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+  
+  <!-- Botón del menú lateral -->
+  <button class="sidebar-toggle" type="button" aria-label="Abrir menú lateral">
+    <i class="fa fa-bars"></i>
+  </button>
+  
   <a class="navbar-brand" href="home.php">Home</a>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -77,10 +83,32 @@
     </ul>
   </div>
 </nav>
+
+<!-- Menú lateral -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h4>Menú</h4>
+    <button class="sidebar-close" type="button" aria-label="Cerrar menú lateral">
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+  <div class="sidebar-content">
+    <!-- Contenido del menú lateral - vacío por ahora -->
+    <p>Contenido del menú lateral</p>
+  </div>
+</div>
+
 <br><br><br>
+
+<!-- Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!-- Theme Switcher CSS -->
 <link rel="stylesheet" href="../../public/css/themes.css">
 
 <!-- Theme Switcher JS -->
 <script src="../../public/js/theme-switcher.js"></script>
+
+<!-- Sidebar JS -->
+<script src="../../public/js/sidebar.js"></script>

@@ -15,13 +15,13 @@
 
 [data-theme="dark"] {
   /* Tema oscuro */
-  --bg-primary: #0d1117;
-  --bg-secondary: #161b22;
-  --bg-card: #21262d;
+  --bg-primary: #1f2021;
+  --bg-secondary: #121212;
+  --bg-card: #121212;
   --bg-card-top: #0056b3;
   --text-primary: #f0f6fc;
   --text-secondary: #8b949e;
-  --text-accent: #58a6ff;
+  --text-accent: #3289ff;
   --border-color: #30363d;
   --border-accent: #58a6ff;
   --shadow: rgba(0, 0, 0, 0.4);
@@ -180,5 +180,342 @@ body {
 .single_advisor_profile .single_advisor_details_info {
   background-color: var(--bg-card) !important;
   color: var(--text-primary) !important;
+}
+
+/* Modo oscuro para libro.php - cambiar fondos blancos a #121212 */
+[data-theme="dark"] body {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .v-card {
+  background-color: #121212 !important;
+}
+
+[data-theme="dark"] .v-card .tab-content {
+  background-color: #121212 !important;
+}
+
+[data-theme="dark"] .v-card .vcard-content {
+  background-color: #121212 !important;
+  color: var(--text-primary) !important;
+}
+
+/* Modo oscuro para perfil.php - cambiar tarjetas de Bootstrap */
+[data-theme="dark"] .card {
+  background-color: #121212 !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card-body {
+  background-color: #121212 !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .btn-info {
+  background-color: var(--text-accent) !important;
+  border-color: var(--text-accent) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-info:hover {
+  background-color: var(--border-accent) !important;
+  border-color: var(--border-accent) !important;
+}
+
+/* Modo oscuro para table.php - aplicar mismos colores que home.php */
+[data-theme="dark"] .list-group {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .contact-group {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .page-people-directory {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .navbar.bg-light {
+  background-color: #121212 !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .nav-tabs {
+  background-color: #121212 !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .nav-tabs .nav-link {
+  color: var(--text-primary) !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+[data-theme="dark"] .nav-tabs .nav-link:hover {
+  color: var(--text-accent) !important;
+  background-color: var(--bg-secondary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .nav-tabs .nav-link.active {
+  color: var(--text-accent) !important;
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-accent) var(--border-accent) var(--bg-card) !important;
+}
+
+[data-theme="dark"] .section_heading h3 {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .section_heading p {
+  color: var(--text-secondary) !important;
+}
+
+/* Modo oscuro para perfil.php - mismo fondo que libro.php */
+[data-theme="dark"] .main-body {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .gutters-sm {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .bg-gray-300 {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .card h4,
+[data-theme="dark"] .card h5,
+[data-theme="dark"] .card h6 {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card p,
+[data-theme="dark"] .card span,
+[data-theme="dark"] .card small {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .card .text-muted {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .card .text-center {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .d-flex {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .flex-column {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .align-items-center {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .text-center h4,
+[data-theme="dark"] .card .text-center h5,
+[data-theme="dark"] .card .text-center h6 {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .text-center p {
+  color: var(--text-secondary) !important;
+}
+
+/* Modo oscuro para añadir.php - mismo fondo que libro.php */
+[data-theme="dark"] .form-control {
+  background-color: #121212 !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .form-control:focus {
+  background-color: #121212 !important;
+  border-color: var(--border-accent) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 0 0 0.2rem var(--hover-shadow) !important;
+}
+
+[data-theme="dark"] .form-control::placeholder {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .btn-primary {
+  background-color: var(--text-accent) !important;
+  border-color: var(--text-accent) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  background-color: var(--border-accent) !important;
+  border-color: var(--border-accent) !important;
+}
+
+[data-theme="dark"] .form-group label {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] header h3 {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] header ul li a {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] header ul li.active a {
+  color: var(--text-accent) !important;
+}
+
+/* Modo oscuro para setList.php - estilos para botones de estado */
+[data-theme="dark"] .btn-danger {
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-danger:hover {
+  background-color: #c82333 !important;
+  border-color: #bd2130 !important;
+}
+
+[data-theme="dark"] .btn-secondary {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background-color: #5a6268 !important;
+  border-color: #545b62 !important;
+}
+
+[data-theme="dark"] .btn-warning {
+  background-color: #ffc107 !important;
+  border-color: #ffc107 !important;
+  color: #212529 !important;
+}
+
+[data-theme="dark"] .btn-warning:hover {
+  background-color: #e0a800 !important;
+  border-color: #d39e00 !important;
+}
+
+[data-theme="dark"] .btn-success {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-success:hover {
+  background-color: #218838 !important;
+  border-color: #1e7e34 !important;
+}
+
+/* Estilos para el menú lateral */
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-right: 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-accent);
+}
+
+.sidebar-toggle:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+  display: none;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: var(--bg-card);
+  border-right: 1px solid var(--border-color);
+  z-index: 1050;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar-overlay.show {
+  display: block;
+}
+
+.sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-header h4 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.sidebar-close {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-close:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-accent);
+}
+
+.sidebar-close:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.sidebar-content {
+  padding: 1rem;
+  color: var(--text-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 280px;
+    left: -280px;
+  }
 }
 
