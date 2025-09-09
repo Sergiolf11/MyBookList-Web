@@ -1,16 +1,14 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" data-theme="dark">
-  <div class="navbar-nav d-flex flex-row">
-    <!-- Botón de menú lateral como primer elemento -->
-    <button class="navbar-toggler sidebar-toggle" type="button" id="sidebarToggle" aria-label="Abrir menú lateral">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <a class="navbar-brand" href="home.php">Home</a>
-  </div>
-  
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+  
+  <!-- Botón del menú lateral -->
+  <button class="sidebar-toggle" type="button" aria-label="Abrir menú lateral">
+    <i class="fa fa-bars"></i>
+  </button>
+  
+  <a class="navbar-brand" href="home.php">Home</a>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
@@ -90,17 +88,14 @@
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <h5>Menú</h5>
-    <button class="sidebar-close" id="sidebarClose">&times;</button>
+    <h4>Menú</h4>
+    <button class="sidebar-close" type="button" aria-label="Cerrar menú lateral">
+      <i class="fa fa-times"></i>
+    </button>
   </div>
   <div class="sidebar-content">
-    <ul class="sidebar-menu">
-      <li><a href="home.php"><i class="fa fa-home"></i> Inicio</a></li>
-      <li><a href="table.php?status=1"><i class="fa fa-list"></i> Mi Lista</a></li>
-      <li><a href="anadir.php"><i class="fa fa-plus"></i> Añadir Libro</a></li>
-      <li><a href="perfil.php"><i class="fa fa-user"></i> Perfil</a></li>
-      <li><a href="../controller/logoutController.php"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
-    </ul>
+    <!-- Contenido del menú lateral - vacío por ahora -->
+    <p>Contenido del menú lateral</p>
   </div>
 </div>
 
@@ -115,25 +110,25 @@
 <!-- Sidebar JS -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
     const sidebar = document.getElementById('sidebar');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
-    const sidebarClose = document.getElementById('sidebarClose');
+    const sidebarClose = document.querySelector('.sidebar-close');
 
-    // Abrir menú lateral
+    // Abrir sidebar
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', function() {
             sidebar.classList.add('open');
             sidebarOverlay.classList.add('show');
-            document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+            document.body.style.overflow = 'hidden';
         });
     }
 
-    // Cerrar menú lateral
+    // Cerrar sidebar
     function closeSidebar() {
         sidebar.classList.remove('open');
         sidebarOverlay.classList.remove('show');
-        document.body.style.overflow = ''; // Restaurar scroll del body
+        document.body.style.overflow = '';
     }
 
     if (sidebarClose) {
