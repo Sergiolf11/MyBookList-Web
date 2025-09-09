@@ -94,8 +94,67 @@
     </button>
   </div>
   <div class="sidebar-content">
-    <!-- Contenido del menú lateral - vacío por ahora -->
-    <p>Contenido del menú lateral</p>
+    <!-- Sección de Géneros -->
+    <div class="sidebar-section">
+      <h5 class="sidebar-section-title">
+        <i class="fa fa-tags"></i> Géneros
+      </h5>
+      <div class="sidebar-list" id="sidebarGenres">
+        <!-- Los géneros se cargarán dinámicamente -->
+        <div class="loading-text">Cargando géneros...</div>
+      </div>
+    </div>
+
+    <!-- Sección de Idiomas -->
+    <div class="sidebar-section">
+      <h5 class="sidebar-section-title">
+        <i class="fa fa-globe"></i> Idiomas
+      </h5>
+      <div class="sidebar-list" id="sidebarLanguages">
+        <a href="?idioma=ES" class="sidebar-link">
+          <i class="fa fa-flag"></i> Español
+        </a>
+        <a href="?idioma=EN" class="sidebar-link">
+          <i class="fa fa-flag"></i> Inglés
+        </a>
+        <a href="?idioma=FR" class="sidebar-link">
+          <i class="fa fa-flag"></i> Francés
+        </a>
+        <a href="?idioma=DE" class="sidebar-link">
+          <i class="fa fa-flag"></i> Alemán
+        </a>
+        <a href="?idioma=IT" class="sidebar-link">
+          <i class="fa fa-flag"></i> Italiano
+        </a>
+        <a href="?idioma=PT" class="sidebar-link">
+          <i class="fa fa-flag"></i> Portugués
+        </a>
+      </div>
+    </div>
+
+    <!-- Sección de Filtros Rápidos -->
+    <div class="sidebar-section">
+      <h5 class="sidebar-section-title">
+        <i class="fa fa-filter"></i> Filtros Rápidos
+      </h5>
+      <div class="sidebar-list">
+        <a href="table.php?status=1" class="sidebar-link">
+          <i class="fa fa-book-open"></i> Leyendo
+        </a>
+        <a href="table.php?status=2" class="sidebar-link">
+          <i class="fa fa-check-circle"></i> Completados
+        </a>
+        <a href="table.php?status=5" class="sidebar-link">
+          <i class="fa fa-bookmark"></i> Por Leer
+        </a>
+        <a href="table.php?status=3" class="sidebar-link">
+          <i class="fa fa-pause-circle"></i> En Pausa
+        </a>
+        <a href="table.php?status=4" class="sidebar-link">
+          <i class="fa fa-times-circle"></i> Abandonados
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 

@@ -10,10 +10,12 @@ class SidebarManager {
             document.addEventListener('DOMContentLoaded', () => {
                 this.setupSidebar();
                 this.observeDOMChanges();
+                this.loadGenres();
             });
         } else {
             this.setupSidebar();
             this.observeDOMChanges();
+            this.loadGenres();
         }
     }
 
@@ -115,6 +117,53 @@ class SidebarManager {
             sidebarOverlay.classList.remove('show');
             document.body.style.overflow = '';
         }
+    }
+
+    loadGenres() {
+        const genresContainer = document.getElementById('sidebarGenres');
+        if (!genresContainer) {
+            return;
+        }
+
+        // Hacer petición AJAX para obtener los géneros
+        fetch('../../app/controller/getGenres.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.genres) {
+                    this.renderGenres(data.genres);
+                } else {
+                    this.showGenresError();
+                }
+            })
+            .catch(error => {
+                console.error('Error cargando géneros:', error);
+                this.showGenresError();
+            });
+    }
+
+    renderGenres(genres) {
+        const genresContainer = document.getElementById('sidebarGenres');
+        if (!genresContainer) return;
+
+        genresContainer.innerHTML = '';
+        
+        genres.forEach(genre => {
+            const link = document.createElement('a');
+            link.href = `home.php?genero=${genre.Id_Genero}`;
+            link.className = 'sidebar-link';
+            link.innerHTML = `
+                <i class="fa fa-tag"></i>
+                ${genre.Genero}
+            `;
+            genresContainer.appendChild(link);
+        });
+    }
+
+    showGenresError() {
+        const genresContainer = document.getElementById('sidebarGenres');
+        if (!genresContainer) return;
+
+        genresContainer.innerHTML = '<div class="loading-text">Error cargando géneros</div>';
     }
 }
 
