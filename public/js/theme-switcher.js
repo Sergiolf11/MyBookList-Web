@@ -9,22 +9,74 @@ class ThemeSwitcher {
         // Aplicar tema guardado
         this.applyTheme(this.currentTheme);
         
-        // Configurar botón toggle existente
-        this.setupToggleButton();
+        // Crear botón toggle si no existe
+        this.createToggleButton();
         
         // Escuchar cambios de tema
         this.listenForThemeChanges();
+        
+        // Observar cambios en el DOM para detectar contenido cargado dinámicamente
+        this.observeDOMChanges();
     }
 
-    setupToggleButton() {
-        // Buscar el botón toggle existente
-        const toggleBtn = document.querySelector('.theme-toggle');
-        if (toggleBtn) {
-            // Event listener para el botón
-            toggleBtn.addEventListener('click', () => {
-                this.toggleTheme();
-            });
+    createToggleButton() {
+        // Buscar si ya existe el botón
+        if (document.querySelector('.theme-toggle')) {
+            return;
         }
+
+        // Crear botón toggle
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'theme-toggle';
+        toggleBtn.setAttribute('aria-label', 'Cambiar tema');
+        toggleBtn.innerHTML = `
+            <i class="fa fa-sun-o sun-icon" aria-hidden="true"></i>
+            <i class="fa fa-moon-o moon-icon" aria-hidden="true"></i>
+        `;
+
+        // Buscar el navbar para insertar el botón
+        const navbar = document.querySelector('.navbar-nav');
+        if (navbar) {
+            // Insertar antes del LogOut
+            const logoutLink = navbar.querySelector('a[href*="logout"]');
+            if (logoutLink) {
+                logoutLink.parentNode.insertBefore(toggleBtn, logoutLink);
+            } else {
+                navbar.appendChild(toggleBtn);
+            }
+        }
+
+        // Event listener para el botón
+        toggleBtn.addEventListener('click', () => {
+            this.toggleTheme();
+        });
+    }
+
+    observeDOMChanges() {
+        // Crear un observer para detectar cambios en el DOM
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList') {
+                    // Verificar si se agregó contenido al navbar
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            // Si se cargó el header dinámicamente, crear el botón
+                            if (node.querySelector && node.querySelector('.navbar-nav')) {
+                                setTimeout(() => {
+                                    this.createToggleButton();
+                                }, 100);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        // Observar cambios en el body
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
     }
 
     toggleTheme() {

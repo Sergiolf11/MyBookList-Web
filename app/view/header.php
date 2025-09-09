@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" data-theme="dark"></nav>
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" data-theme="dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -14,12 +14,7 @@
       <li class="nav-item">
         <a class="nav-link" href="perfil.php">Perfil</a>
       </li>
-      <li class="nav-item">
-        <button class="nav-link theme-toggle" aria-label="Cambiar tema">
-          <i class="fa fa-sun-o sun-icon" aria-hidden="true"></i>
-          <i class="fa fa-moon-o moon-icon" aria-hidden="true"></i>
-        </button>
-      </li>
+
         <?php
         // Obtener el rol desde la variable de entorno
         $rol = $_SESSION['rol'];

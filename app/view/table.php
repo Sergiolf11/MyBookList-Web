@@ -88,7 +88,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (navbar) {
             navbar.setAttribute('data-theme', savedTheme);
         }
-    }, 100);
+        // Intentar crear el botón de tema después de cargar el header
+        if (window.themeSwitcher) {
+            window.themeSwitcher.createToggleButton();
+        }
+    }, 500);
 });
 
 // Escuchar cambios de tema para sincronizar
