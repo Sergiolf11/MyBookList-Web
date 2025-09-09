@@ -15,7 +15,7 @@
         <a class="nav-link" href="perfil.php">Perfil</a>
       </li>
       <li class="nav-item">
-        <button class="theme-toggle" aria-label="Cambiar tema">
+        <button class="nav-link theme-toggle" aria-label="Cambiar tema">
           <i class="fa fa-sun-o sun-icon" aria-hidden="true"></i>
           <i class="fa fa-moon-o moon-icon" aria-hidden="true"></i>
         </button>
