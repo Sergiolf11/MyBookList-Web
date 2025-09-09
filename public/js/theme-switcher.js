@@ -9,44 +9,22 @@ class ThemeSwitcher {
         // Aplicar tema guardado
         this.applyTheme(this.currentTheme);
         
-        // Crear botón toggle si no existe
-        this.createToggleButton();
+        // Configurar botón toggle existente
+        this.setupToggleButton();
         
         // Escuchar cambios de tema
         this.listenForThemeChanges();
     }
 
-    createToggleButton() {
-        // Buscar si ya existe el botón
-        if (document.querySelector('.theme-toggle')) {
-            return;
+    setupToggleButton() {
+        // Buscar el botón toggle existente
+        const toggleBtn = document.querySelector('.theme-toggle');
+        if (toggleBtn) {
+            // Event listener para el botón
+            toggleBtn.addEventListener('click', () => {
+                this.toggleTheme();
+            });
         }
-
-        // Crear botón toggle
-        const toggleBtn = document.createElement('button');
-        toggleBtn.className = 'theme-toggle';
-        toggleBtn.setAttribute('aria-label', 'Cambiar tema');
-        toggleBtn.innerHTML = `
-            <i class="fa fa-sun-o sun-icon" aria-hidden="true"></i>
-            <i class="fa fa-moon-o moon-icon" aria-hidden="true"></i>
-        `;
-
-        // Buscar el navbar para insertar el botón
-        const navbar = document.querySelector('.navbar-nav');
-        if (navbar) {
-            // Insertar antes del LogOut
-            const logoutLink = navbar.querySelector('a[href*="logout"]');
-            if (logoutLink) {
-                logoutLink.parentNode.insertBefore(toggleBtn, logoutLink);
-            } else {
-                navbar.appendChild(toggleBtn);
-            }
-        }
-
-        // Event listener para el botón
-        toggleBtn.addEventListener('click', () => {
-            this.toggleTheme();
-        });
     }
 
     toggleTheme() {

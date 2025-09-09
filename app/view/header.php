@@ -72,6 +72,12 @@
     </ul>
     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
       <li class="nav-item">
+        <button class="theme-toggle" aria-label="Cambiar tema">
+          <i class="fa fa-sun-o sun-icon" aria-hidden="true"></i>
+          <i class="fa fa-moon-o moon-icon" aria-hidden="true"></i>
+        </button>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="../controller/logoutController.php"><span class="glyphicon glyphicon-log-out"></span> LogOut</a>
       </li>
     </ul>
