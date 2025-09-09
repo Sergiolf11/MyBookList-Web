@@ -16,7 +16,7 @@
         });
     </script>
 </head>
-<body class="bg-light" data-theme="light">
+<body class="bg-light" data-theme="dark">
 <div id="header"></div>
 <div class="container">
         <div class="row justify-content-center">
@@ -55,7 +55,7 @@
 // Sincronizar el tema entre body y navbar cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
     // Aplicar tema guardado al body
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     document.body.setAttribute('data-theme', savedTheme);
     
     // Sincronizar con navbar cuando se carga

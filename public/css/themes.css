@@ -15,13 +15,13 @@
 
 [data-theme="dark"] {
   /* Tema oscuro */
-  --bg-primary: #0d1117;
-  --bg-secondary: #161b22;
-  --bg-card: #21262d;
+  --bg-primary: #1f2021;
+  --bg-secondary: #121212;
+  --bg-card: #121212;
   --bg-card-top: #0056b3;
   --text-primary: #f0f6fc;
   --text-secondary: #8b949e;
-  --text-accent: #58a6ff;
+  --text-accent: #3289ff;
   --border-color: #30363d;
   --border-accent: #58a6ff;
   --shadow: rgba(0, 0, 0, 0.4);
@@ -180,5 +180,150 @@ body {
 .single_advisor_profile .single_advisor_details_info {
   background-color: var(--bg-card) !important;
   color: var(--text-primary) !important;
+}
+
+/* Modo oscuro para libro.php - cambiar fondos blancos a #121212 */
+[data-theme="dark"] body {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .v-card {
+  background-color: #121212 !important;
+}
+
+[data-theme="dark"] .v-card .tab-content {
+  background-color: #121212 !important;
+}
+
+[data-theme="dark"] .v-card .vcard-content {
+  background-color: #121212 !important;
+  color: var(--text-primary) !important;
+}
+
+/* Modo oscuro para perfil.php - cambiar tarjetas de Bootstrap */
+[data-theme="dark"] .card {
+  background-color: #121212 !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card-body {
+  background-color: #121212 !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .btn-info {
+  background-color: var(--text-accent) !important;
+  border-color: var(--text-accent) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .btn-info:hover {
+  background-color: var(--border-accent) !important;
+  border-color: var(--border-accent) !important;
+}
+
+/* Modo oscuro para table.php - aplicar mismos colores que home.php */
+[data-theme="dark"] .list-group {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .contact-group {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .page-people-directory {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .navbar.bg-light {
+  background-color: #121212 !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .nav-tabs {
+  background-color: #121212 !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .nav-tabs .nav-link {
+  color: var(--text-primary) !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+[data-theme="dark"] .nav-tabs .nav-link:hover {
+  color: var(--text-accent) !important;
+  background-color: var(--bg-secondary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .nav-tabs .nav-link.active {
+  color: var(--text-accent) !important;
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-accent) var(--border-accent) var(--bg-card) !important;
+}
+
+[data-theme="dark"] .section_heading h3 {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .section_heading p {
+  color: var(--text-secondary) !important;
+}
+
+/* Modo oscuro para perfil.php - mismo fondo que libro.php */
+[data-theme="dark"] .main-body {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .gutters-sm {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .bg-gray-300 {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .card h4,
+[data-theme="dark"] .card h5,
+[data-theme="dark"] .card h6 {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card p,
+[data-theme="dark"] .card span,
+[data-theme="dark"] .card small {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .card .text-muted {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .card .text-center {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .d-flex {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .flex-column {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .align-items-center {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .text-center h4,
+[data-theme="dark"] .card .text-center h5,
+[data-theme="dark"] .card .text-center h6 {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .text-center p {
+  color: var(--text-secondary) !important;
 }
 

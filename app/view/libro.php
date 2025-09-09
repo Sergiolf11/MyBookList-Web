@@ -12,8 +12,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- AJAX -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="../../public/css/libro.css">
+	<!-- Theme Switcher CSS -->
+	<link rel="stylesheet" href="../../public/css/themes.css">
 </head>
-<body>
+<body data-theme="dark">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="v-card">
 	<!-- Header -->
@@ -117,6 +119,17 @@ function saveRating(rating) {
             userRatingSpan.textContent = star.value; // Actualiza la calificación mostrada
         });
     });
+</script>
+
+<!-- Theme Switcher JS -->
+<script src="../../public/js/theme-switcher.js"></script>
+
+<script>
+// Sincronizar el tema cuando se carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.setAttribute('data-theme', savedTheme);
+});
 </script>
 </body>
 </html>
