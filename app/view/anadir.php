@@ -5,9 +5,11 @@
     <title>MyBookList</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="../../public/img/ico1.ico">
-    <link rel="stylesheet" href="../../public/css/libro.css">
-    <!-- Theme Switcher CSS -->
-    <link rel="stylesheet" href="../../public/css/themes.css">
+	<link rel="stylesheet" href="../../public/css/libro.css">
+	<!-- Font Awesome CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Theme Switcher CSS -->
+	<link rel="stylesheet" href="../../public/css/themes.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -15,7 +17,6 @@
 </head>
 <body data-theme="dark">
                         
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="v-card">
 	<!-- Header -->
 	<header>
