@@ -40,40 +40,6 @@
                 echo "</li>";
             }
         ?>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle"
-                    type="button" id="dropdownMenu1" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                Generos
-            </button>
-            <div class="dropdown-menu" style='min-width: max-content;' aria-labelledby="dropdownMenu1">
-                <?php
-                session_start();
-                // Include the database config file 
-                include '../../config/conexion.php'; 
-                $sqlGeneros  = "select * from genero order by Genero ASC";
-                $resultGeneros  = $db->query($sqlGeneros);  
-                $generos = [];
-                $contador = 0; // Inicializar el contador
-
-                echo '<div class="dropdown-row">'; // Abrir el primer div
-
-                while ($rowGenero = $resultGeneros->fetch_assoc()) {
-                    if ($contador % 3 == 0 && $contador > 0) {
-                        // Si el contador es divisible por 4 y no es cero, cierra y abre un nuevo div
-                        echo '</div>';
-                        echo '<div class="dropdown-row">';
-                    }
-
-                    $generos[] = $rowGenero;
-                    echo "<a class='dropdown-item' style='display: inline-block; width: 30%;' href='./home.php?genero={$rowGenero['Id_Genero']}'>{$rowGenero['Genero']}</a>";
-                    $contador++;
-                }
-
-                echo '</div>'; // Cerrar el último div
-                ?>
-            </div>
-        </div>
     </div>
     </ul>
     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
@@ -94,8 +60,55 @@
     </button>
   </div>
   <div class="sidebar-content">
-    <!-- Contenido del menú lateral - vacío por ahora -->
-    <p>Contenido del menú lateral</p>
+    <!-- Sección de Filtros Rápidos -->
+    <div class="sidebar-section">
+      <h5 class="sidebar-section-title">
+        <i class="fa fa-filter"></i> Filtros Rápidos
+      </h5>
+      <div class="sidebar-list">
+        <a href="table.php?status=1" class="sidebar-link">
+          <i class="fa fa-book-open"></i> Leyendo
+        </a>
+        <a href="table.php?status=2" class="sidebar-link">
+          <i class="fa fa-check-circle"></i> Completados
+        </a>
+        <a href="table.php?status=5" class="sidebar-link">
+          <i class="fa fa-bookmark"></i> Por Leer
+        </a>
+        <a href="table.php?status=3" class="sidebar-link">
+          <i class="fa fa-pause-circle"></i> En Pausa
+        </a>
+        <a href="table.php?status=4" class="sidebar-link">
+          <i class="fa fa-times-circle"></i> Abandonados
+        </a>
+      </div>
+    </div>
+
+    <!-- Sección de Idiomas -->
+    <div class="sidebar-section">
+      <h5 class="sidebar-section-title">
+        <i class="fa fa-globe"></i> Idiomas
+      </h5>
+      <div class="sidebar-list" id="sidebarLanguages">
+        <a href="?idioma=ES" class="sidebar-link">
+          <i class="fa fa-flag"></i> Español
+        </a>
+        <a href="?idioma=EN" class="sidebar-link">
+          <i class="fa fa-flag"></i> Inglés
+        </a>
+      </div>
+    </div>
+
+    <!-- Sección de Géneros -->
+    <div class="sidebar-section">
+      <h5 class="sidebar-section-title">
+        <i class="fa fa-tags"></i> Géneros
+      </h5>
+      <div class="sidebar-list" id="sidebarGenres">
+        <!-- Los géneros se cargarán dinámicamente -->
+        <div class="loading-text">Cargando géneros...</div>
+      </div>
+    </div>
   </div>
 </div>
 
