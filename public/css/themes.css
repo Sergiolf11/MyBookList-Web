@@ -136,6 +136,14 @@ body {
   color: var(--text-accent);
 }
 
+/* Quitar halo/círculo al hacer click o enfocar el botón de tema */
+.theme-toggle:focus,
+.theme-toggle:focus-visible,
+.theme-toggle:active {
+  outline: none;
+  box-shadow: none;
+}
+
 .theme-toggle .sun-icon {
   display: none;
 }
@@ -152,4 +160,25 @@ body {
   display: none;
 }
 
+
+
+/* Ajustar color del texto de la marca (Home) en la navbar */
+.navbar .navbar-brand {
+  color: var(--text-primary) !important;
+}
+
+.navbar .navbar-brand:hover,
+.navbar .navbar-brand:focus {
+  color: var(--text-accent) !important;
+}
+
+/* Oscurecer zonas blancas de tarjetas (triángulo y cuerpo) respetando el tema */
+.single_advisor_profile .advisor_thumb::after {
+  background-color: var(--bg-card) !important;
+}
+
+.single_advisor_profile .single_advisor_details_info {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+}
 
