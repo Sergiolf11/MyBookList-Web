@@ -1,4 +1,9 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" data-theme="dark">
+  <!-- Botón de menú lateral -->
+  <button class="navbar-toggler sidebar-toggle" type="button" id="sidebarToggle" aria-label="Abrir menú lateral">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -77,6 +82,25 @@
     </ul>
   </div>
 </nav>
+
+<!-- Menú lateral -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h5>Menú</h5>
+    <button class="sidebar-close" id="sidebarClose">&times;</button>
+  </div>
+  <div class="sidebar-content">
+    <ul class="sidebar-menu">
+      <li><a href="home.php"><i class="fa fa-home"></i> Inicio</a></li>
+      <li><a href="table.php?status=1"><i class="fa fa-list"></i> Mi Lista</a></li>
+      <li><a href="anadir.php"><i class="fa fa-plus"></i> Añadir Libro</a></li>
+      <li><a href="perfil.php"><i class="fa fa-user"></i> Perfil</a></li>
+      <li><a href="../controller/logoutController.php"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
+    </ul>
+  </div>
+</div>
+
 <br><br><br>
 
 <!-- Theme Switcher CSS -->
@@ -84,3 +108,44 @@
 
 <!-- Theme Switcher JS -->
 <script src="../../public/js/theme-switcher.js"></script>
+
+<!-- Sidebar JS -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const sidebarClose = document.getElementById('sidebarClose');
+
+    // Abrir menú lateral
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+        });
+    }
+
+    // Cerrar menú lateral
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('show');
+        document.body.style.overflow = ''; // Restaurar scroll del body
+    }
+
+    if (sidebarClose) {
+        sidebarClose.addEventListener('click', closeSidebar);
+    }
+
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeSidebar);
+    }
+
+    // Cerrar con tecla Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+            closeSidebar();
+        }
+    });
+});
+</script>
