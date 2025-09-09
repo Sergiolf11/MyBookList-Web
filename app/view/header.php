@@ -1,13 +1,16 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" data-theme="dark">
-  <!-- Botón de menú lateral -->
-  <button class="navbar-toggler sidebar-toggle" type="button" id="sidebarToggle" aria-label="Abrir menú lateral">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <div class="navbar-nav d-flex flex-row">
+    <!-- Botón de menú lateral como primer elemento -->
+    <button class="navbar-toggler sidebar-toggle" type="button" id="sidebarToggle" aria-label="Abrir menú lateral">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <a class="navbar-brand" href="home.php">Home</a>
+  </div>
   
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="home.php">Home</a>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
