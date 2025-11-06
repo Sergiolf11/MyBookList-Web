@@ -580,3 +580,17 @@ textarea {
     white-space: pre-wrap; /* Mantiene los saltos de línea, pero ajusta el texto */
 
 }
+
+/* Modo oscuro - hacer visible el nombre de la saga */
+[data-theme="dark"] #saga {
+  color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] #saga:hover {
+  color: #32c8de !important;
+}
+
+/* Asegurar que el párrafo que contiene la saga también sea visible en modo oscuro */
+[data-theme="dark"] .vcard-content p {
+  color: #e0e0e0 !important;
+}
