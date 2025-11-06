@@ -48,6 +48,29 @@ $(function(){
                     ?>
                 </div>
               </div>
+              
+              <!-- Nueva sección de estadísticas -->
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <i class="fa fa-chart-bar"></i> Estadísticas de Lectura
+                  </h5>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="stat-item">
+                        <h6><i class="fa fa-tags"></i> Género Favorito</h6>
+                        <p class="stat-value" id="favoriteGenre">Cargando...</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="stat-item">
+                        <h6><i class="fa fa-user"></i> Autor Más Leído</h6>
+                        <p class="stat-value" id="topAuthor">Cargando...</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
                 <div class="col-sm-6 mb-3">
                 </div>
               </div>
@@ -93,6 +116,31 @@ window.addEventListener('themeChanged', function(event) {
     if (navbar) {
         navbar.setAttribute('data-theme', newTheme);
     }
+});
+
+// Cargar estadísticas del usuario
+function loadUserStats() {
+    fetch('../../app/controller/getUserStats.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('favoriteGenre').textContent = data.favoriteGenre;
+                document.getElementById('topAuthor').textContent = data.topAuthor;
+            } else {
+                document.getElementById('favoriteGenre').textContent = 'Error al cargar';
+                document.getElementById('topAuthor').textContent = 'Error al cargar';
+            }
+        })
+        .catch(error => {
+            console.error('Error cargando estadísticas:', error);
+            document.getElementById('favoriteGenre').textContent = 'Error al cargar';
+            document.getElementById('topAuthor').textContent = 'Error al cargar';
+        });
+}
+
+// Cargar estadísticas cuando la página esté lista
+document.addEventListener('DOMContentLoaded', function() {
+    loadUserStats();
 });
 </script>
 </body>
