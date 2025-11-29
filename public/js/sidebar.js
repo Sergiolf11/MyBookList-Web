@@ -16,6 +16,7 @@ class SidebarManager {
             this.setupSidebar();
             this.observeDOMChanges();
             this.loadGenres();
+            this.updateThemeToggle();
         }
     }
 
@@ -31,6 +32,7 @@ class SidebarManager {
                             if (node.querySelector && node.querySelector('.sidebar-toggle')) {
                                 setTimeout(() => {
                                     this.setupSidebar();
+                                    this.updateThemeToggle();
                                 }, 100);
                             }
                         }
@@ -165,7 +167,48 @@ class SidebarManager {
 
         genresContainer.innerHTML = '<div class="loading-text">Error cargando géneros</div>';
     }
+
+    updateThemeToggle() {
+        // Usar querySelector para obtener solo el primer elemento (evitar duplicados)
+        const themeToggle = document.querySelector('#sidebar-theme-toggle');
+        if (!themeToggle) return;
+        
+        const themeIcon = themeToggle.querySelector('#theme-icon');
+        const themeText = themeToggle.querySelector('#theme-text');
+        
+        if (!themeIcon || !themeText) return;
+        
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        
+        if (currentTheme === 'dark') {
+            themeIcon.className = 'fa fa-moon-o';
+            themeText.textContent = 'Modo Oscuro';
+        } else {
+            themeIcon.className = 'fa fa-sun-o';
+            themeText.textContent = 'Modo Claro';
+        }
+    }
 }
+
+// Función global para cambiar tema desde el sidebar
+function toggleThemeFromSidebar() {
+    if (window.themeSwitcher) {
+        window.themeSwitcher.toggleTheme();
+        // Actualizar el icono y texto en el sidebar
+        setTimeout(() => {
+            if (window.sidebarManager) {
+                window.sidebarManager.updateThemeToggle();
+            }
+        }, 100);
+    }
+}
+
+// Escuchar cambios de tema para actualizar el sidebar
+window.addEventListener('themeChanged', () => {
+    if (window.sidebarManager) {
+        window.sidebarManager.updateThemeToggle();
+    }
+});
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {

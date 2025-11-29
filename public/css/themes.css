@@ -515,6 +515,29 @@ body {
   z-index: 1050;
   transition: left 0.3s ease;
   overflow-y: auto;
+  /* Estilos del scrollbar para Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-accent) var(--bg-secondary);
+}
+
+/* Estilos personalizados para el scrollbar del sidebar (Webkit: Chrome, Safari, Edge) */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--text-accent);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--border-accent);
 }
 
 .sidebar.open {
@@ -631,6 +654,11 @@ body {
   .sidebar {
     width: 280px;
     left: -280px;
+  }
+  
+  /* Ocultar el navbar-toggler de Bootstrap en móvil para evitar duplicados */
+  .navbar-toggler {
+    display: none !important;
   }
 }
 
