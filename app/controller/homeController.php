@@ -1,4 +1,15 @@
 <?php
+// Función auxiliar para construir URL con todos los filtros
+function buildPaginationUrl($page, $search, $genero, $editorial, $idioma) {
+    $params = [];
+    if ($page > 1) $params[] = "page=" . $page;
+    if ($search !== "") $params[] = "search=" . urlencode($search);
+    if ($genero > 0) $params[] = "genero=" . $genero;
+    if ($editorial !== "") $params[] = "editorial=" . urlencode($editorial);
+    if ($idioma !== "") $params[] = "idioma=" . urlencode($idioma);
+    return count($params) > 0 ? "?" . implode("&", $params) : "?";
+}
+
 function getAll(){
     session_start();
     if(!isset($_SESSION['user'])){
@@ -10,8 +21,7 @@ function getAll(){
     $search = isset($_GET['search']) ? trim($_GET['search']) : "";
     $genero = isset($_GET['genero']) ? (int)$_GET['genero'] : 0;
     $editorial = isset($_GET['editorial']) ? trim($_GET['editorial']) : "";
-    $filter = "";
-    $filterData = "";
+    $idioma = isset($_GET['idioma']) ? trim($_GET['idioma']) : "";
 
     $limit = 40; // Número de registros por página
     $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1; // Número de la página actual
@@ -25,22 +35,21 @@ function getAll(){
     if ($search !== "") {
         $totalSql .= " AND (Titulo LIKE CONCAT('%', ?, '%') OR Autor LIKE CONCAT('%', ?, '%') OR Saga LIKE CONCAT('%', ?, '%'))";
         $params[] = $search; $params[] = $search; $params[] = $search; $types .= "sss";
-        $filter = 'search';
-        $filterData = $search;
     }
 
     if ($genero > 0) {
         $totalSql .= " AND Genero = ?";
         $params[] = $genero; $types .= "i";
-        $filter = 'genero';
-        $filterData = (string)$genero;
     }
 
     if ($editorial !== "") {
         $totalSql .= " AND Editorial = ?";
         $params[] = $editorial; $types .= "s";
-        $filter = 'editorial';
-        $filterData = $editorial;
+    }
+
+    if ($idioma !== "") {
+        $totalSql .= " AND Idioma = ?";
+        $params[] = $idioma; $types .= "s";
     }
 
     $stmt = $db->prepare($totalSql);
@@ -68,6 +77,11 @@ function getAll(){
     if ($editorial !== "") {
         $sql .= " AND Editorial = ?";
         $qParams[] = $editorial; $qTypes .= "s";
+    }
+
+    if ($idioma !== "") {
+        $sql .= " AND Idioma = ?";
+        $qParams[] = $idioma; $qTypes .= "s";
     }
 
     $sql .= " ORDER BY IF(Saga RLIKE '^[a-z]', 1, 2), Saga, Num_Saga LIMIT ? OFFSET ?";
@@ -112,23 +126,39 @@ function getAll(){
     echo "</div><nav aria-label='Paginación'><ul class='pagination justify-content-center'>";
 
     // Enlace "Anterior"
+    $prevUrl = buildPaginationUrl($page - 1, $search, $genero, $editorial, $idioma);
     echo "<li class='page-item " . ($page <= 1 ? 'disabled' : '') . "'>
-            <a class='page-link' href='?page=" . ($page - 1) . "&".$filter."=" . $filterData . "'>Anterior</a>
+            <a class='page-link' href='" . $prevUrl . "'>Anterior</a>
           </li>";
 
     // Enlaces de páginas
     for ($i = 1; $i <= $totalPages; $i++) {
+        $pageUrl = buildPaginationUrl($i, $search, $genero, $editorial, $idioma);
         echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'>
-                <a class='page-link' href='?page=" . $i . "&".$filter."=" . $filterData . "'>" . $i . "</a>
+                <a class='page-link' href='" . $pageUrl . "'>" . $i . "</a>
               </li>";
     }
 
     // Enlace "Siguiente"
+    $nextUrl = buildPaginationUrl($page + 1, $search, $genero, $editorial, $idioma);
     echo "<li class='page-item " . ($page >= $totalPages ? 'disabled' : '') . "'>
-            <a class='page-link' href='?page=" . ($page + 1) . "&".$filter."=" . $filterData . "'>Siguiente</a>
+            <a class='page-link' href='" . $nextUrl . "'>Siguiente</a>
           </li>";
 
     echo "</ul></nav>";
+}
+
+// Función auxiliar para construir URL con todos los filtros de usuario
+function buildPaginationUrlUser($page, $status, $genero, $editorial, $idioma, $year, $stars) {
+    $params = [];
+    if ($page > 1) $params[] = "page=" . $page;
+    if ($status > 0) $params[] = "status=" . $status;
+    if ($genero > 0) $params[] = "genero=" . $genero;
+    if ($editorial !== "") $params[] = "editorial=" . urlencode($editorial);
+    if ($idioma !== "") $params[] = "idioma=" . urlencode($idioma);
+    if ($year > 0) $params[] = "year=" . $year;
+    if ($stars > 0) $params[] = "stars=" . $stars;
+    return count($params) > 0 ? "?" . implode("&", $params) : "?";
 }
 
 function getAllFromUser(){
@@ -142,6 +172,7 @@ function getAllFromUser(){
     $status = isset($_GET['status']) ? (int)$_GET['status'] : 0;
     $genero = isset($_GET['genero']) ? (int)$_GET['genero'] : 0;
     $editorial = isset($_GET['editorial']) ? trim($_GET['editorial']) : "";
+    $idioma = isset($_GET['idioma']) ? trim($_GET['idioma']) : "";
     $year = isset($_GET['year']) ? (int)$_GET['year'] : 0;
     $stars = isset($_GET['stars']) ? (int)$_GET['stars'] : 0;
 
@@ -152,8 +183,6 @@ function getAllFromUser(){
     $offset = ($page - 1) * $limit; // Calcular offset
 
     // Consulta para contar el total de registros
-    $filter = '';
-    $filterData = '';
     $where = " WHERE Id_User = ? ";
     $params = [$userid];
     $types = "i";
@@ -162,36 +191,31 @@ function getAllFromUser(){
         $where .= " AND Estado = (CASE WHEN ?=1 THEN 'Reading' WHEN ?=2 THEN 'Completed' WHEN ?=3 THEN 'On Hold' WHEN ?=4 THEN 'Dropped' WHEN ?=5 THEN 'Plan to Read' END)";
         $params = array_merge($params, array_fill(0, 5, $status));
         $types .= "iiiii";
-        $filter = 'status';
-        $filterData = (string)$status;
     }
 
     if ($genero > 0) {
         $where .= " AND l.Genero = ?";
         $params[] = $genero; $types .= "i";
-        $filter = 'genero';
-        $filterData = (string)$genero;
     }
 
     if ($editorial !== "") {
         $where .= " AND l.Editorial = ?";
         $params[] = $editorial; $types .= "s";
-        $filter = 'editorial';
-        $filterData = $editorial;
+    }
+
+    if ($idioma !== "") {
+        $where .= " AND l.Idioma = ?";
+        $params[] = $idioma; $types .= "s";
     }
 
     if ($year > 0) {
         $where .= " AND YEAR(ul.Fecha_Fin) = ?";
         $params[] = $year; $types .= "i";
-        $filter = 'year';
-        $filterData = (string)$year;
     }
 
     if ($stars > 0) {
         $where .= " AND ul.Estrellas = ?";
         $params[] = $stars; $types .= "i";
-        $filter = 'stars';
-        $filterData = (string)$stars;
     }
 
     $totalSql = "SELECT COUNT(*) as count FROM usuario_libro ul JOIN libro l ON ul.Id_Libro=l.Id_Libro" . $where;
@@ -247,20 +271,23 @@ function getAllFromUser(){
     echo "</div><nav aria-label='Paginación'><ul class='pagination justify-content-center'>";
 
     // Enlace "Anterior"
+    $prevUrl = buildPaginationUrlUser($page - 1, $status, $genero, $editorial, $idioma, $year, $stars);
     echo "<li class='page-item " . ($page <= 1 ? 'disabled' : '') . "'>
-            <a class='page-link' href='?page=" . ($page - 1) . "&".$filter."=" . $filterData . "'>Anterior</a>
+            <a class='page-link' href='" . $prevUrl . "'>Anterior</a>
           </li>";
 
     // Enlaces de páginas
     for ($i = 1; $i <= $totalPages; $i++) {
+        $pageUrl = buildPaginationUrlUser($i, $status, $genero, $editorial, $idioma, $year, $stars);
         echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'>
-                <a class='page-link' href='?page=" . $i . "&".$filter."=" . $filterData . "'>" . $i . "</a>
+                <a class='page-link' href='" . $pageUrl . "'>" . $i . "</a>
               </li>";
     }
 
     // Enlace "Siguiente"
+    $nextUrl = buildPaginationUrlUser($page + 1, $status, $genero, $editorial, $idioma, $year, $stars);
     echo "<li class='page-item " . ($page >= $totalPages ? 'disabled' : '') . "'>
-            <a class='page-link' href='?page=" . ($page + 1) . "&".$filter."=" . $filterData . "'>Siguiente</a>
+            <a class='page-link' href='" . $nextUrl . "'>Siguiente</a>
           </li>";
 
     echo "</ul></nav>";
