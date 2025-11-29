@@ -169,8 +169,12 @@ class SidebarManager {
     }
 
     updateThemeToggle() {
-        const themeIcon = document.getElementById('theme-icon');
-        const themeText = document.getElementById('theme-text');
+        // Usar querySelector para obtener solo el primer elemento (evitar duplicados)
+        const themeToggle = document.querySelector('#sidebar-theme-toggle');
+        if (!themeToggle) return;
+        
+        const themeIcon = themeToggle.querySelector('#theme-icon');
+        const themeText = themeToggle.querySelector('#theme-text');
         
         if (!themeIcon || !themeText) return;
         

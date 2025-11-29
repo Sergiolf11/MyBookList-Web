@@ -11,43 +11,7 @@
   
   <a class="navbar-brand" href="home.php">Home</a>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item">
-        <a class="nav-link" href="table.php?status=1">MyList <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="anadir.php">Añadir</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="perfil.php">Perfil</a>
-      </li>
-
-        <?php
-        // Obtener el rol desde la variable de entorno
-        $rol = $_SESSION['rol'];
-        // Si el rol es 1
-            // Conectar a la base de datos
-            include '../../config/conexion.php';
-            // Buscar un libro aleatorio con algún campo NULL
-            $query = "SELECT l.Id_Libro FROM libro l JOIN usuario_libro ul ON l.Id_Libro = ul.Id_Libro WHERE ( l.Editorial IS NULL OR l.Portada IS NULL OR l.Num_Saga IS NULL OR Sinopsis IS NULL ) AND ul.Estado != 'Plan to Read' LIMIT 1";
-            $result = $db->query($query);
-            // Verificar si se encontró un libro
-            if ($row = $result->fetch_assoc()) {
-                $idLibro = $row['Id_Libro'];
-
-                // Mostrar el enlace solo si hay un libro con campos NULL
-                echo "<li class='nav-item'>";
-                echo "<a class='nav-link' href='editarLibro.php?idlibro=".$idLibro."'>Correccion</a>";
-                echo "</li>";
-            }
-        ?>
-    </div>
-    </ul>
-    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-      <li class="nav-item">
-        <a class="nav-link" href="../controller/logoutController.php"><span class="glyphicon glyphicon-log-out"></span> LogOut</a>
-      </li>
-    </ul>
+    <!-- Menú vacío - todas las opciones están en el sidebar -->
   </div>
 </nav>
 
@@ -76,9 +40,6 @@
         <a href="perfil.php" class="sidebar-link">
           <i class="fa fa-user"></i> Perfil
         </a>
-        <a href="#" class="sidebar-link" id="sidebar-theme-toggle" onclick="event.preventDefault(); toggleThemeFromSidebar();">
-          <i class="fa fa-moon-o" id="theme-icon"></i> <span id="theme-text">Modo Oscuro</span>
-        </a>
         <?php
         // Obtener el rol desde la variable de entorno
         $rol = $_SESSION['rol'];
@@ -97,7 +58,7 @@
                 echo "</a>";
             }
         ?>
-        <a href="#" class="sidebar-link" id="sidebar-theme-toggle">
+        <a href="#" class="sidebar-link" id="sidebar-theme-toggle" onclick="event.preventDefault(); toggleThemeFromSidebar();">
           <i class="fa fa-moon-o" id="theme-icon"></i> <span id="theme-text">Modo Oscuro</span>
         </a>
         <a href="../controller/logoutController.php" class="sidebar-link">
@@ -113,7 +74,7 @@
       </h5>
       <div class="sidebar-list">
         <a href="table.php?status=1" class="sidebar-link">
-          <i class="fa fa-book-open"></i> Leyendo
+          <i class="fa fa-book"></i> Leyendo
         </a>
         <a href="table.php?status=2" class="sidebar-link">
           <i class="fa fa-check-circle"></i> Completados
