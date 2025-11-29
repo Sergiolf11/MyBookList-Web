@@ -1,11 +1,12 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" data-theme="dark">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  
-  <!-- Botón del menú lateral -->
+  <!-- Botón del menú lateral (visible en todos los tamaños) -->
   <button class="sidebar-toggle" type="button" aria-label="Abrir menú lateral">
     <i class="fa fa-bars"></i>
+  </button>
+  
+  <!-- Botón del menú de navegación de Bootstrap (oculto en móvil, visible en desktop) -->
+  <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation" style="display: none;">
+    <span class="navbar-toggler-icon"></span>
   </button>
   
   <a class="navbar-brand" href="home.php">Home</a>

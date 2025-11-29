@@ -632,5 +632,10 @@ body {
     width: 280px;
     left: -280px;
   }
+  
+  /* Ocultar el navbar-toggler de Bootstrap en móvil para evitar duplicados */
+  .navbar-toggler {
+    display: none !important;
+  }
 }
 
