@@ -70,14 +70,14 @@
         <a href="home.php" class="sidebar-link">
           <i class="fa fa-home"></i> Home
         </a>
-        <a href="table.php?status=1" class="sidebar-link">
-          <i class="fa fa-list"></i> MyList
-        </a>
         <a href="anadir.php" class="sidebar-link">
           <i class="fa fa-plus"></i> Añadir
         </a>
         <a href="perfil.php" class="sidebar-link">
           <i class="fa fa-user"></i> Perfil
+        </a>
+        <a href="#" class="sidebar-link" id="sidebar-theme-toggle" onclick="event.preventDefault(); toggleThemeFromSidebar();">
+          <i class="fa fa-moon-o" id="theme-icon"></i> <span id="theme-text">Modo Oscuro</span>
         </a>
         <?php
         // Obtener el rol desde la variable de entorno
@@ -97,6 +97,9 @@
                 echo "</a>";
             }
         ?>
+        <a href="#" class="sidebar-link" id="sidebar-theme-toggle">
+          <i class="fa fa-moon-o" id="theme-icon"></i> <span id="theme-text">Modo Oscuro</span>
+        </a>
         <a href="../controller/logoutController.php" class="sidebar-link">
           <i class="fa fa-sign-out"></i> LogOut
         </a>
