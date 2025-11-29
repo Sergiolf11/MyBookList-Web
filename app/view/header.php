@@ -97,10 +97,10 @@
         <i class="fa fa-globe"></i> Idiomas
       </h5>
       <div class="sidebar-list" id="sidebarLanguages">
-        <a href="?idioma=ES" class="sidebar-link">
+        <a href="home.php?idioma=ES" class="sidebar-link">
           <i class="fa fa-flag"></i> Español
         </a>
-        <a href="?idioma=EN" class="sidebar-link">
+        <a href="home.php?idioma=EN" class="sidebar-link">
           <i class="fa fa-flag"></i> Inglés
         </a>
       </div>
