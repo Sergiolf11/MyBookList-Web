@@ -61,6 +61,48 @@
     </button>
   </div>
   <div class="sidebar-content">
+    <!-- Sección de Navegación Principal -->
+    <div class="sidebar-section">
+      <h5 class="sidebar-section-title">
+        <i class="fa fa-navicon"></i> Navegación
+      </h5>
+      <div class="sidebar-list">
+        <a href="home.php" class="sidebar-link">
+          <i class="fa fa-home"></i> Home
+        </a>
+        <a href="table.php?status=1" class="sidebar-link">
+          <i class="fa fa-list"></i> MyList
+        </a>
+        <a href="anadir.php" class="sidebar-link">
+          <i class="fa fa-plus"></i> Añadir
+        </a>
+        <a href="perfil.php" class="sidebar-link">
+          <i class="fa fa-user"></i> Perfil
+        </a>
+        <?php
+        // Obtener el rol desde la variable de entorno
+        $rol = $_SESSION['rol'];
+        // Si el rol es 1
+            // Conectar a la base de datos
+            include '../../config/conexion.php';
+            // Buscar un libro aleatorio con algún campo NULL
+            $query = "SELECT l.Id_Libro FROM libro l JOIN usuario_libro ul ON l.Id_Libro = ul.Id_Libro WHERE ( l.Editorial IS NULL OR l.Portada IS NULL OR l.Num_Saga IS NULL OR Sinopsis IS NULL ) AND ul.Estado != 'Plan to Read' LIMIT 1";
+            $result = $db->query($query);
+            // Verificar si se encontró un libro
+            if ($row = $result->fetch_assoc()) {
+                $idLibro = $row['Id_Libro'];
+                // Mostrar el enlace solo si hay un libro con campos NULL
+                echo "<a href='editarLibro.php?idlibro=".$idLibro."' class='sidebar-link'>";
+                echo "<i class='fa fa-edit'></i> Correccion";
+                echo "</a>";
+            }
+        ?>
+        <a href="../controller/logoutController.php" class="sidebar-link">
+          <i class="fa fa-sign-out"></i> LogOut
+        </a>
+      </div>
+    </div>
+    
     <!-- Sección de Filtros Rápidos -->
     <div class="sidebar-section">
       <h5 class="sidebar-section-title">
