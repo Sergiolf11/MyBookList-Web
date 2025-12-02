@@ -40,6 +40,9 @@
         <a href="perfil.php" class="sidebar-link">
           <i class="fa fa-user"></i> Perfil
         </a>
+        <a href="#" class="sidebar-link" data-toggle="modal" data-target="#scanModal">
+          <i class="fa fa-barcode"></i> Escanear ISBN
+        </a>
         <?php
         // Obtener el rol desde la variable de entorno
         $rol = $_SESSION['rol'];
@@ -126,6 +129,42 @@
 
 <!-- Theme Switcher CSS -->
 <link rel="stylesheet" href="../../public/css/themes.css">
+
+<!-- Modal para escanear ISBN -->
+<div class="modal fade" id="scanModal" tabindex="-1" role="dialog" aria-labelledby="scanModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="scanModalLabel">Escanear ISBN</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="scanForm" action="../controller/scannerController.php" method="GET">
+          <div class="form-group">
+            <label for="isbnInput">Introduce el ISBN del libro:</label>
+            <input type="text" class="form-control" id="isbnInput" name="ISBN" 
+                   placeholder="Ej: 9788408180401" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" form="scanForm" class="btn btn-primary">Buscar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script para manejar el foco en el modal -->
+<script>
+$(document).ready(function() {
+  $('#scanModal').on('shown.bs.modal', function () {
+    $('#isbnInput').focus();
+  });
+});
+</script>
 
 <!-- Theme Switcher JS -->
 <script src="../../public/js/theme-switcher.js"></script>
