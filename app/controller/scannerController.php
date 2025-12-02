@@ -10,10 +10,20 @@ require_once '../lib/BookSearch.php';
 error_log("Datos GET recibidos: " . print_r($_GET, true));
 error_log("Datos de sesión: " . print_r($_SESSION, true));
 
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['usuario'])) {
+    if (isset($_GET['ISBN'])) {
+        // Guardar el ISBN en la sesión para después del login
+        $_SESSION['isbn_pendiente'] = trim($_GET['ISBN']);
+    }
+    header("Location: ../view/login.php");
+    exit;
+}
+
 if (!isset($_GET['ISBN'])) {
     error_log("No se recibió ISBN en la solicitud");
-    header("HTTP/1.1 400 Bad Request");
-    echo "<p>No se recibió ningún ISBN</p>";
+    $_SESSION['error'] = "No se recibió ningún ISBN";
+    header("Location: ../view/scanner.php");
     exit;
 }
 
