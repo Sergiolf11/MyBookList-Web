@@ -1,15 +1,25 @@
 <?php 
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once '../../config/conexion.php';
 require_once '../lib/BookSearch.php';
 
+// Depuración
+error_log("Datos GET recibidos: " . print_r($_GET, true));
+error_log("Datos de sesión: " . print_r($_SESSION, true));
+
 if (!isset($_GET['ISBN'])) {
+    error_log("No se recibió ISBN en la solicitud");
     header("HTTP/1.1 400 Bad Request");
     echo "<p>No se recibió ningún ISBN</p>";
     exit;
 }
 
 $isbn = trim($_GET['ISBN']);
+error_log("Buscando libro con ISBN: " . $isbn);
+
 $_SESSION['isbn_pendiente'] = $isbn;
 
 // Crear instancia del buscador de libros
