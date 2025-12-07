@@ -17,23 +17,51 @@ if (isset($_GET['ISBN'])) {
         exit;
     }
     
-    $api_url = "https://openlibrary.org/api/books?bibkeys=ISBN:$isbn&format=json&jscmd=data";
-
-    $response = file_get_contents($api_url);
-    if ($response === false) {
-        echo "<p>Error al conectar con Open Library</p>";
-        exit;
+    // Función para hacer peticiones HTTP con manejo de errores
+    function fetchBookData($url) {
+        $context = stream_context_create([
+            'http' => ['timeout' => 3] // Timeout de 3 segundos
+        ]);
+        $response = @file_get_contents($url, false, $context);
+        if ($response === false) {
+            return null;
+        }
+        return json_decode($response, true);
     }
 
-    $data = json_decode($response, true);
+    // 1. Open Library API
+    $openlibrary_url = "https://openlibrary.org/api/books?bibkeys=ISBN:$isbn&format=json&jscmd=data";
+    $openlibrary_data = fetchBookData($openlibrary_url);
     $book_key = "ISBN:$isbn";
+    
+    // 2. Google Books API
+    $google_books_url = "https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn";
+    $google_data = fetchBookData($google_books_url);
+    
+    // 3. Open Library Works API (información más detallada)
+    $ol_works_url = "https://openlibrary.org/isbn/$isbn.json";
+    $ol_works_data = fetchBookData($ol_works_url);
+    
+    // Mostrar resultados en consola
+    echo "<script>
+        console.log('=== RESULTADOS DE LAS APIS ===');
+        console.log('1. Open Library API:');
+        console.log(" . json_encode(isset($openlibrary_data[$book_key]) ? $openlibrary_data[$book_key] : 'No data') . ");
+        
+        console.log('2. Google Books API:');
+        console.log(" . json_encode($google_data ?: 'No data') . ");
+        
+        console.log('3. Open Library Works API:');
+        console.log(" . json_encode($ol_works_data ?: 'No data') . ");
+    </script>";
 
-    if (!isset($data[$book_key])) {
+    // Continuar con la lógica original usando Open Library
+    if (!$openlibrary_data || !isset($openlibrary_data[$book_key])) {
         echo "<p>No se encontró información para el ISBN: $isbn</p>";
         exit;
     }
 
-    $book = $data[$book_key];
+    $book = $openlibrary_data[$book_key];
 
     // Extraer los datos necesarios
     $title = $book['title'] ?? '';
