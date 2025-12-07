@@ -17,16 +17,42 @@ if (isset($_GET['ISBN'])) {
         exit;
     }
     
-    // Función para hacer peticiones HTTP con manejo de errores
+    // Función para hacer peticiones HTTP con manejo de errores mejorado
     function fetchBookData($url) {
         $context = stream_context_create([
-            'http' => ['timeout' => 3] // Timeout de 3 segundos
+            'http' => [
+                'timeout' => 5, // Timeout de 5 segundos
+                'ignore_errors' => true // Para obtener la respuesta incluso con códigos de error HTTP
+            ]
         ]);
+        
         $response = @file_get_contents($url, false, $context);
+        
+        // Obtener información del error
         if ($response === false) {
+            $error = error_get_last();
+            echo "<script>console.error('Error en la petición a $url: ", json_encode($error), "');</script>";
             return null;
         }
-        return json_decode($response, true);
+        
+        // Verificar el código de estado HTTP
+        if (isset($http_response_header[0])) {
+            $status_line = $http_response_header[0];
+            preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
+            $status = $match[1] ?? '000';
+            
+            if ($status !== '200') {
+                echo "<script>console.warn('Respuesta HTTP $status de $url: ", json_encode($status_line), "');</script>";
+            }
+        }
+        
+        $data = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo "<script>console.error('Error decodificando JSON de $url: ", json_last_error_msg(), "');</script>";
+            return null;
+        }
+        
+        return $data;
     }
 
     // 1. Open Library API
