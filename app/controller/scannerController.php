@@ -22,7 +22,9 @@ if (isset($_GET['ISBN'])) {
         $context = stream_context_create([
             'http' => [
                 'timeout' => 5, // Timeout de 5 segundos
-                'ignore_errors' => true // Para obtener la respuesta incluso con códigos de error HTTP
+                'ignore_errors' => true, // Para obtener la respuesta incluso con códigos de error HTTP
+                'follow_location' => true, // Seguir redirecciones automáticamente
+                'max_redirects' => 5 // Límite de redirecciones
             ]
         ]);
         
@@ -36,14 +38,24 @@ if (isset($_GET['ISBN'])) {
         }
         
         // Verificar el código de estado HTTP
-        if (isset($http_response_header[0])) {
-            $status_line = $http_response_header[0];
-            preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
-            $status = $match[1] ?? '000';
-            
-            if ($status !== '200') {
-                echo "<script>console.warn('Respuesta HTTP $status de $url: ", json_encode($status_line), "');</script>";
+        global $http_response_header;
+        $status_line = $http_response_header[0] ?? '';
+        preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
+        $status = $match[1] ?? '000';
+        
+        // Obtener la URL final después de las redirecciones
+        $final_url = $url;
+        if (isset($http_response_header)) {
+            foreach ($http_response_header as $header) {
+                if (stripos($header, 'location:') === 0) {
+                    $final_url = trim(substr($header, 9));
+                    break;
+                }
             }
+        }
+        
+        if ($status !== '200') {
+            echo "<script>console.warn('Respuesta HTTP $status de $url', 'Redirigido a: $final_url');</script>";
         }
         
         $data = json_decode($response, true);
