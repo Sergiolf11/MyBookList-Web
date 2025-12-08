@@ -1,13 +1,18 @@
 <?php 
 session_start();
 include '../../config/conexion.php'; 
+echo "<!-- Inicio del script -->\n";
+
 if (isset($_GET['ISBN'])) {
+    echo "<!-- ISBN recibido: " . htmlspecialchars($_GET['ISBN']) . " -->\n";
     $isbn = $_GET['ISBN'];
     $_SESSION['isbn_pendiente'] = $isbn;
     sleep(5);
     // Consulta en la base de datos si el libro ya existe por ISBN
     $sqlisbn = "select * from libro where ISBN = '$isbn'";  
     $resultisbn = $db->query($sqlisbn);
+    echo "<!-- Consulta SQL ejecutada: " . htmlspecialchars($sqlisbn) . " -->\n";
+    echo "<!-- Número de filas encontradas: " . $resultisbn->num_rows . " -->\n";
 
     if ($resultisbn->num_rows > 0) {
         $rowisbn = $resultisbn->fetch_assoc();
@@ -16,6 +21,8 @@ if (isset($_GET['ISBN'])) {
         header("Location: ../view/libro.php?idlibro=$idlibro");
         exit;
     }
+    
+    echo "<!-- Iniciando búsqueda en APIs externas -->\n";
     
     // Función para hacer peticiones HTTP con manejo de errores mejorado
     function fetchBookData($url) {
@@ -69,18 +76,25 @@ if (isset($_GET['ISBN'])) {
 
     // 1. Open Library API
     $openlibrary_url = "https://openlibrary.org/api/books?bibkeys=ISBN:$isbn&format=json&jscmd=data";
+    echo "<!-- Consultando Open Library API: " . htmlspecialchars($openlibrary_url) . " -->\n";
     $openlibrary_data = fetchBookData($openlibrary_url);
     $book_key = "ISBN:$isbn";
+    echo "<!-- Datos recibidos de Open Library: " . (empty($openlibrary_data) ? 'No data' : 'Data received') . " -->\n";
     
     // 2. Google Books API
     $google_books_url = "https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn";
+    echo "<!-- Consultando Google Books API: " . htmlspecialchars($google_books_url) . " -->\n";
     $google_data = fetchBookData($google_books_url);
+    echo "<!-- Datos recibidos de Google Books: " . (empty($google_data) ? 'No data' : 'Data received') . " -->\n";
     
     // 3. Open Library Works API (información más detallada)
     $ol_works_url = "https://openlibrary.org/isbn/$isbn.json";
+    echo "<!-- Consultando Open Library Works API: " . htmlspecialchars($ol_works_url) . " -->\n";
     $ol_works_data = fetchBookData($ol_works_url);
+    echo "<!-- Datos recibidos de Open Library Works: " . (empty($ol_works_data) ? 'No data' : 'Data received') . " -->\n";
     
     // Mostrar resultados en consola
+    echo "<!-- Mostrando resultados en consola JavaScript -->\n";
     echo "<script>
         console.log('=== RESULTADOS DE LAS APIS ===');
         console.log('1. Open Library API:');
@@ -94,14 +108,17 @@ if (isset($_GET['ISBN'])) {
     </script>";
 
     // Continuar con la lógica original usando Open Library
+    echo "<!-- Validando datos de Open Library -->\n";
     if (!$openlibrary_data || !isset($openlibrary_data[$book_key])) {
-        echo "<p>No se encontró información para el ISBN: $isbn</p>";
+        echo "<!-- No se encontraron datos válidos en Open Library -->\n";
+        echo "<p>No se encontró información para el ISBN: " . htmlspecialchars($isbn) . "</p>";
         exit;
     }
 
     $book = $openlibrary_data[$book_key];
 
     // Extraer los datos necesarios
+    echo "<!-- Extrayendo datos del libro -->\n";
     $title = $book['title'] ?? '';
     // Si el título contiene una '/', tomamos solo la primera parte (generalmente en español)
     $title = explode(' / ', $title)[0];
@@ -129,16 +146,21 @@ if (isset($_GET['ISBN'])) {
 
 
     // Consulta en la base de datos si el libro ya existe
-    $sql = "select * from libro where LOWER(Titulo) = LOWER('$title') AND LOWER(Autor) = LOWER('$first_author')";  
-    $result = $db->query($sql); 
+    $sql = "select * from libro where LOWER(Titulo) = LOWER('" . $db->real_escape_string($title) . "') AND LOWER(Autor) = LOWER('" . $db->real_escape_string($first_author) . "')";
+    echo "<!-- Buscando libro en la base de datos: " . htmlspecialchars($sql) . " -->\n";
+    $result = $db->query($sql);
+    echo "<!-- Resultados de búsqueda: " . $result->num_rows . " coincidencias encontradas -->\n"; 
 
+    echo "<!-- Verificando resultados de búsqueda -->\n";
     if ($resultisbn->num_rows > 0) {
+        echo "<!-- Libro encontrado por ISBN -->\n";
         $rowisbn = $resultisbn->fetch_assoc();
         $idlibro = $rowisbn['Id_Libro'];
-        // Redirigir a libro.php con el idlibro
+        echo "<!-- Redirigiendo a libro.php?idlibro=$idlibro -->\n";
         header("Location: ../view/libro.php?idlibro=$idlibro");
         exit;
-    }else if($result->num_rows > 0){
+    } else if($result->num_rows > 0) {
+        echo "<!-- Libro encontrado por título y autor -->\n";
         $row = $result->fetch_assoc();
         $idlibro = $row['Id_Libro'];
         $sqlupdate = "UPDATE libro SET ISBN='$isbn' WHERE Id_Libro = ".$idlibro."";
@@ -152,15 +174,18 @@ if (isset($_GET['ISBN'])) {
         }   
         // Redirigir a libro.php con el idlibro
     } else {
+        echo "<!-- Libro no encontrado, redirigiendo a formulario de escaneo -->\n";
         // Redirigir a scanner.php pasándole el ISBN
-        //$title = str_replace(' ', '+', $title);
-        //echo "<script>window.location='../view/home.php?search=".$title."'</script>";   
-        header("Location: ../view/scanner.php?ISBN=$isbn");
+        $redirect_url = "../view/scanner.php?ISBN=" . urlencode($isbn);
+        echo "<!-- URL de redirección: " . htmlspecialchars($redirect_url) . " -->\n";
+        header("Location: $redirect_url");
         exit;
     }
 
     $conn->close();
 } else {
-    echo "<p>No se recibió ningún ISBN</p>";
+    echo "<!-- No se recibió ningún parámetro ISBN -->\n";
+    echo "<p>No se recibió ningún ISBN</p>\n";
+    echo "<pre>\$_GET = " . htmlspecialchars(print_r($_GET, true)) . "</pre>\n";
 }
 ?>
